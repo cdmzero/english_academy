@@ -25,6 +25,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/buttoms.css') }}" rel="stylesheet">
+    <link  rel="icon"   href="../img/favicon.png" type="image/png" />
 </head>
 <body>
     <div id="app">
