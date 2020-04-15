@@ -20,11 +20,11 @@
       </div><!-- /.col-lg-4 -->
 
       <div class="col-lg-4 text-center">
-        <a href="{{ route('admin.results.index') }}" class="btn-social-head btn-instagram"><i class="fa fa-area-chart"></i></a>        
+        <a href="{{ route('admin.results') }}" class="btn-social-head btn-instagram"><i class="fa fa-area-chart"></i></a>        
         <h2>Results</h2>
       </div><!-- /.col-lg-4 -->
       <div class="col-lg-4 text-center">
-        <a href="{{ route('admin.users.index') }}"  class="btn-social-head btn-email"><i class=" fa fa-users"></i></a>        
+        <a href="{{ route('admin.users') }}"  class="btn-social-head btn-email"><i class=" fa fa-users"></i></a>        
         <h2>Users</h2>
       </div><!-- /.col-lg-4 -->
     </div><!-- /.row -->

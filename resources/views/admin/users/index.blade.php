@@ -29,8 +29,14 @@
       <br>
       <br>
       <br>
-    </div>
+        </div>
     <div class="col-xl-6 m-auto text-center">
+
+      <div class="mx-auto" style="width: 20%">
+       
+        </div> 
+
+       
        <br>
        <br>
        <br>

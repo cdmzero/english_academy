@@ -25,11 +25,11 @@ Route::get('/img-upload','ImageController@create')->name('image.create');
 Route::get('/admin/index','AdminController@admin_index')->name('admin.index');
 
     // Parte admin de USERS
-Route::get('/admin/users','UserController@users_index')->name('admin.users.index');
+Route::get('/admin/users','UserController@users_index')->name('admin.users');
 
 
     // Parte admin de RESULTS
-Route::get('/admin/results','ResultController@results_index')->name('admin.results.index');
+Route::get('/admin/results','ResultController@results_index')->name('admin.results');
 
 Route::get('/admin/results/create','ResultController@create')->name('admin.results.create');
 Route::post('/admin/results/store','ResultController@store')->name('admin.results.store');

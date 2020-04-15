@@ -32,7 +32,7 @@ class LiveSearchController extends Controller
       else
       {
        $data = User::orderBy('id', 'desc')
-         ->paginate(2);
+         ->get();
       }
       $total_row = $data->count();
       if($total_row > 0){
@@ -47,6 +47,7 @@ class LiveSearchController extends Controller
                         <h2 class="title">'. $row->user_name ." ". $row->surname .'</h2>
                     </div>
                     </div>
+                   
                 ';
             }else{
                 $output .= '
@@ -57,6 +58,7 @@ class LiveSearchController extends Controller
                         <h2 class="title">'. $row->user_name ." ". $row->surname .'</h2>
                     </div>
                     </div>
+                    
                 ';
             }
                 
