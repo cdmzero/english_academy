@@ -1,0 +1,36 @@
+
+/* Para la imagen el avatar en la formulario update*/
+form .avatar{
+
+width: 150px;
+height: 150px;
+margin-bottom: 15px;
+border-radius: 50%;
+
+
+}
+
+
+/* Para la capa del avatar en la cabecera*/
+.navbar .container-avatar{
+
+width: 45px;
+height: 45px;
+border-radius: 50%;
+overflow: hidden;
+margin-right: 10px;
+
+}
+
+/* Para la imagen del avatar en la cabecera*/
+.navbar .container-avatar img{
+
+height: 100%;
+width: 100%;
+
+
+
+
+}
+
+
