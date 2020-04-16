@@ -39,7 +39,7 @@ class ResultController extends Controller
                             ->orderBy('id', 'DESC')
                             ->paginate(5);
 
-        $cuenta     =  Result::where('test_id','=',$id)
+        $cuenta     = Result::where('test_id','=',$id)
                             ->count();
                             
      
@@ -52,7 +52,7 @@ class ResultController extends Controller
       
 }
 
-
+// Cargar la vista para editar un resultado
 
 public function detail_results($test_id, $user = null){
 
@@ -71,6 +71,7 @@ public function detail_results($test_id, $user = null){
    
 }
 
+    // Cargar vista de creacion de resultados 
 
     public function create(){
 
@@ -86,6 +87,7 @@ public function detail_results($test_id, $user = null){
     }
 
 
+    // Metodo para crear un resultado
 
     public function store(Request $request){
        
@@ -116,6 +118,7 @@ public function detail_results($test_id, $user = null){
         $result->user_id      = $user_id;
         $result->mark         = $mark;
         $result->created_at   = $current_date;
+        $result->updated_at   = null;
       
         //Ejecutamos los cambios en la BD y ademas mostramos un mensaje
         $result->save();

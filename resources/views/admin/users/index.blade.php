@@ -6,7 +6,7 @@
     <h1 class="display-3 ">User zone</h1>
 
     <div class="add">
-      <a class="btn btn-outline-success" href=" {{ route('admin.results.create') }} " role="button">+</a>
+      <a class="btn btn-outline-success" href=" {{ route('admin.users.create') }} " role="button">+</a>
     
     </div>
 

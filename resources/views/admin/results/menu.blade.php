@@ -31,7 +31,7 @@
                                     <th>ID</th>
                                     <th>User</th>
                                     <th>Mark</th>
-                                    <th>Date & Hour</th>
+                                    <th>Obtained</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>

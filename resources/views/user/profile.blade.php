@@ -48,7 +48,7 @@
             <tr>
                 <th>Mark</th>
                 <th>Test</th>
-                <th>Date</th>
+                <th>Obtained</th>
                 <th class="text-center">Action</th>
             </tr>
         </thead>

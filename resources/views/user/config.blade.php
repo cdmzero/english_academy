@@ -76,32 +76,35 @@
                         </div>
 
                         <div class="form-group row">
+                                <div class="mx-auto" width:="35px">
+                                    @include('includes.avatar')
+                                </div>
+                        </div>
 
+                        <div class="form-group row">
+                            
                             <label for="image_path" class="col-md-4 col-form-label text-md-right">{{ __('Avatar') }}</label>
-
                             <div class="col-md-6">
-
-                                @include('includes.avatar')
-
-                                <input id="image_path" type="file" class="form-control @error('image_path') is-invalid @enderror" name="image_path"  autofocus>
-
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input @error('image_path') is-invalid @enderror" name="image_path" autofocus id="customFile" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                </div>               
                                 @error('image_path')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>
+                        </div>   
                         </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                Save changes
-                                </button>
-                            </div>
+                        <div class="form-group row">
+                    
+                        <div class="mx-auto" style="35px">
+                            <br>
+                            <button type="submit" class="btn btn-primary">
+                            Save   
+                            </button>
                         </div>
                     </form>
-                </div>
             </div>
         </div>
     </div>

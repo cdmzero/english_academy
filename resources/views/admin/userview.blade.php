@@ -27,6 +27,12 @@
     <br>
         <img src="{{ route('user.avatar',['filename'=>$user->image]) }}" class="rounded-circle" height="150px" width="150px">
     </div>
+    @else
+    <div class="mx-auto">
+        <br>
+        <br>
+    <img src="/img/nopic.png" class="rounded-circle" height="150px" width="150px"></img>
+    </div>
     @endif
     </div>
     <div class="card-body pt-3 pt-md-4">
@@ -55,7 +61,7 @@
             <tr>
                 <th>Mark</th>
                 <th>Test</th>
-                <th>Date</th>
+                <th>Obtained</th>
                 <th>Updated</th>
                 <th class="text-center">Action</th>
             </tr>

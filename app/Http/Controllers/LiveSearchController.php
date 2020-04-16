@@ -40,24 +40,29 @@ class LiveSearchController extends Controller
         {
             if($row->image){
                 $output .= '
+               
                 <div class="col-lg-4 text-center" id="">
-                        <a href="'. route('admin.userview',['id'=>$row->id]) .'">
+                <a href="'. route('admin.userview',['id'=>$row->id]) .'">
                         <img src="'.route('user.avatar',['filename'=>$row->image]) .'" class="rounded-circle" height="150px" width="150px"></img>
                         </a>
                         <h2 class="title">'. $row->user_name ." ". $row->surname .'</h2>
-                    </div>
-                    </div>
+                </div>
+                        
+                   
+             
                    
                 ';
             }else{
                 $output .= '
-                <div class="col-lg-4 text-center" id="">
+              <div class="col-lg-4 text-center" id="">
+              
                         <a href="'. route('admin.userview',['id'=>$row->id]) .'">
                         <img src="../img/nopic.png" class="rounded-circle" height="150px" width="150px"></img>
                         </a>
                         <h2 class="title">'. $row->user_name ." ". $row->surname .'</h2>
-                    </div>
-                    </div>
+             </div>
+                    
+                   
                     
                 ';
             }

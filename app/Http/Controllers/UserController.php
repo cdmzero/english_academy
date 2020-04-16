@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\User; //Modelo de user
 use App\Result; //Modelo de result
+use Validator, Input, Redirect;
 
+//necesario para validar con RULES
 use Illuminate\Http\Request; //FUCK no borrar, trae todas las cosas que mandemos por POST
 use Illuminate\Support\Facades\Storage; //Necesario para subir archivos
 use Illuminate\Support\Facades\File; //Necesario para guardar el archivo subido
@@ -54,6 +56,84 @@ class UserController extends Controller{
     
         
     }
+
+    // Vista para crear un USER
+    public function create(){
+        return view('admin.users.create');
+    }
+
+
+    // Metodo para crear un USER
+
+    public function store(Request $request){
+               
+       
+ //Validamos todos los datos
+        $validate = $this->validate($request,[
+            'user_name' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
+            'nick' => ['required', 'string', 'max:255','unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:5', 'confirmed'],
+            'role' => ['required','in:user,admin',],
+            'image_path'=> [ 'nullable','image', 'max:3000'],
+        ]);
+
+      
+            
+        //Recogemos los datos del formulario
+        $user_name  = $request->input('user_name');
+        $surname    = $request->input('surname');
+        $nick       = $request->input('nick');
+        $email      = $request->input('email');
+        $password   = $request->input('password');
+        $role       = $request->input('role');
+        $image_path = $request->file('image_path');
+
+
+
+        $user = new User();
+
+          if($image_path){
+              //Pone un nombre unico
+              $image_name = time().$image_path->getClientOriginalName();
+  
+              //Guardar en la carpeta /storage/app/users
+              Storage::disk('users')->put($image_name, File::get($image_path));
+              $user->image        = $image_name;
+          }
+    
+        //Asignar nuevos valores al objeto del usuario
+        
+
+        $current_date = date('Y-m-d H:i:s');
+
+        $user->user_name    = $user_name;
+        $user->surname      = $surname;
+        $user->nick         = $nick;
+        $user->email        = $email;
+        $user->password     = $password;
+        $user->role         = $role;
+        $user->created_at   = $current_date;
+        $user->updated_at   = null;
+
+
+
+        //Ejecutamos los cambios en la BD y ademas mostramos un mensaje
+        $user->save();
+
+        
+        return redirect()->route('admin.users.create')
+                         ->with(['message'=>'User created correctly']);
+
+
+
+    }
+
+
+
+
+
 
     public function update(Request $request){
        

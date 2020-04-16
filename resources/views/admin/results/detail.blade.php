@@ -32,7 +32,7 @@
                                     <th>ID</th>
                                     <th>User</th>
                                     <th class="text-center">Mark</th>
-                                    <th>Realization</th>
+                                    <th>Obtained</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>

@@ -31,7 +31,7 @@
                             <label for="test_id" class="col-md-4 col-form-label text-md-right">{{ __('Test Name') }}</label>
 
                             <div class="col-md-6">
-                                <select name="test_id" id="test_id" class="form-control @error('test_id') is-invalid @enderror"  >
+                                <select name="test_id" id="test_id" class="form-control @error('test_id') is-invalid @enderror"  required>
                                 <option selected>Choose...</option>
                                     @foreach ($tests as $test)
                                     <option value="{{$test->id}}">{{ $test->test_name }}</option>
@@ -48,10 +48,10 @@
                             <label for="user_id" class="col-md-4 col-form-label text-md-right">{{ __('User Name') }} </label>
 
                             <div class="col-md-6">
-                                <select  name="user_id" id="user_id" class=" form-control @error('user_id') is-invalid @enderror" >
+                                <select  name="user_id" id="user_id" class=" form-control @error('user_id') is-invalid @enderror" placeholder="choose" required>
                                 <option selected>Choose...</option> --}}
                                     @foreach ($users as $user)
-                                    <option value="{{$user->id}}" data-description="Item 1">{{ $user->user_name}} {{$user->surname }} |{{$user->email }}</option>
+                                    <option value="{{$user->id}}">{{ $user->user_name}} {{$user->surname }} | {{$user->email }}</option>
                                     @endforeach
                                   </select>
                                   @error('user_id')
@@ -79,17 +79,18 @@
                                     </span>
                                     @enderror                          
                                 </div>
-                             
-                        <br>
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                Save changes
-                                </button>
                             </div>
-                        </div>
+                        </div>                            
+                        <br><br>  
+                        <div class="form-group row">
+
+                                <div class="mx-auto" width="33px">
+                                    <button type="submit" class="btn btn-success">
+                                    Add 
+                                    </button>
+                                </div>
+                    </div>
                     </form>
-                </div>
             </div>
         </div>
     </div>
