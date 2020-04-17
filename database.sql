@@ -21,10 +21,10 @@ CONSTRAINT pk_users PRIMARY KEY(id)
 
 )ENGINE=InnoDb;
 
-INSERT INTO users VALUES(NULL, 'user','Jose Francisco','Funez Arcediano','cdmzero','jose@jose.com','$2y$10$4zxuopgbsSNIdE518WKd/u8KpRx.1qogtgxO7JJZJd92vXOl.uuiu','1586281316tio.png',CURTIME(),CURTIME(),NULL);
-INSERT INTO users VALUES(NULL, 'user','Juan','Lopez','juanlp','jlp@gmail.com','pass',null,CURTIME(),CURTIME(),NULL);
-INSERT INTO users VALUES(NULL, 'user','Manolo','Garcia','manlo','manolo@gmail.com','pass',null,CURTIME(),CURTIME(),NULL);
-INSERT INTO users VALUES(NULL, 'user','Laura','Gutierrez','lagu','lora@lora.com','$2y$10$Zk7WLOgYreOGc0/g7ZEkjOassJ/j3S0XuUoJ7XBufo8Md6ztLt7qq','1586343460BEFDEA3B-D632-46E8-9F01-0CBF1A7E93FF.jpeg',CURTIME(),CURTIME(),NULL);
+INSERT INTO users VALUES(NULL, 'user','Jose Francisco','Funez Arcediano','cdmzero','jose@jose.com','$2y$10$4zxuopgbsSNIdE518WKd/u8KpRx.1qogtgxO7JJZJd92vXOl.uuiu','1586281316tio.png',CURTIME(),NULL,NULL);
+INSERT INTO users VALUES(NULL, 'user','Juan','Lopez','juanlp','jlp@gmail.com','pass',null,CURTIME(),NULL,NULL);
+INSERT INTO users VALUES(NULL, 'user','Manolo','Garcia','manlo','manolo@gmail.com','pass',null,CURTIME(),NULL,NULL);
+INSERT INTO users VALUES(NULL, 'user','Laura','Gutierrez','lagu','lora@lora.com','$2y$10$Zk7WLOgYreOGc0/g7ZEkjOassJ/j3S0XuUoJ7XBufo8Md6ztLt7qq','1586343460BEFDEA3B-D632-46E8-9F01-0CBF1A7E93FF.jpeg',CURTIME(),NULL,NULL);
 
 
 
@@ -57,7 +57,7 @@ b                           text,
 c                           text,
 d                           text,
 CONSTRAINT `pk_qna` PRIMARY KEY (id),
-CONSTRAINT fk_test FOREIGN KEY(test_id) REFERENCES tests(id)
+CONSTRAINT fk_test FOREIGN KEY(test_id) REFERENCES tests(id) ON DELETE CASCADE
 
 )ENGINE=InnoDb;
 
@@ -76,8 +76,8 @@ user_id         int(255),
 choice          CHAR(1),
 
 CONSTRAINT pk_choices PRIMARY KEY (id),
-CONSTRAINT `fk_qnaid` FOREIGN KEY(qna_id) REFERENCES `qna`(id),
-CONSTRAINT fk_usersid FOREIGN KEY(user_id) REFERENCES users(id)
+CONSTRAINT `fk_qnaid` FOREIGN KEY(qna_id) REFERENCES `qna`(id) ON DELETE CASCADE,
+CONSTRAINT fk_usersid FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 
 
 )ENGINE=InnoDb;
@@ -97,8 +97,8 @@ created_at   datetime,
 updated_at   datetime,
 
 CONSTRAINT pk_results PRIMARY KEY (id),
-CONSTRAINT fk_users_id FOREIGN KEY(user_id) REFERENCES users(id),
-CONSTRAINT fk_tests_id FOREIGN KEY(test_id) REFERENCES tests(id)
+CONSTRAINT fk_users_id FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+CONSTRAINT fk_tests_id FOREIGN KEY(test_id) REFERENCES tests(id) ON DELETE CASCADE
 
 )ENGINE=InnoDb;
 

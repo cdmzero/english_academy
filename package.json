@@ -27,6 +27,7 @@
         "bootstrap-input-spinner": "^1.13.4",
         "datatables.net": "^1.10.20",
         "datatables.net-dt": "^1.10.20",
-        "select2": "^4.0.13"
+        "select2": "^4.0.13",
+        "sweetalert": "^2.1.2"
     }
 }

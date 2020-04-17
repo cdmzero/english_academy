@@ -1,9 +1,13 @@
 @extends('layouts.app')
 @section('content')
+
 <div class="jumbotron jumbotron-fluid">
+
   <div class="container text-center">
     <br>
+ 
     <h1 class="display-3 ">User zone</h1>
+
 
     <div class="add">
       <a class="btn btn-outline-success" href=" {{ route('admin.users.create') }} " role="button">+</a>
@@ -15,26 +19,36 @@
   <div class="buscar-caja"> 
     <input type="text" id="search" class="buscar-txt" placeholder="Search ....."/> 
     <a class="buscar-btn"> <i class="fa fa-search"></i> </a> 
-</div>
-  <br>
-  <br>
-  <br>
-  <br>
+
+ 
 </div>
 
-  <div class="container marketing">
-           <div class="row"  id="resultados">
+  <br>
+  <br>
+  <br>
+  <br>
+</div>
+ 
+  <div class="container">
+
+
+    @if(session('message'))
+    <div class="alert alert-success">
+        {{ session('message') }}
+    </div>
+    @endif
+  
+    <div class="row"  id="resultados">
+      
       <br>
       <br>
       <br>
       <br>
       <br>
-        </div>
+    </div> 
+                        
+
     <div class="col-xl-6 m-auto text-center">
-
-      <div class="mx-auto" style="width: 20%">
-       
-        </div> 
 
        
        <br>
@@ -44,7 +58,32 @@
      
     </div>
 
-  
+<script>
+
+$('body').on('click', '.btn-delete', function (event) {
+    event.preventDefault();
+          swal({
+          title: "Are you sure?",
+          text: "Once deleted, you will not be able to recover this imaginary file!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })  .then((willDelete) => {
+            if (willDelete) {
+              swal("Poof! Your imaginary file has been deleted!", {
+                icon: "success",
+              });
+            } else {
+              swal("Your imaginary file is safe!");
+            }
+          });
+
+});
+</script>
+
+
+
     @include('includes.live_search') 
-   
+
+
 @endsection

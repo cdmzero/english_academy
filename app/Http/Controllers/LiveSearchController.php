@@ -7,11 +7,6 @@ use Illuminate\Http\Request;
 
 class LiveSearchController extends Controller
 {
-    public function index()
-    {
-        return view('live_search');
-    }
-
 
     function action(Request $request)
     {
@@ -23,15 +18,11 @@ class LiveSearchController extends Controller
       {
        $data = User::where('user_name', 'like', '%'.$query.'%')
          ->orWhere('surname', 'like', '%'.$query.'%')
-         ->orWhere('nick', 'like', '%'.$query.'%')
-         ->orWhere('email', 'like', '%'.$query.'%')
          ->orderBy('id', 'desc')
          ->get();
          
-      }
-      else
-      {
-       $data = User::orderBy('id', 'desc')
+      }else{
+       $data = User::orderBy('id', 'asc')
          ->get();
       }
       $total_row = $data->count();
@@ -39,40 +30,56 @@ class LiveSearchController extends Controller
         foreach($data as $row)
         {
             if($row->image){
-                $output .= '
+                $output .= 
+                '
+                <div class="col-lg-4 text-center panel">
                
-                <div class="col-lg-4 text-center" id="">
                 <a href="'. route('admin.userview',['id'=>$row->id]) .'">
                         <img src="'.route('user.avatar',['filename'=>$row->image]) .'" class="rounded-circle" height="150px" width="150px"></img>
                         </a>
-                        <h2 class="title">'. $row->user_name ." ". $row->surname .'</h2>
-                </div>
-                        
-                   
-             
-                   
+                        <h2 class="title">'. $row->user_name ." ". $row->surname .'
+                      
+                      <div class="dropdown">
+                      <button class="btn btn-noborder" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fa fa-cog"></i>
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item btn-menu" href="'. route('admin.users.update',['id'=>$row->id]) .'"><i class="fa fa-edit"></i> Edit</a>
+                        <a class="dropdown-item btn-menu btn-delete"  href="'. route('admin.users.delete',['id'=>$row->id]) .'"><i class="fa fa-trash"></i> Remove</a>
+                      </div>
+                      </div>
+
+                        </h2>      
+                </div>                   
                 ';
             }else{
                 $output .= '
-              <div class="col-lg-4 text-center" id="">
-              
+              <div class="col-lg-4 text-center">
                         <a href="'. route('admin.userview',['id'=>$row->id]) .'">
                         <img src="../img/nopic.png" class="rounded-circle" height="150px" width="150px"></img>
                         </a>
-                        <h2 class="title">'. $row->user_name ." ". $row->surname .'</h2>
-             </div>
-                    
-                   
+                        <h2 class="title">'. $row->user_name ." ". $row->surname.
+
+                        '<div class="dropdown">
+                        <button class="btn btn-noborder" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-cog"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item btn-menu" href="'. route('admin.users.update',['id'=>$row->id]) .'"><i class="fa fa-edit"></i> Edit</a>
+                          <a class="dropdown-item btn-menu .btn-delete" href="'. route('admin.users.delete',['id'=>$row->id]) .'"><i class="fa fa-trash"></i> Remove</a>
+                        </div>
+                        </div>
+                        
+                        </h2>
+             </div>               
                     
                 ';
-            }
-                
-            
+            }   
         }
       }else{
        $output = '
-       <div class="col-lg-4 text-center" id="">
-        <h2>No Data Found</h2>
+       <div class="col-lg-4 text-center mx-auto">
+        <h2>No data found!</h2>
        </div>
        ';
       }
@@ -80,7 +87,6 @@ class LiveSearchController extends Controller
        'table_data'  => $output,
        'total_data'  => $total_row
       );
-
       echo json_encode($data);
      }
     }

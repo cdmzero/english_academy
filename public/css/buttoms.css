@@ -1,7 +1,4 @@
-@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
-
- 
-  
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"); 
   .buscar-caja { 
     position: absolute; 
     top: 50%; 
@@ -54,10 +51,30 @@
   
   
 
+/* Cuerpo para los resultados del buscador en tiempo real  */
 
-h2.title{
-    margin-top: 10px;
-}
+    h2.title{
+        margin-top: 10px;       
+    }
+/* Controla el tamaño del icono de la tuerca de opciones  */
+    i.fa.fa-cog{
+        font-size: 19px;
+    
+    }
+    div.title{
+        margin-bottom: 60px;
+    }
+
+    /* Reduce al maximo el resplandor del borde del boton */
+    .btn-noborder{
+        
+        padding: 0;
+
+    }
+
+    /* Fondo para botones de Opciones del dropdown de index de usuarios/resultados  */
+
+
 
 
 .pagination{
@@ -83,6 +100,8 @@ a.btn.btn-outline-success{
     font-size: 30px;
     
 }
+
+
 
  /* Barra de abajo de la cabecera */
 .bar

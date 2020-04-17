@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User; //Modelo de user
 use App\Result; //Modelo de result
-use Validator, Input, Redirect;
-
-//necesario para validar con RULES
+use Illuminate\Support\Facades\Hash; //Para cifra contraseña
 use Illuminate\Http\Request; //FUCK no borrar, trae todas las cosas que mandemos por POST
 use Illuminate\Support\Facades\Storage; //Necesario para subir archivos
 use Illuminate\Support\Facades\File; //Necesario para guardar el archivo subido
@@ -26,16 +24,9 @@ class UserController extends Controller{
     }
 
 
-    public function searcher(Request $request){
-        
-        $users  =   User::where("user_name","like",$request->texto."%")->get();
-
-            return view('users',[
-                "users" => $users ]);
-    
-    }
     
 
+    //Metodo para ver el perfil del usuario logueado
 
     public function profile(){
 
@@ -68,42 +59,44 @@ class UserController extends Controller{
     public function store(Request $request){
                
        
- //Validamos todos los datos
+    // Validamos todos los datos
         $validate = $this->validate($request,[
-            'user_name' => ['required', 'string', 'max:255'],
-            'surname' => ['required', 'string', 'max:255'],
-            'nick' => ['required', 'string', 'max:255','unique:users'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:5', 'confirmed'],
-            'role' => ['required','in:user,admin',],
-            'image_path'=> [ 'nullable','image', 'max:3000'],
+            'user_name'     => ['required' , 'string' , 'max:20' , 'regex:/^([A-Za-zÑñ]+[áéíóú]?[A-Za-z]*){2,10}\s?([A-Za-zÑñ]+[áéíóú]?[A-Za-z]*){0,10}$/iu'],
+            'surname'       => ['required' , 'string' , 'max:20' , 'regex:/^([A-Za-zÑñ]+[áéíóú]?[A-Za-z]*){2,18}\s?([A-Za-zÑñ]+[áéíóú]?[A-Za-z]*){0,36}$/iu'],
+            'nick'          => ['required' , 'string' , 'max:11' , 'unique:users'],
+            'email'         => ['required' , 'string' , 'email' , 'max:30' , 'unique:users'],
+            'password'      => ['required' , 'string' , 'min:5' , 'max:20' ,'confirmed'],
+            'role'          => ['required' , 'in:user,admin'],
+            'image_path'    => ['nullable' , 'mimes:jpeg,jpg,png,gif' , 'max:3000'],
         ]);
 
       
             
-        //Recogemos los datos del formulario
+        // Recogemos los datos del formulario
         $user_name  = $request->input('user_name');
         $surname    = $request->input('surname');
         $nick       = $request->input('nick');
         $email      = $request->input('email');
-        $password   = $request->input('password');
+        $password   = Hash::make($request->input('password'));
         $role       = $request->input('role');
         $image_path = $request->file('image_path');
 
 
-
+        // Creamos el objeto
         $user = new User();
 
           if($image_path){
-              //Pone un nombre unico
+              // Pone un nombre unico
               $image_name = time().$image_path->getClientOriginalName();
   
-              //Guardar en la carpeta /storage/app/users
+              // Guarda en la carpeta /storage/app/users
               Storage::disk('users')->put($image_name, File::get($image_path));
+
+              // Seteamos la imagen
               $user->image        = $image_name;
           }
     
-        //Asignar nuevos valores al objeto del usuario
+        // Asignar nuevos valores al objeto del usuario
         
 
         $current_date = date('Y-m-d H:i:s');
@@ -119,23 +112,90 @@ class UserController extends Controller{
 
 
 
-        //Ejecutamos los cambios en la BD y ademas mostramos un mensaje
+        // Ejecutamos los cambios en la BD y ademas mostramos un mensaje
         $user->save();
 
         
-        return redirect()->route('admin.users.create')
+        return redirect()->route('admin.users')
                          ->with(['message'=>'User created correctly']);
-
 
 
     }
 
 
+    public function update ($id){
+
+        $user = User::find($id);
+
+        return view('admin.users.update',[
+            'user' => $user
+        ]);
+    }
+
+
+    public function save_update(Request $request){
+       
+        $id = $request->input('id');
+
+
+        $user = User::find($id); //conseguir todos los campos del usuario identificado
+        
+        $id = $user->id; //Conseguir el ID
+
+
+        //Validamos todos los datos
+
+        $validate = $this->validate($request,[
+            'user_name'     => ['required' , 'string' , 'max:20' , 'regex:/^([A-Za-zÑñ]+[áéíóú]?[A-Za-z]*){2,10}\s?([A-Za-zÑñ]+[áéíóú]?[A-Za-z]*){0,10}$/iu'],
+            'surname'       => ['required' , 'string' , 'max:20' , 'regex:/^([A-Za-zÑñ]+[áéíóú]?[A-Za-z]*){2,18}\s?([A-Za-zÑñ]+[áéíóú]?[A-Za-z]*){0,36}$/iu'],
+            'nick'          => ['required' , 'string' , 'max:11' , 'unique:users,nick,'.$id],
+            'email'         => ['required' , 'string' , 'email' , 'max:30' , 'unique:users,nick,'.$id],
+            'role'          => ['required' , 'in:user,admin'],
+            'image_path'    => ['nullable' , 'mimes:jpeg,jpg,png,gif' , 'max:3000'],
+        ]);
+            
+        // Recogemos los datos del formulario
+               $user_name  = $request->input('user_name');
+               $surname    = $request->input('surname');
+               $nick       = $request->input('nick');
+               $email      = $request->input('email');
+               $role       = $request->input('role');
+               $image_path = $request->file('image_path');
+       
+        //Recogemos los datos del formulario
+        if($image_path){
+            // Pone un nombre unico
+            $image_name = time().$image_path->getClientOriginalName();
+
+            // Guarda en la carpeta /storage/app/users
+            Storage::disk('users')->put($image_name, File::get($image_path));
+
+            // Seteamos la imagen
+            $user->image        = $image_name;
+        }
+  
+      // Asignar nuevos valores al objeto del usuario
+      
+
+      $current_date = date('Y-m-d H:i:s');
+
+      $user->user_name    = $user_name;
+      $user->surname      = $surname;
+      $user->nick         = $nick;
+      $user->email        = $email;
+      $user->role         = $role;
+
+        //Ejecutamos los cambios en la BD y ademas mostramos un mensaje
+        $user->update();
+
+            return redirect()->route('admin.users.update',[
+                                'id'    =>      $id
+            ])             ->with(['message'=>'User updated correctly']);
 
 
 
-
-    public function update(Request $request){
+    }
+    public function update_profile(Request $request){
        
 
         $user = \Auth::user(); //conseguir todos los campos del usuario identificado
@@ -191,6 +251,24 @@ class UserController extends Controller{
 
 
     }
+
+    //Para sacar la foto por pantalla
+    
+    public function delete($id){
+
+        $user = User::find($id);
+
+        if(confirm("Realmente tal"))
+        {
+            //  $user->delete();
+            return redirect()->route('admin.users')
+            ->with(['message'=>'User deleted correctly']);
+        }
+        
+
+            
+}
+
 
     //Para sacar la foto por pantalla
     

@@ -19,7 +19,7 @@
       @foreach ($tests as $test)
       <div class="col-lg-4 text-center">
         <a href=" {{ route('admin.results.menu',['id'=>$test->id]) }}"  class="btn-social-head btn-instagram">{{ $test->test_name }}</a>
-        <h2>{{ $test->test_name }}</h2>
+        <h2 class="title">{{ $test->test_name }}</h2>
         <br>
       </div><!-- /.col-lg-4 -->
 @endforeach

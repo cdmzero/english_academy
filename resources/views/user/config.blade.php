@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('user.update') }}" enctype="multipart/form-data" >
+                    <form method="POST" action="{{ route('user.update_profile') }}" enctype="multipart/form-data" >
                         @csrf
 
                         <div class="form-group row">
@@ -109,4 +109,11 @@
         </div>
     </div>
 </div>
+<script type="application/javascript">
+    // Script para que aparezca el nombre de la imagen en el input 
+        $('input[type="file"]').change(function(e){
+            var fileName = e.target.files[0].name;
+            $('.custom-file-label').html(fileName);
+        });
+    </script>
 @endsection
