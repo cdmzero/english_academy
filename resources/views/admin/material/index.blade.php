@@ -17,10 +17,11 @@
             @endif
             <div class="card">
 
-                <div class="card-header text-center"><strong> <h4> {{ $test->test_name }} </strong> results 
-                    <a href=" {{ route('admin.results.create') }} " class="btn-email-result"><i class="fa fa-plus"></i></a>
+                <div class="card-header text-center"><h4>Examination <strong>Material </strong> 
+                    <a href=" {{ route('admin.material.create') }} " class="btn-email-result"><i class="fa fa-plus"></i></a>
                 </h4>
                 </div>
+                
                 
                     <div class="card-body">
                         <div class="container">
@@ -29,30 +30,35 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>User</th>
-                                    <th>Mark</th>
-                                    <th>Obtained</th>
+                                    <th>Type</th>
+                                    <th>Test Name</th>
+                                    <th>Time</th>
+                                    <th class="text-center">Num of Questions</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                                 <tbody>
-                                        @foreach($results as $result)                  
+                                        @foreach($tests as $test)                  
                                                 <tr>
                                                     <td>
-                                                        {{ $result->id }}
+                                                        {{ $test->id }}
                                                     </td>
                                                     <td>
-                                                        {{ $result->user->user_name }} {{ $result->user->surname }}
+                                                        {{ $test->test_type }}
                                                     </td>
                                                     <td>
-                                                        {{ $result->mark }} %
+                                                        {{ $test->test_name }} 
                                                     </td>
                                                     <td>
-                                                        {{  \FormatTime::LongTimeFilter($result->created_at) }}
+                                                        {{ $test->duration }} Min
+                                                    </td>
+                                              
+                                                    <td class="text-center">
+                                                        {{$test->num_questions}}
                                                     </td>
                                                     <td class="text-center">
-                                                        <a class='btn-social-menu btn-instagram btn-menu' href="{{ route('admin.results.detail',['result_id' => $result->id]) }}"><i class="fa fa-edit"></i></a>
-                                                    <a href="{{ route('admin.userview',['id' => $result->user_id]) }}" class="btn-social-menu btn-email btn-menu"><i class="fa fa-user"></i></a>
+                                                    <a href="{{ route( 'admin.material.update',[ 'id' => $test->id ] ) }}" class='btn-social-menu btn-instagram btn-menu' ><i class="fa fa-edit"></i></a>
+                                                    <a href="" class="btn-social-menu btn-email btn-menu"><i class="fa fa-plus-circle"></i></a>
                                                     </td>   
                                                                             
                                         @endforeach
@@ -67,7 +73,7 @@
                                 <small> Total data entry {{ $cuenta }} </small>
 
                                 <div class="mx-auto text-center" style="width:30%">
-                                {{ $results->links()}}
+                                {{ $tests->links()}}
                                 </div> 
                             @endif
                             

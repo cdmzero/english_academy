@@ -60,10 +60,22 @@ Route::get('/admin/result/delete/{result_id}/{user_id?}','ResultController@delet
 //Para el userview de USERS
     Route::get('/admin/userview/{id}','UserController@user_view')->name('admin.userview');
 
-
-//prueba de buscador AJAX
+//Buscador AJAX de users
 Route::get('/live_search/action', 'LiveSearchController@action')->name('live_search.action');
 
 
 
+//Parte de MATERIAL
+Route::get('/admin/material','MaterialController@index')->name('admin.material');
+
+    //Para la creaccion y almacenamiento de USERS
+    Route::get('/admin/material/create','MaterialController@create')->name('admin.material.create');
+    Route::post('/admin/material/store','MaterialController@store')->name('admin.material.store');
+    
+        //Para la actualizacion de USERS
+        Route::get('/admin/material/update/{id}','MaterialController@update')->name('admin.material.update');
+        Route::post('/admin/material/save_update','MaterialController@save_update')->name('admin.material.save_update');
+    
+        //Para la actualizacion de USERS
+        Route::get('/admin/material/delete/{id}','MaterialController@delete')->name('admin.material.delete');
 

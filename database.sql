@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users`(
 id          int(255) auto_increment not null,
 role        varchar(20),
-user_name        varchar(100),
+user_name   varchar(100),
 surname     varchar(200),
 nick        varchar(100),
 email       varchar(255),
@@ -31,17 +31,24 @@ INSERT INTO users VALUES(NULL, 'user','Laura','Gutierrez','lagu','lora@lora.com'
 DROP TABLE IF EXISTS `tests`;
 CREATE TABLE tests(
 id                           int(255) auto_increment not null,
-num_questions                int(255),
 test_name                    varchar(255),
-max_time                     int(255),
+test_type                    varchar(255),
+num_questions                int(255),
+duration                     int(255),
+created_at   datetime,
+updated_at datetime,
 
 CONSTRAINT pk_tests PRIMARY KEY (id)
 
 )ENGINE=InnoDb;
 
-INSERT INTO tests VALUES(NULL, 30,'University',900);
-INSERT INTO tests VALUES(NULL, 30,'Campus',900);
-INSERT INTO tests VALUES(NULL, 31,'London',900);
+INSERT INTO tests VALUES(NULL,'University','Exam','20',20,CURTIME(),NULL);
+INSERT INTO tests VALUES(NULL,'Campus','Exam','20',30,CURTIME(),NULL);
+INSERT INTO tests VALUES(NULL,'London','Exam','20',45,CURTIME(),NULL);
+INSERT INTO tests VALUES(NULL,'A1 A2','Exercise','5',10,CURTIME(),NULL);
+INSERT INTO tests VALUES(NULL,'B1 B2','Grammar','5',10,CURTIME(),NULL);
+INSERT INTO tests VALUES(NULL,'C1 C2','Exercise','5',10,CURTIME(),NULL);
+
 
 
 

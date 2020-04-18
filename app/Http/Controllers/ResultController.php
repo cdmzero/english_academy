@@ -33,7 +33,7 @@ class ResultController extends Controller
 
 
 
-        $tests      = Test::where('id','=',$id)->get();
+        $test      = Test::where('id','=',$id)->first();
 
         $results    = Result::where('test_id','=',$id)
                             ->orderBy('id', 'DESC')
@@ -44,7 +44,7 @@ class ResultController extends Controller
                             
      
         return view('admin.results.menu',[
-            'tests'     => $tests,
+            'test'     => $test,
             'results'   => $results,
             'cuenta'    => $cuenta
                     ]);

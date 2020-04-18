@@ -3,17 +3,15 @@
 
 <div class="jumbotron jumbotron-fluid">
 
+  <div class="form-group row">
   <div class="container text-center">
     <br>
  
-    <h1 class="display-3 ">User zone</h1>
+    <h1 class="display-3">User zone</h1> 
+       <a href=" {{ route('admin.users.create') }} "  class="btn-email-result"><i class="fa fa-plus"></i></a> </div>
 
-
-    <div class="add">
-      <a class="btn btn-outline-success" href=" {{ route('admin.users.create') }} " role="button">+</a>
-    
-    </div>
-
+  </div>
+  </div>
   </div>
 
   <div class="buscar-caja"> 
@@ -60,25 +58,9 @@
 
 <script>
 
-$('body').on('click', '.btn-delete', function (event) {
-    event.preventDefault();
-          swal({
-          title: "Are you sure?",
-          text: "Once deleted, you will not be able to recover this imaginary file!",
-          icon: "warning",
-          buttons: true,
-          dangerMode: true,
-        })  .then((willDelete) => {
-            if (willDelete) {
-              swal("Poof! Your imaginary file has been deleted!", {
-                icon: "success",
-              });
-            } else {
-              swal("Your imaginary file is safe!");
-            }
-          });
+function myFunction() {
+  alert("Hello! I am an alert box!");
 
-});
 </script>
 
 

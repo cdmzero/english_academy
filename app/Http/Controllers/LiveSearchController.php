@@ -48,7 +48,6 @@ class LiveSearchController extends Controller
                         <a class="dropdown-item btn-menu btn-delete"  href="'. route('admin.users.delete',['id'=>$row->id]) .'"><i class="fa fa-trash"></i> Remove</a>
                       </div>
                       </div>
-
                         </h2>      
                 </div>                   
                 ';

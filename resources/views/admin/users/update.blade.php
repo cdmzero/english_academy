@@ -21,16 +21,22 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('admin.users.save_update') }}" enctype="multipart/form-data" >
                         @csrf
-                            <div class="text-center">
+                            <div class="mx-auto" style="width:20%">
+                                
+                            
                     @if($user->image)
                         
-                            @include('includes.avatar')
-
+                
+                        <img src="{{ route('user.avatar',['filename'=>$user->image]) }}" class="avatar"  width="150px" width="150px"> 
+                
                     @else
              
-                            <img src="../img/nopic.png" class="rounded-circle" height="150px" width="150px"></img>
+                            <img src="/img/nopic.png" class="rounded-circle" height="150px" width="150px"></img>
+                           
+                           
            
-                    @endif
+                    @endif  
+                    <br>
                    <br>
                 </div>
                 <div class="form-group row">
