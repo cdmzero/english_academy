@@ -72,7 +72,7 @@
             <td>{{$result->test->test_name}}</td>
             <td>{{ \FormatTime::LongTimeFilter($result->created_at) }}</td>
             <td>{{ \FormatTime::LongTimeFilter($result->updated_at) }}</td>
-            <td class="text-center"><a class='btn-social-menu btn-instagram btn-menu' href="{{ route('admin.results.detail',['result_id' => $result->id, 'user' => 'u']) }}"><i class="fa fa-edit"></i></a>
+            <td class="text-center"><a class='btn-social-menu btn-instagram btn-menu' href="{{ route('admin.results.detail',['result_id' => $result->user_id, 'user' => 'u']) }}"><i class="fa fa-edit"></i></a>
         </tr>
         @endforeach
         </table>

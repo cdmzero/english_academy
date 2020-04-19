@@ -6,6 +6,7 @@
 <br>
 <br>
 
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -17,11 +18,10 @@
             @endif
             <div class="card">
 
-                <div class="card-header text-center"><h4>Examination <strong>Material </strong> 
+                <div class="card-header text-center"><h4>Examination <strong>Material </strong>  
                     <a href=" {{ route('admin.material.create') }} " class="btn-email-result"><i class="fa fa-plus"></i></a>
                 </h4>
                 </div>
-                
                 
                     <div class="card-body">
                         <div class="container">
@@ -32,8 +32,9 @@
                                     <th>ID</th>
                                     <th>Type</th>
                                     <th>Test Name</th>
-                                    <th>Time</th>
-                                    <th class="text-center">Num of Questions</th>
+                                    <th>Creator</th>
+                                    <th>Num of Questions</th>
+                                    <th>Status</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -50,16 +51,27 @@
                                                         {{ $test->test_name }} 
                                                     </td>
                                                     <td>
-                                                        {{ $test->duration }} Min
+                                                       {{ $test->user->nick }}
                                                     </td>
                                               
-                                                    <td class="text-center">
+                                                    <td>
                                                         {{$test->num_questions}}
                                                     </td>
+                                                    <td>
+                                                        {{$test->status}}
+                                                    </td>
+                                                    
                                                     <td class="text-center">
+                                                    @if($test->status == 'Pending' && $test->user_id == Auth::user()->id )
+                                                   
                                                     <a href="{{ route( 'admin.material.update',[ 'id' => $test->id ] ) }}" class='btn-social-menu btn-instagram btn-menu' ><i class="fa fa-edit"></i></a>
-                                                    <a href="" class="btn-social-menu btn-email btn-menu"><i class="fa fa-plus-circle"></i></a>
-                                                    </td>   
+                                                        <a href="" class="btn-social-menu btn-email btn-menu"><i class="fa fa-plus-circle"></i></a>
+                                                    @elseif($test->status == 'Complete' && $test->user_id == Auth::user()->id )
+                                                    <h5>Ver preguntas</h5>
+                                                    @else
+                                                        
+                                                    @endif
+                                                </td>   
                                                                             
                                         @endforeach
                                                 </tr>
@@ -76,9 +88,6 @@
                                 {{ $tests->links()}}
                                 </div> 
                             @endif
-                            
-                   
-
         </div>
         </div>
         </div>
@@ -95,7 +104,7 @@
 
    
        
-
+</h7>
 </div>
   
     <br>

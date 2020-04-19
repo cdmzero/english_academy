@@ -10,6 +10,7 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+  
     /**
      * The attributes that are mass assignable.
      *
@@ -42,7 +43,14 @@ class User extends Authenticatable
 
 
     public function results() {
-            return $this->hasMany('App\Results');
+            return $this->hasMany('App\Result');
+        }
+
+    public function choices() {
+            return $this->hasMany('App\Choice');
+        }
+    public function tests() {
+            return $this->hasMany('App\Test');
         }
 
 

@@ -11,13 +11,47 @@ use App\Result; //Modelo de Result
 use App\Test; //Modelo de Test
 
 
-
 class MaterialController extends Controller
 {
+
+
    public function index(){
 
-    $tests      = Test::orderBy('id', 'ASC')->paginate(5);
+
+//  Para controlar si los examenes estan listos para ser publicados 
+//  debemos controlar cuantas preguntas maximas estos pueden contener
+//  para ello, comparamos la columna test.num_questions con el numero de preguntas con su ID.com
+//  esta funcion puede retornar dos estados => full o pending
+    $status =    Test::withCount(['questions'])->get();
+    
+    foreach($status as $test){ 
+        if( !empty($test->questions_count) && $test->questions_count == $test->num_questions){
+           if($test->status == 'Pending'){
+                $test->status = 'Complete';
+                $test->save();
+           }
+        }else{
+            if($test->status == 'Complete'){
+                    $test->status = 'Pending';
+                    $test->save();
+           }
+        }
+    }
+
+    // Primero traemos todos los tests para listarlos y paginarlos
+
+     $tests      = Test::orderBy('id', 'ASC')->paginate(5);
+
+
+
+    // Contamos todos los tests
     $cuenta     = Test::count();
+
+
+
+    
+
+    //funcion para actualizar el estado de los tests
 
     return view('admin.material.index',[
         'tests'     => $tests,
@@ -37,8 +71,8 @@ class MaterialController extends Controller
             $validate = $this->validate($request,[
                 'test_name'     => ['required' , 'string' , 'max:20','unique:tests' ],
                 'test_type'     => ['required' , 'string' , 'in:Exam,Exercise,Grammar'],
-                'num_questions' => ['required' , 'numeric' , 'min:5' , 'max:20'],
-                'duration'      => ['required' , 'numeric' , 'min:5' , 'max:60'],
+                'num_questions' => ['required' , 'numeric' , 'min:1' , 'max:20'],
+                'duration'      => ['required' , 'numeric' , 'min:1' , 'max:60'],
             ]);
     
           
@@ -88,6 +122,8 @@ class MaterialController extends Controller
             return view('admin.material.update',[
                 'test' => $test
             ]);
+
+
         }
     
     
@@ -107,8 +143,8 @@ class MaterialController extends Controller
             $validate = $this->validate($request,[
                 'test_name'     => ['required' , 'string' , 'max:20','unique:tests,test_name,'.$test->id],
                 'test_type'     => ['required' , 'string' , 'in:Exam,Exercise,Grammar'],
-                'num_questions' => ['required' , 'numeric' , 'min:5' , 'max:20'],
-                'duration'      => ['required' , 'numeric' , 'min:5' , 'max:60'],
+                'num_questions' => ['required' , 'numeric' , 'min:1' , 'max:20'],
+                'duration'      => ['required' , 'numeric' , 'min:1' , 'max:60'],
             ]);
     
           
@@ -135,9 +171,9 @@ class MaterialController extends Controller
             //Ejecutamos los cambios en la BD y ademas mostramos un mensaje
             $test->update();
     
-                return redirect()->route('admin.material.update',[
-                                    'id'    =>      $id
-                ])             ->with(['message'=>'Material updated correctly']);
+            return redirect()->route('admin.material')
+            ->with(['message'=>'Material update correctly']);   
+
     
     }    
 

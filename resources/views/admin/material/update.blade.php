@@ -17,7 +17,6 @@
             @endif
 
             <form action="{{ route('admin.material.save_update') }}" method="post">
-
                 @csrf
 
             <div class="card">
@@ -34,8 +33,8 @@
                                     <th>Type</th>
                                     <th>Number Questions</th>
                                     <th>Duration</th>
+                                    <th>Status</th>
                                     <th>Created</th>
-                                    <th>Updated</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>     
@@ -47,8 +46,9 @@
                                                     <td>{{ $test->test_type }} </td>
                                                     <td>{{ $test->num_questions }} </td>                                                                                                     
                                                     <td>{{ $test->duration }} Min</td>
+                                                    <td>{{ $test->status }}</td>
                                                     <td>{{ \FormatTime::LongTimeFilter($test->created_at) }}</td>
-                                                    <td>{{ \FormatTime::LongTimeFilter($test->updated_at) }}</td>
+            
                                                    
                                                     <td class="text-center"><a class='btn-social-menu btn-lastfm btn-menu' href="{{ route('admin.material.delete',['id' => $test->id]) }}"><i class="fa fa-trash"></i> 
                                                                                
@@ -80,7 +80,7 @@
                                                      </td>
                                                     <td>
                                                     <select  name="num_questions" id="num_questions" class="form-control @error('num_questions') is-invalid @enderror mx-auto" style="width:50px" placeholder="choose" required>
-                                                            @for($c = 5; $c <= 30; $c++)
+                                                            @for($c = 1; $c <= 30; $c++)
                                                           <option value="{{$c}}"> {{$c}}</option>                            
                                                             @endfor         
                                                       </select>

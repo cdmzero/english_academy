@@ -67,7 +67,7 @@
 
                             <div class="col-md-6">
                                 <select  name="num_questions" id="num_questions" class=" form-control @error('num_questions') is-invalid @enderror" placeholder="choose" required>
-                                  @for($c = 5; $c <= 30; $c++)
+                                  @for($c = 1; $c <= 30; $c++)
                                 <option value="{{$c}}"> {{$c}}</option>                            
                                   @endfor         
                             </select>

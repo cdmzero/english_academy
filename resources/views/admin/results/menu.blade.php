@@ -45,7 +45,7 @@
                                                         {{ $result->user->user_name }} {{ $result->user->surname }}
                                                     </td>
                                                     <td>
-                                                        {{ $result->mark }} %
+                                                        {{ $result->total_mark }} %
                                                     </td>
                                                     <td>
                                                         {{  \FormatTime::LongTimeFilter($result->created_at) }}
@@ -83,8 +83,7 @@
 <div class="col-xl-6 m-auto text-center">
 <br>
     @include('includes.buttoms') 
-<div class="text-center">
-</div>
+
                            
 
    
