@@ -54,7 +54,7 @@
                                                        {{ $test->user->nick }}
                                                     </td>
                                               
-                                                    <td>
+                                                    <td class="text-center">
                                                         {{$test->num_questions}}
                                                     </td>
                                                     <td>
@@ -67,7 +67,7 @@
                                                     <a href="{{ route( 'admin.material.update',[ 'id' => $test->id ] ) }}" class='btn-social-menu btn-instagram btn-menu' ><i class="fa fa-edit"></i></a>
                                                         <a href="" class="btn-social-menu btn-email btn-menu"><i class="fa fa-plus-circle"></i></a>
                                                     @elseif($test->status == 'Complete' && $test->user_id == Auth::user()->id )
-                                                    <h5>Ver preguntas</h5>
+                                                     <a href="{{ route( 'admin.questions',[ 'test_id' => $test->id ] ) }}" class='btn-social-menu btn-instagram btn-menu' ><i class="fa fa-eye"></i></a>
                                                     @else
                                                         
                                                     @endif
@@ -94,17 +94,13 @@
         </div>
     </div>
 </div>
+
 <br>
+
 <div class="col-xl-6 m-auto text-center">
 <br>
     @include('includes.buttoms') 
-<div class="text-center">
-</div>
-                           
-
-   
-       
-</h7>
+                   
 </div>
   
     <br>

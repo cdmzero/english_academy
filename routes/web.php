@@ -79,3 +79,19 @@ Route::get('/admin/material','MaterialController@index')->name('admin.material')
         //Para la actualizacion de USERS
         Route::get('/admin/material/delete/{id}','MaterialController@delete')->name('admin.material.delete');
 
+
+//Parte de QUESTION
+
+Route::get('/admin/material/questions/{test_id}','QuestionController@index')->name('admin.questions');
+
+    //Para la creaccion y almacenamiento de QUESTION
+    Route::get('/admin/material/questions/create/{test_id}','QuestionController@create')->name('admin.question.create');
+    Route::post('/admin/material/questions/store','QuestionController@store')->name('admin.question.store');
+    
+        //Para la actualizacion de QUESTION
+        Route::get('/admin/material/questions/update/{id}','MaterialController@update')->name('admin.question.update');
+        Route::post('/admin/material/questions/save_update','QuestionController@save_update')->name('admin.question.save_update');
+    
+        //Para la actualizacion de QUESTION
+        Route::get('/admin/material/questions/delete/{id}','QuestionController@delete')->name('admin.question.delete');
+

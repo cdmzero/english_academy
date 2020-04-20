@@ -25,7 +25,7 @@
                     <div class="card-body">
                         <div class="container">
                         <div class="row col-md-13">
-                            <table class="table table-striped custab">
+                        <table class="table table-striped custab">
                             <thead>
                                 <tr>
                                     <th>ID</th>

@@ -32,13 +32,13 @@ DROP TABLE IF EXISTS `tests`;
 CREATE TABLE tests(
 id                              int(255) auto_increment not null,
 user_id                         int(255),
-test_name                    varchar(255),
-test_type                    varchar(255),
-num_questions                int(255),
-duration                     int(255),
-status                       varchar(255),
-mark_right                   float,
-mark_Wrong                   float,
+test_name                       varchar(255),
+test_type                       varchar(255),
+num_questions                   int(255),
+duration                        int(255),
+status                          varchar(255),
+mark_right                      float,
+mark_wrong                      float,
 created_at   datetime,
 updated_at datetime,
 
@@ -65,15 +65,18 @@ id                          int(255) auto_increment not null,
 test_id                     int(255),
 question_title              text,
 answerd                     int(255),
+created_at                  datetime,
+updated_at                  datetime,
+
 CONSTRAINT `pk_question` PRIMARY KEY (id),
 CONSTRAINT fk_test FOREIGN KEY(test_id) REFERENCES tests(id) ON DELETE CASCADE
 
 )ENGINE=InnoDb;
 
 
-INSERT INTO `questions` VALUES(NULL,'1', '¿En que ciudad se encuentra la Torre Eifel',1);
-INSERT INTO `questions` VALUES(NULL,'1', '¿Como se llama la capital de Francia',1);
-INSERT INTO `questions` VALUES(NULL,'1', '¿Cual es la ciudad mas importante que cruza el Senna',1);
+INSERT INTO `questions` VALUES(NULL,'1', '¿En que ciudad se encuentra la Torre Eifel',1,CURTIME(),NULL);
+INSERT INTO `questions` VALUES(NULL,'1', '¿Como se llama la capital de Francia',1,CURTIME(),NULL);
+INSERT INTO `questions` VALUES(NULL,'1', '¿Cual es la ciudad mas importante que cruza el Senna',1,CURTIME(),NULL);
 
 DROP TABLE IF EXISTS `options`;
 CREATE TABLE `options`(
@@ -81,6 +84,9 @@ id                   int(255) auto_increment not null,
 question_id                 int(255),
 option_number               int(255),
 option_title                text,
+created_at   datetime,
+updated_at datetime,
+
 
 CONSTRAINT `pk_option` PRIMARY KEY (id),
 CONSTRAINT fk_question FOREIGN KEY(question_id) REFERENCES questions(id) ON DELETE CASCADE
@@ -88,18 +94,18 @@ CONSTRAINT fk_question FOREIGN KEY(question_id) REFERENCES questions(id) ON DELE
 )ENGINE=InnoDb;
 
 
-INSERT INTO `options` VALUES(NULL,'1','1', 'PARIS');
-INSERT INTO `options` VALUES(NULL,'1','2', 'MADRID');
-INSERT INTO `options` VALUES(NULL,'1','3', 'BARCELONA');
-INSERT INTO `options` VALUES(NULL,'1','4', 'MOZAMBIQUE');
-INSERT INTO `options` VALUES(NULL,'2','1', 'PARIS');
-INSERT INTO `options` VALUES(NULL,'2','2', 'MADRID');
-INSERT INTO `options` VALUES(NULL,'2','3', 'BARCELONA');
-INSERT INTO `options` VALUES(NULL,'2','4', 'MOZAMBIQUE');
-INSERT INTO `options` VALUES(NULL,'3','1', 'PARIS');
-INSERT INTO `options` VALUES(NULL,'3','2', 'MADRID');
-INSERT INTO `options` VALUES(NULL,'3','3', 'BARCELONA');
-INSERT INTO `options` VALUES(NULL,'3','4', 'MOZAMBIQUE');
+INSERT INTO `options` VALUES(NULL,'1','1', 'PARIS',CURTIME(),NULL);
+INSERT INTO `options` VALUES(NULL,'1','2', 'MADRID',CURTIME(),NULL);
+INSERT INTO `options` VALUES(NULL,'1','3', 'BARCELONA',CURTIME(),NULL);
+INSERT INTO `options` VALUES(NULL,'1','4', 'POBLETE',CURTIME(),NULL);
+INSERT INTO `options` VALUES(NULL,'2','1', 'PARIS',CURTIME(),NULL);
+INSERT INTO `options` VALUES(NULL,'2','2', 'PUERTOLLANO',CURTIME(),NULL);
+INSERT INTO `options` VALUES(NULL,'2','3', 'BARCELONA',CURTIME(),NULL);
+INSERT INTO `options` VALUES(NULL,'2','4', 'MOZAMBIQUE',CURTIME(),NULL);
+INSERT INTO `options` VALUES(NULL,'3','1', 'PARIS',CURTIME(),NULL);
+INSERT INTO `options` VALUES(NULL,'3','2', 'MADRID',CURTIME(),NULL);
+INSERT INTO `options` VALUES(NULL,'3','3', 'MARBELLA',CURTIME(),NULL);
+INSERT INTO `options` VALUES(NULL,'3','4', 'ARGAMASILLA',CURTIME(),NULL);
 
 
 
@@ -111,6 +117,9 @@ user_id                 int(255),
 test_id                 int(255),
 user_choice             int(255),
 mark                    float,
+created_at   datetime,
+updated_at datetime,
+
 
 CONSTRAINT pk_choice PRIMARY KEY (id),
 CONSTRAINT `fk_questioncho` FOREIGN KEY(question_id) REFERENCES `questions`(id) ON DELETE CASCADE,
@@ -120,9 +129,9 @@ CONSTRAINT `fk_testcho` FOREIGN KEY(test_id) REFERENCES `tests`(id) ON DELETE CA
 
 )ENGINE=InnoDb;
 
-INSERT INTO choices VALUES(NULL, 1,1,1,3,-1);
-INSERT INTO choices VALUES(NULL, 2,1,1,1,1);
-INSERT INTO choices VALUES(NULL, 3,1,1,1,1);
+INSERT INTO choices VALUES(NULL, 1,1,1,3,-1,CURTIME(),NULL);
+INSERT INTO choices VALUES(NULL, 2,1,1,1,1,CURTIME(),NULL);
+INSERT INTO choices VALUES(NULL, 3,1,1,1,1,CURTIME(),NULL);
 
 
 DROP TABLE IF EXISTS `results`;
@@ -158,4 +167,3 @@ INSERT INTO results VALUES(NULL, 1 ,3,96.5,CURTIME(),null);
 INSERT INTO results VALUES(NULL, 1 ,4, 26.5,CURTIME(),null);
 INSERT INTO results VALUES(NULL, 2 ,4, 36.5,CURTIME(),null);
 INSERT INTO results VALUES(NULL, 3 ,4, 46.5,CURTIME(),null);
-

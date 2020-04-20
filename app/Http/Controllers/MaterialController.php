@@ -17,13 +17,14 @@ class MaterialController extends Controller
 
    public function index(){
 
-
 //  Para controlar si los examenes estan listos para ser publicados 
 //  debemos controlar cuantas preguntas maximas estos pueden contener
-//  para ello, comparamos la columna test.num_questions con el numero de preguntas con su ID.com
+//  para ello, comparamos la columna test.num_questions con el numero de la columna questions.test_id 
 //  esta funcion puede retornar dos estados => full o pending
+
     $status =    Test::withCount(['questions'])->get();
     
+
     foreach($status as $test){ 
         if( !empty($test->questions_count) && $test->questions_count == $test->num_questions){
            if($test->status == 'Pending'){
@@ -51,7 +52,7 @@ class MaterialController extends Controller
 
     
 
-    //funcion para actualizar el estado de los tests
+   
 
     return view('admin.material.index',[
         'tests'     => $tests,
