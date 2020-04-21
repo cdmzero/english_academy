@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\User; //Modelo de user
 use App\Result; //Modelo de result
-use Illuminate\Support\Facades\Hash; //Para cifra contraseña
-use Illuminate\Http\Request; //FUCK no borrar, trae todas las cosas que mandemos por POST
+use Illuminate\Support\Facades\Hash; //Para cifrar contraseña
+use Illuminate\Http\Request; //Trae todas las cosas que mandemos por POST
 use Illuminate\Support\Facades\Storage; //Necesario para subir archivos
 use Illuminate\Support\Facades\File; //Necesario para guardar el archivo subido
 use Illuminate\Http\Response; //Para devolver la imagen desde la BD
@@ -130,11 +130,10 @@ class UserController extends Controller{
         return redirect()->route('admin.users')
                          ->with(['message'=>'User created correctly']);
 
-
     }
 
 
-    public function update ($id){
+    public function update($id){
 
         $user = User::find($id);
 

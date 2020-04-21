@@ -143,11 +143,6 @@ $question_id = $question->id;
             //     'duration'      => ['required' , 'numeric' , 'min:1' , 'max:60'],
             // ]);
     
-          
-          
-
-    
-    
     
         }
 

@@ -54,7 +54,7 @@
         </thead>
         @foreach ($results as $result)
         <tr>
-            <td>{{$result->mark}} %</td>
+            <td>{{$result->total_mark}} %</td>
             <td>{{$result->test->test_name}}</td>
             <td>{{ \FormatTime::LongTimeFilter($result->created_at) }}</td>
             <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>

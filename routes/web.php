@@ -10,8 +10,10 @@ Route::get('/','HomeController@index')->name('home');
 
     // Parte para editar del usuario logueado 
 Route::get('/edit','UserController@config')->name('config');
-Route::get('/profile','UserController@profile')->name('user.profile');
 Route::post('/profile/update','UserController@update_profile')->name('user.update_profile');
+
+    //Para ver el perfil
+Route::get('/profile','UserController@profile')->name('user.profile');
 
 
 
@@ -20,6 +22,13 @@ Route::get('/user/avatar/{filename?}','UserController@getImage')->name('user.ava
 
     // Subir fotos
 Route::get('/img-upload','ImageController@create')->name('image.create');
+
+
+
+
+
+
+
 
 // Parte admin
 Route::get('/admin/index','AdminController@admin_index')->name('admin.index');
@@ -68,15 +77,15 @@ Route::get('/live_search/action', 'LiveSearchController@action')->name('live_sea
 //Parte de MATERIAL
 Route::get('/admin/material','MaterialController@index')->name('admin.material');
 
-    //Para la creaccion y almacenamiento de USERS
+    //Para la creaccion y almacenamiento de MATERIAL
     Route::get('/admin/material/create','MaterialController@create')->name('admin.material.create');
     Route::post('/admin/material/store','MaterialController@store')->name('admin.material.store');
     
-        //Para la actualizacion de USERS
+        //Para la actualizacion de MATERIAL
         Route::get('/admin/material/update/{id}','MaterialController@update')->name('admin.material.update');
         Route::post('/admin/material/save_update','MaterialController@save_update')->name('admin.material.save_update');
     
-        //Para la actualizacion de USERS
+        //Para la actualizacion de MATERIAL
         Route::get('/admin/material/delete/{id}','MaterialController@delete')->name('admin.material.delete');
 
 
@@ -95,3 +104,7 @@ Route::get('/admin/material/questions/{test_id}','QuestionController@index')->na
         //Para la actualizacion de QUESTION
         Route::get('/admin/material/questions/delete/{id}','QuestionController@delete')->name('admin.question.delete');
 
+
+    // Parte para hacer un EXERCISE
+    Route::get('/exercise/{test_id}','TestController@index_exercise')->name('exercise.index');
+    Route::post('/exercise/get_results','TestController@store_result')->name('exercise.store');
