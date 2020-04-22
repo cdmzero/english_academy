@@ -46,9 +46,7 @@ class User extends Authenticatable
             return $this->hasMany('App\Result');
         }
 
-    public function choices() {
-            return $this->hasMany('App\Choice');
-        }
+ 
     public function tests() {
             return $this->hasMany('App\Test');
         }

@@ -9,7 +9,7 @@ class Result extends Model
 
 
 
-    //Relaccion  Muchos a Uno
+    //Relaccion  Muchos a 1
 
     public function user(){
 
@@ -17,12 +17,13 @@ class Result extends Model
         
     }
 
-    public function test(){
+    //Relaccion 1 a muchos
 
-        return $this->belongsTo('App\Test');
 
+    public function choices(){
+
+        return $this->hasMany('App\Choice');
     }
-
     
 
 }

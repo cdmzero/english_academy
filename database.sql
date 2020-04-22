@@ -34,6 +34,7 @@ id                              int(255) auto_increment not null,
 user_id                         int(255),
 test_name                       varchar(255),
 test_type                       varchar(255),
+test_level                       varchar(255),
 num_questions                   int(255),
 duration                        int(255),
 status                          varchar(255),
@@ -48,12 +49,12 @@ CONSTRAINT fk_usertest FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCA
 
 )ENGINE=InnoDb;
 
-INSERT INTO tests VALUES(NULL,1,'University','Exam','20',20,'Pending',1,-1,CURTIME(),NULL);
-INSERT INTO tests VALUES(NULL,1,'Campus','Exam','20',20,'Pending',1,-1,CURTIME(),NULL);
-INSERT INTO tests VALUES(NULL,1,'London','Exam','20',45 ,'Pending',1,-1 ,CURTIME(),NULL);
-INSERT INTO tests VALUES(NULL,1,'A1 A2','Exercise','5',10 ,'Pending',1,-1,CURTIME(),NULL);
-INSERT INTO tests VALUES(NULL,1,'B1 B2','Grammar','5',10 ,'Pending',1,-1,CURTIME(),NULL);
-INSERT INTO tests VALUES(NULL,1,'C1 C2','Exercise','5',10 ,'Pending',1,-1,CURTIME(),NULL);
+INSERT INTO tests VALUES(NULL,1,'University','Exam','High',3,20,'Pending',1,-1,CURTIME(),NULL);
+INSERT INTO tests VALUES(NULL,1,'Campus','Exam','Intermediate',20,20,'Pending',1,-1,CURTIME(),NULL);
+INSERT INTO tests VALUES(NULL,1,'London','Exam','Basic',20,45,'Pending',1,-1 ,CURTIME(),NULL);
+INSERT INTO tests VALUES(NULL,1,'A1 A2','Exercise','Basic',5,10 ,'Pending',1,-1,CURTIME(),NULL);
+INSERT INTO tests VALUES(NULL,1,'B1 B2','Grammar','Intermediate',5,10 ,'Pending',1,-1,CURTIME(),NULL);
+INSERT INTO tests VALUES(NULL,1,'C1 C2','Exercise','High',5,10 ,'Pending',1,-1,CURTIME(),NULL);
 
 
 
@@ -109,12 +110,30 @@ INSERT INTO `options` VALUES(NULL,'3','4', 'ARGAMASILLA',CURTIME(),NULL);
 
 
 
+DROP TABLE IF EXISTS `results`;
+CREATE TABLE results(
+id   int(255) auto_increment not null,
+user_id     int(255),
+total_mark   float,
+proportion   varchar(255),
+created_at   datetime,
+updated_at   datetime,
+
+CONSTRAINT pk_result PRIMARY KEY (id),
+CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+
+)ENGINE=InnoDb;
+
+INSERT INTO `results` VALUES (NULL, 1, 98.99,'3/3',CURTIME(), NULL);
+INSERT INTO `results` VALUES (NULL, 1, 78.99,'2/3',CURTIME(), NULL);
+INSERT INTO `results` VALUES (NULL, 1, 68.99,'2/3',CURTIME(), NULL);
+
+
 DROP TABLE IF EXISTS `choices`;
 CREATE TABLE choices(
 id               int(255) auto_increment not null,
+result_id                 int(255),
 question_id             int(255),
-user_id                 int(255),
-test_id                 int(255),
 user_choice             int(255),
 mark                    float,
 created_at   datetime,
@@ -123,47 +142,11 @@ updated_at datetime,
 
 CONSTRAINT pk_choice PRIMARY KEY (id),
 CONSTRAINT `fk_questioncho` FOREIGN KEY(question_id) REFERENCES `questions`(id) ON DELETE CASCADE,
-CONSTRAINT `fk_usercho` FOREIGN KEY(user_id) REFERENCES `users`(id) ON DELETE CASCADE,
-CONSTRAINT `fk_testcho` FOREIGN KEY(test_id) REFERENCES `tests`(id) ON DELETE CASCADE
+CONSTRAINT fk_result_id FOREIGN KEY(result_id) REFERENCES results(id) ON DELETE CASCADE
 
 
 )ENGINE=InnoDb;
 
-INSERT INTO choices VALUES(NULL, 1,1,1,3,-1,CURTIME(),NULL);
-INSERT INTO choices VALUES(NULL, 2,1,1,1,1,CURTIME(),NULL);
-INSERT INTO choices VALUES(NULL, 3,1,1,1,1,CURTIME(),NULL);
-
-
-DROP TABLE IF EXISTS `results`;
-CREATE TABLE results(
-id   int(255) auto_increment not null,
-test_id     int(255),
-user_id     int(255),
-total_mark   float,
-created_at   datetime,
-updated_at   datetime,
-
-CONSTRAINT pk_result PRIMARY KEY (id),
-CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
-CONSTRAINT fk_test_id FOREIGN KEY(test_id) REFERENCES tests(id) ON DELETE CASCADE
-
-)ENGINE=InnoDb;
-
-INSERT INTO `results` VALUES (NULL, 1, 1, 98.99,CURTIME(), NULL);
-INSERT INTO `results` VALUES (NULL, 1, 1, 78.99,CURTIME(), NULL);
-INSERT INTO `results` VALUES (NULL, 1, 1, 68.99,CURTIME(), NULL);
-INSERT INTO `results` VALUES (NULL, 1, 2, 58.99,CURTIME(), NULL);
-INSERT INTO `results` VALUES (NULL, 1, 2, 48.99,CURTIME(), NULL);
-INSERT INTO `results` VALUES (NULL, 1, 2, 58.99,CURTIME(), NULL);
-INSERT INTO `results` VALUES (NULL, 2,  2, 59.99,CURTIME(), NULL);
-INSERT INTO `results` VALUES (NULL, 3,  3, 98.99,CURTIME(), NULL);
-INSERT INTO `results` VALUES (NULL, 2,  4, 99.99,CURTIME(), NULL);
-INSERT INTO `results` VALUES (NULL, 3,  4, 77.99,CURTIME(), NULL);
-INSERT INTO `results` VALUES (NULL, 2,  4, 19.99,CURTIME(), NULL);
-INSERT INTO results VALUES(NULL, 1 ,1,76.5,CURTIME(),null);
-INSERT INTO results VALUES(NULL, 2 ,3,66.5,CURTIME(),null);
-INSERT INTO results VALUES(NULL, 1 ,2,36.5,CURTIME(),null);
-INSERT INTO results VALUES(NULL, 1 ,3,96.5,CURTIME(),null);
-INSERT INTO results VALUES(NULL, 1 ,4, 26.5,CURTIME(),null);
-INSERT INTO results VALUES(NULL, 2 ,4, 36.5,CURTIME(),null);
-INSERT INTO results VALUES(NULL, 3 ,4, 46.5,CURTIME(),null);
+INSERT INTO choices VALUES(NULL, 1,1,3,-1,CURTIME(),NULL);
+INSERT INTO choices VALUES(NULL, 1,2,1,1,CURTIME(),NULL);
+INSERT INTO choices VALUES(NULL, 1,3,1,1,CURTIME(),NULL);

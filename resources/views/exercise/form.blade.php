@@ -37,20 +37,31 @@
                                                     <div class="card-body">
                                                         @foreach($question->options as $option)
 
-                                                        <input type="radio"  name="user_choice[{{$question->id}}]" value="{{$option->option_number}}">{{ $option->option_number ." "}}</input>
+                                                        <input type="radio"  id="user_choice[{{$question->id}}]"  name="user_choice[{{$question->id}}]"  value="{{$option->option_number}}"></input>{{ " ".$option->option_number ." "}}                                                    
+                                                
+
+
                                                         {{ $option->option_title }}
 
-                                                        <br>
-                                                        @endforeach                                                   
+                                                        
+
+                                                        <br>                                                        
+                                                        @endforeach                    
+                                                        <input type="radio"  name="user_choice[{{$question->id}}]" value="5"  checked ></input> No se, no respondo
+                               
                                                         </div>
+
                                                         </div>
                                                         </div>
                                                         </div> 
                                                         </div> 
-                                                        <br>     <br>                                                                          
-                                                                                                                             
+                                                        <br>     <br>
+                                                               
+                                                        
+                                                        
                                         @endforeach
 
+                                                    <input type="hidden" name="test_id" value="{{$test->id}}">
                                         <div class="mx-auto" style="35px">
                                             <br>
                                             <button type="submit" class="btn btn-primary">
@@ -60,13 +71,7 @@
 
                     </form>
                                             
-                         
- 
-        </div>
-        
-    </div>
-    </div>
-
+    
 </div>
 </div>
     
@@ -77,7 +82,16 @@
 
 </div>                        
 
-   
+<script>
+                                                          
+window.onload = function(){
+document.querySelectorAll("INPUT[type='radio']").forEach(function(rd){rd.addEventListener("mousedown",
+
+	function(){
+		if (this.checked) {this.onclick=function(){this.checked=defaultStatus}} else{this.onclick=null}
+	})})}
+
+                                                                </script>     
     
 
 @endsection

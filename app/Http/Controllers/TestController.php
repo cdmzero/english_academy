@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
-use App\User; //Modelo de user
-use App\Test;
-use App\Question; //Modelo de Test
-use App\Choice; //Modelo de Test
-use App\Result; //Modelo de Test
+use App\User;       //Modelo de user
+use App\Test;       //Modelo de Test
+use App\Question;   //Modelo de Question
+use App\Choice;     //Modelo de Choice
+use App\Result;     //Modelo de Result
 
 
 class TestController extends Controller
@@ -46,11 +46,37 @@ class TestController extends Controller
     //Recogemos el array de las opciones marcadas por el usuario
 
     $choices = $request->input('user_choice');
+    $nota = $n_aciertos = 0;
+
+    $test = Test::find($request->input('test_id'));
+
+    $limite_para_no_contestar =  $test->num_questions / 2;
+
+    $valores_contestados = array_count_values($choices);
+  
+    foreach( $valores_contestados as $clave => $valor){
+        if($clave == 5 && $valor > $limite_para_no_contestar){
+            $clave = "Debes contestar al menos la mitad de las preguntas";
+            var_dump($clave);
+            die();
+        }
+    }
+
+// var_dump($valores_contestados);
+// die();
+
+    // Intanciamos el objeto RESULT para posteriormente agregarle su valor ID en CHOICES
+
+    $result = new Result();
+
+    //Agregamos el Id del usuario identificado
+    $result->user_id   = Auth::user()->id;
+
+    $result->save();
+
 
 
     //Recoremos el array como clave valor
-
-    $nota = $n_aciertos = 0;
     foreach($choices as $key => $value ){
 
     // Llamamos a los objetos implicados para obtener sus valores buscando por su clave
@@ -62,25 +88,40 @@ class TestController extends Controller
 
     $test = Test::find($question->test_id);
 
+    // Instanciamos Choices en segundo lugar para que herede el ID de RESULT
     $choice = new Choice();
 
-    $choice->question_id = $key;
-    $choice->user_choice = $value;
-    $choice->user_id     = Auth::user()->id;
-    $choice->test_id     = $test->id;
 
+        $choice->result_id      = $result->id;
+        $choice->question_id    = $key;
+
+        if($value == 5){
+        $choice->user_choice    =  0;
+        }else{
+        $choice->user_choice    = $value;
+        }
+        
+
+    // Calculo de nota individual y global,tambien ,de proporcion.
 
     if($value == $question->answerd){
-        $choice->mark  = $test->mark_right;
-        $nota += $choice->mark ;
+
+        $choice->mark       = $test->mark_right;
+      
+        $nota               += $choice->mark ;
         $n_aciertos++;
-    }else{
-        $choice->mark  = $test->mark_wrong;
-        $nota += $choice->mark ;
     }
+    
+    if($value != $question->answerd && $value != 5 ){
+        $choice->mark        = $test->mark_wrong;
+        $nota                += $choice->mark ;
+    }else{
+        $choice->mark = 0;
+    }
+        $choice->updated_at     = null;
+
      $choice->save();
     }
-
 
     if($nota < 0){
         $nota = '0';
@@ -88,24 +129,21 @@ class TestController extends Controller
 
     }else{
 
-        $nota = $nota / $test->num_questions * 100;
-
-        $n_aciertos = $n_aciertos . "/$test->num_questions";
+        $nota = $nota / $test->num_questions * 100;   
     }
 
-    // vamos a guardar la nota en results
+    $n_aciertos = $n_aciertos . "/$test->num_questions";
 
-    $result = new Result;
+    // vamos a actualizar el ultimo registro con la nota en RESULTS
+    $result         =    Result::find($result->id);
 
-    $current_date = date('Y-m-d H:i:s');
-
-            $result->test_id    = $test->id;
-            $result->user_id    = $test->user->id;
             $result->total_mark       = $nota;
-            $result->created_at = $current_date;
+            $result->proportion       = $n_aciertos;
+
             $result->updated_at = null;
 
-    $result->save();
+
+    $result->update();
 
 
     return view('exercise.user_result',[

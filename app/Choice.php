@@ -8,21 +8,14 @@ class Choice extends Model
 {
 
 
-
-
-    
     public function question()
     {
         return $this->belongsTo('App\Question');
     }
 
-    public function user()
-    {
-        return $this->belongsTo('App\User');
-    }
     
-    public function test()
+    public function result()
     {
-        return $this->belongsTo('App\Test');
+        return $this->belongsTo('App\Result');
     }
 }

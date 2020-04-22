@@ -6,12 +6,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-
-use App\Result; //Modelo de Result
-use App\Test; //Modelo de Test
-use App\Question; //Modelo de Test
-use App\Option; //Modelo de Test
-
+use Auth;
+use App\User;       //Modelo de user
+use App\Test;       //Modelo de Test
+use App\Question;   //Modelo de Question
+use App\Choice;     //Modelo de Choice
+use App\Result;     //Modelo de Result
+use App\Option;     //Modelo de Result
 
 class QuestionController extends Controller
 {
@@ -41,16 +42,19 @@ class QuestionController extends Controller
         'questions' => $questions,
         'cuenta'    => $cuenta,
         'test'      => $test,
-            ]);
+            ])
+        
+    ->with(['message'=>'Question created correctly']);   
+            ;
     }
-
-
-
 
 
     // Funcion para crear una nueva pregunta
 
+
    public function create($test_id){
+
+    // Si $c se pasa significa que viene de otra funcion
 
     $questions     = Question::where('test_id', '=', $test_id)
                                 ->orderBy('id', 'ASC')
@@ -62,13 +66,18 @@ class QuestionController extends Controller
     $test          = Test::find($test_id);
 
 
-    return view('admin.material.questions.create',[
-        'questions' => $questions,
-        'cuenta'    => $cuenta,
-        'test'      => $test,
-            ]);
+    
+
+
+
+        return view('admin.material.questions.create',[
+            'questions' => $questions,
+            'cuenta'    => $cuenta,
+            'test'      => $test,
+                ]);
 
     }
+
 
     public function store(Request $request){
 
@@ -97,11 +106,13 @@ class QuestionController extends Controller
 
 // die();
 
-$question_id = $question->id;
+        $question_id = $question->id;
 
 
 
             $option = new Option();
+
+
             for($c = 1 ; $c < 5 ; $c++) {
 
                 $option = new Option();  
@@ -110,7 +121,7 @@ $question_id = $question->id;
 
                 $option->option_number = $c;
 
-                    $option->option_title = $option_title[$c-1];
+                $option->option_title = $option_title[$c-1];
                     
                 $option->save();
         }
@@ -118,20 +129,9 @@ $question_id = $question->id;
 
      
 
-        // for($i=0; $i <= 4; $i++) {
-        
-        // //   if(empty($input['qty'][$i]) || !is_numeric($input['qty'][$i])) continue;
-        
-        //   $data = [ 
-        //     'option_number' => $i,
-        //     'option_title' => implode(",", $option_title[$i]),
-        //   ];
-        
-        //   Option::create($data);
-        // }
-
-        return redirect()->route('admin.questions',[
-                                'test_id' =>  $test_id
+        return redirect()->route('admin.question.create',[
+                                'test_id' =>  $test_id,
+                                
                             ])
                              ->with(['message'=>'Question created correctly']);
 
@@ -148,78 +148,86 @@ $question_id = $question->id;
 
 
 
-        public function update ($id){
+        public function update($question_id){
 
-            $test = Test::find($id);
+            $question = Question::find($question_id);
+
+            $test = Test::find($question->test_id);
+
+            $options = Option::where('question_id', '=', $question->id)->get();
     
-            return view('admin.material.update',[
-                'test' => $test
+            return view('admin.material.questions.update',[
+                'question'  => $question,
+                'test'      =>$test,
+                'options'   =>  $options
             ]);
-
 
         }
     
     
         public function save_update(Request $request){
            
-            $id = $request->input('id');
-    
-    
-            $test = Test::find($id); //conseguir todos los campos del usuario identificado
-                
- 
-            //Validamos todos los datos
 
-            $request->input('test_name');
-    
-
-            $validate = $this->validate($request,[
-                'test_name'     => ['required' , 'string' , 'max:20','unique:tests,test_name,'.$test->id],
-                'test_type'     => ['required' , 'string' , 'in:Exam,Exercise,Grammar'],
-                'num_questions' => ['required' , 'numeric' , 'min:1' , 'max:20'],
-                'duration'      => ['required' , 'numeric' , 'min:1' , 'max:60'],
-            ]);
-    
-          
-                
-            // Recogemos los datos del formulario
-            $test_name      = $request->input('test_name');
-            $test_type      = $request->input('test_type');
-            $num_questions  = $request->input('num_questions');
-            $duration       = $request->input('duration');
-           
+            $question_id = $request->input('question_id');
             
-          // Asignar nuevos valores al objeto
-          
+            $question = Question::find($question_id); //conseguir todos los campos de la pregunta identificado
+             
+
+            //Recogemos los campos del formulario
+            
+            $question_title = $request->input('question_title');
+            $answerd        = $request->input('answerd');
+
+            //Asignamos los campos
+            $question->question_title   = $question_title;
+            $question->answerd          = $answerd;
     
-          $current_date = date('Y-m-d H:i:s');
+            //actualizamos
+            $question->update();
+
+            //Recogemos el array de opciones
     
-          $test->test_name        = $test_name;
-          $test->test_type        = $test_type;
-          $test->num_questions    = $num_questions;
-          $test->duration         = $duration;
-          $test->updated_at       = $current_date;
-                
+            $opciones = $request->input('option_title');
     
-            //Ejecutamos los cambios en la BD y ademas mostramos un mensaje
-            $test->update();
+            foreach($opciones as $key => $value){
+                $option = Option::find($key);
+                $option->option_title  = $value;
+                $option->update();
+            }
+
+         
+         
     
-            return redirect()->route('admin.material')
-            ->with(['message'=>'Material update correctly']);   
-
+            return redirect()->route('admin.question.update',[
+                                    'question_id' =>  $question_id,
+                                    
+                                ])
+                                 ->with(['message'=>'Question updated correctly']);
     
-    }    
+            // Validamos todos los datos
+                // $validate = $this->validate($request,[
+                //     'test_name'     => ['required' , 'string' , 'max:20','unique:tests' ],
+                //     'test_type'     => ['required' , 'string' , 'in:Exam,Exercise,Grammar'],
+                //     'num_questions' => ['required' , 'numeric' , 'min:1' , 'max:20'],
+                //     'duration'      => ['required' , 'numeric' , 'min:1' , 'max:60'],
+                // ]);
+        
+        
+            }
 
 
 
-    public function delete($id){
+    public function delete($question_id){
 
-        $test = Test::find($id);
+        $question = Question::find($question_id);
+        $test_id = $question->test_id;
 
-            //  $test->delete();
+             $question->delete();
 
-            return redirect()->route('admin.material')
-            ->with(['message'=>'Material deleted correctly']);   
+            return redirect()->route('admin.question.create',[
+                    'test_id' => $test_id
+            ])
+            ->with(['message'=>'Question deleted correctly']);   
 
             
 }

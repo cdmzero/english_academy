@@ -86,18 +86,18 @@
 
         <div class="card">
             <div class="card-header">
-                New <strong>Question</strong>
+                Update <strong>Question</strong>
             </div>
 
             <div class="card-body">
-                <form action="{{ route('admin.question.store') }}"  method="POST">
+                <form action="{{ route('admin.question.save_update') }}"  method="POST">
                     @csrf 
                               
                     <div class="form-group row">
                         <label for="question_title" class="col-md-4 col-form-label text-md-right">{{ __('Question Title') }}</label>
 
                         <div class="col-md-6">
-                            <input id="question_title" type="text" class="form-control @error('question_title') is-invalid @enderror" name="question_title" placeholder="Test Name" value="{{ old('test_name') }}" required autocomplete="option_title" autofocus>
+                            <input id="question_title" type="text" class="form-control @error('question_title') is-invalid @enderror" name="question_title" placeholder="Test Name" value="{{ $question->question_title }}" required autocomplete="option_title" autofocus>
 
                             @error('question_title')
                                 <span class="invalid-feedback" role="alert">
@@ -106,11 +106,14 @@
                             @enderror
                         </div>
                     </div>
+                    @foreach ($options as $option)
+                        
+                  
                     <div class="form-group row">
-                        <label for="option_title" class="col-md-4 col-form-label text-md-right">{{ __('Option 1') }}</label>
+                        <label for="option_title" class="col-md-4 col-form-label text-md-right">Option {{ $option->option_number }}</label>
 
                         <div class="col-md-6">
-                            <input id="option_title" type="text" class="form-control @error('option_title') is-invalid @enderror" name="option_title[]" placeholder="Option 1" value="" required autocomplete="option_title" autofocus>
+                            <input id="option_title" type="text" class="form-control @error('option_title') is-invalid @enderror" name="option_title[{{$option->id}}]" placeholder="Option 1" value="{{$option->option_title}}" required autocomplete="option_title" autofocus>
 
                             @error('option_title')
                                 <span class="invalid-feedback" role="alert">
@@ -118,62 +121,23 @@
                                 </span>
                             @enderror
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="option_title" class="col-md-4 col-form-label text-md-right">{{ __('Option 2') }}</label>
-
-                        <div class="col-md-6">
-                            <input id="option_title" type="text" class="form-control @error('option_title') is-invalid @enderror" name="option_title[]" placeholder="Option 2" value="" required autocomplete="option_title" autofocus>
-
-                            @error('test_name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="option_title" class="col-md-4 col-form-label text-md-right">{{ __('Option 3') }}</label>
-
-                        <div class="col-md-6">
-                            <input id="option_title" type="text" class="form-control @error('option_title') is-invalid @enderror" name="option_title[]" placeholder="Option 3" value="{{ old('test_name') }}" required autocomplete="option_title" autofocus>
-
-                            @error('option_title')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="option_title" class="col-md-4 col-form-label text-md-right">{{ __('Option 4') }}</label>
-
-                        <div class="col-md-6">
-                            <input id="option_title" type="text" class="form-control @error('option_title') is-invalid @enderror" name="option_title[]" placeholder="Option 4" value="" required autocomplete="option_title" autofocus>
-
-                            @error('test_name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-
+                    </div> 
+                    @endforeach  
                     <div class="form-group row">
                         <label for="test_type" class="col-md-4 col-form-label text-md-right">{{ __('Type') }}</label>
                         <div class="col-md-6">                     
                         <div class="btn-group btn-group-toggle  @error('test_type') is-invalid @enderror  mx-auto" style="width:328px" data-toggle="buttons" required>
                             <label class="btn btn-secondary active">
-                              <input type="radio" name="answerd" id="answerd_1"   value="1"> Option 1
+                              <input type="radio" name="answerd" id="answerd_1" {{ $question->answerd == 1 ? 'checked' : '' }}  value="1"> Option 1
                             </label>
                             <label class="btn btn-secondary">
-                              <input type="radio" name="answerd" id="answerd_2"  value="2"> Option 2
+                              <input type="radio" name="answerd" id="answerd_2" {{ $question->answerd  == 2 ? 'checked' : '' }} value="2"> Option 2
                             </label>
                             <label class="btn btn-secondary">
-                              <input type="radio" name="answerd" id="answerd_3"   value="3"> Option 3
+                              <input type="radio" name="answerd" id="answerd_3"  {{ $question->answerd  == 3 ? 'checked' : '' }} value="3"> Option 3
                             </label>
                             <label class="btn btn-secondary">
-                              <input type="radio" name="answerd" id="answerd_4"   value="4"> Option 4
+                              <input type="radio" name="answerd" id="answerd_4" {{ $question->answerd  == 4 ? 'checked' : '' }}  value="4"> Option 4
                             </label>
                         </div>     
                         @error('answerd')
@@ -182,7 +146,7 @@
                             </span>
                         @enderror
 
-                        <input type="hidden" name="test_id" value="{{$test->id}}">
+                        <input type="hidden" name="question_id" value="{{$question->id}}">
 
                         </div>                               
                     </div>                        
@@ -212,67 +176,6 @@
 <br>
 <br>
 
-
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        
-    <div id="accordion">
-        @foreach ($questions as $question)
-
-      <div class="card">
-        
-        <div class="card-header">
-            
-        <a class="card-link" data-toggle="collapse" href="#collapse{{$question->id}}">
-             {{$question->question_title}} 
-          </a>
-        </div>
-        <div id="collapse{{$question->id}}" class="collapse" data-parent="#accordion">
-          <div class="collapsed card-body">
-
-
-            <table class="table table-striped custab">
-                <thead>
-                    <tr>
-                        <th>Option number</th>
-                        <th>Option Title</th>
-                        <th></th>
-                        <th class="text-center">Action</th>
-                    </tr>
-                </thead>
-                    <tbody>
-                        @foreach( $question->options as $option)                
-                                    <tr>
-                                        <td>
-                                         {{ $option->option_number}}
-                                        </td>
-                                        <td>
-                                            {{ $option->option_title}}
-                                        </td>
-                          <td class="center">
-                            @if($option->option_number == $question->answerd)
-                            <span class="badge badge-pill badge-success">Right answerd + {{$test->mark_right}}</span>
-                            @endif
-                          </td>
-                                        <td class="text-center">
-                                            <a class='btn-social-menu btn-instagram btn-menu' href=""><i class="fa fa-edit"></i></a>
-                                        <a href="" class="btn-social-menu btn-email btn-menu"><i class="fa fa-user"></i></a>
-                                        </td>                                  
-                        @endforeach
-                                    </tr>
-                    </tbody>        
-                </table>
-          </div>
-        </div>
-      </div>
-      @endforeach
-      </div>
-     
-
-      </div>
-      </div>
-              
-     
     <br>
 
 <div class="col-xl-6 m-auto text-center">

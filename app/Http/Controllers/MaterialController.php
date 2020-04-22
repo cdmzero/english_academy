@@ -1,14 +1,16 @@
 <?php
 
 
-
+ 
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-
+use Auth;  
 use App\Result; //Modelo de Result
 use App\Test; //Modelo de Test
+use App\User; //Modelo de user
+
 
 
 class MaterialController extends Controller
@@ -27,6 +29,7 @@ class MaterialController extends Controller
 
     foreach($status as $test){ 
         if( !empty($test->questions_count) && $test->questions_count == $test->num_questions){
+
            if($test->status == 'Pending'){
                 $test->status = 'Complete';
                 $test->save();
@@ -49,14 +52,12 @@ class MaterialController extends Controller
     $cuenta     = Test::count();
 
 
-
     
-
-   
 
     return view('admin.material.index',[
         'tests'     => $tests,
-        'cuenta'    => $cuenta
+        'cuenta'    => $cuenta,
+        'status'    => $status,
             ]);
     }
 
@@ -79,10 +80,11 @@ class MaterialController extends Controller
           
                 
             // Recogemos los datos del formulario
-            $test_name      = $request->input('test_name');
-            $test_type      = $request->input('test_type');
-            $num_questions  = $request->input('num_questions');
-            $duration       = $request->input('duration');
+            $test_name          = $request->input('test_name');
+            $test_type          = $request->input('test_type');
+            $test_level         = $request->input('test_level');
+            $num_questions      = $request->input('num_questions');
+            $duration           = $request->input('duration');
      
     
             // Creamos el objeto
@@ -91,18 +93,25 @@ class MaterialController extends Controller
         
             // Asignar nuevos valores al objeto 
             
-    
-            $current_date = date('Y-m-d H:i:s');
-    
-            $test->test_name        = $test_name;
-            $test->test_type        = $test_type;
-            $test->num_questions    = $num_questions;
-            $test->duration         = $duration;
-            $test->created_at       = $current_date;
-            $test->updated_at       = null;
+                 //Creamos por defecto estos valores, mas adelante se pueden actualizar si se desea.
 
+            $test->created_at           = date('Y-m-d H:i:s');
+            $test->mark_right           = 1;
+            $test->mark_wrong           = 0;
+            $test->status               = 'Pending';
+            $test->updated_at           = null;
     
-    
+
+            $test->user_id              = Auth::user()->id;
+
+            // Lo que llega desde el formulario de creacion
+            $test->test_name            = $test_name;
+            $test->test_type            = $test_type;
+            $test->test_level           = $test_level;
+            $test->num_questions        = $num_questions;
+            $test->duration             = $duration;
+                     
+            
     
             // Ejecutamos los cambios en la BD y ademas mostramos un mensaje
             $test->save();
@@ -144,6 +153,7 @@ class MaterialController extends Controller
             $validate = $this->validate($request,[
                 'test_name'     => ['required' , 'string' , 'max:20','unique:tests,test_name,'.$test->id],
                 'test_type'     => ['required' , 'string' , 'in:Exam,Exercise,Grammar'],
+                'test_level'    => ['required' , 'string' , 'in:Basic,Intermediate,High'],
                 'num_questions' => ['required' , 'numeric' , 'min:1' , 'max:20'],
                 'duration'      => ['required' , 'numeric' , 'min:1' , 'max:60'],
             ]);
@@ -151,22 +161,27 @@ class MaterialController extends Controller
           
                 
             // Recogemos los datos del formulario
-            $test_name      = $request->input('test_name');
-            $test_type      = $request->input('test_type');
-            $num_questions  = $request->input('num_questions');
-            $duration       = $request->input('duration');
+            $test_name              = $request->input('test_name');
+            $test_type              = $request->input('test_type');
+            $test_level             = $request->input('test_level');
+            $num_questions          = $request->input('num_questions');
+            $duration               = $request->input('duration');
            
             
           // Asignar nuevos valores al objeto
           
+     
     
           $current_date = date('Y-m-d H:i:s');
     
           $test->test_name        = $test_name;
           $test->test_type        = $test_type;
+          $test->test_level       = $test_level;
           $test->num_questions    = $num_questions;
           $test->duration         = $duration;
           $test->updated_at       = $current_date;
+
+
                 
     
             //Ejecutamos los cambios en la BD y ademas mostramos un mensaje

@@ -10,11 +10,6 @@ class Test extends Model
     protected $table = 'tests';
 
 
-    public function results(){
-
-        return $this->hasMany('App\Result');
-    }
-
 
     public function user()
     {

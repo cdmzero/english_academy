@@ -9,7 +9,7 @@
 
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             
             @if(session('message'))
             <div class="alert alert-success">
@@ -25,21 +25,25 @@
                 
                     <div class="card-body">
                         <div class="container">
-                        <div class="row col-md-13">
-                            <table class="table table-striped custab">
+                        <div class="table-responsive">
+                            <table class="table  table-striped custab  table-hover">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Type</th>
                                     <th>Test Name</th>
                                     <th>Creator</th>
-                                    <th>Num of Questions</th>
+                                    <th>No. Questions</th>
                                     <th>Status</th>
+                                    <th>Questions to be ready</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                                 <tbody>
-                                        @foreach($tests as $test)                  
+                                        @foreach($tests as $test)    
+                                            
+                                            
+                                                  
                                                 <tr>
                                                     <td>
                                                         {{ $test->id }}
@@ -54,14 +58,41 @@
                                                        {{ $test->user->nick }}
                                                     </td>
                                               
-                                                    <td class="text-center">
+                                                    <td class="text-center mx-auto" style="width:15%">
                                                         {{$test->num_questions}}
-                                                    </td>
                                                     <td>
-                                                        {{$test->status}}
+                                                        @if( $test->status == "Pending" )
+                                                        <span class="badge badge-primary">{{$test->status}}</span>
+                                                        @else
+                                                        <span class="badge badge-success">{{$test->status}}</span>
+                                                        @endif 
                                                     </td>
-                                                    
                                                     <td class="text-center">
+                                                    @foreach ($status as $questions_to_go)
+                                                    @if($test->id == $questions_to_go->id )
+                                                        @if($questions_to_go->questions_count == 0 )
+                                                        <form method="get" action="{{ route('admin.question.create',['test_id' => $test->id] )}}">  
+                                                        <button type="submit" class="btn btn-primary btn-sm mx-auto " style="width:50%">
+                                                            Make my first Question <span class="badge badge-success">{{ $test->num_questions }}</span>
+                                                        </button>
+                                                        </form>
+                                                        
+                                                        @elseif( $questions_to_go->questions_count == $test->num_questions )
+                                                        <span class="badge badge-pill badge-success">Ready to be public</span>
+                                                        @else
+                                                        <form method="get" action="{{ route('admin.question.create',['test_id' => $test->id] )}}">
+                                                        <button type="submit" class="btn btn-primary btn-sm mx-auto" style="width:50%">
+                                                            Make other question  <span class="badge badge-success"> 
+                                                                {{ $test->num_questions - $questions_to_go->questions_count}}
+                                                            </span>
+                                                          </button>
+                                                        </form>
+                                                        @endif
+                                                        @endif
+                                                        @endforeach
+                                                     </td>  
+                                                         
+                                                <td class="text-center">
                                                     @if($test->status == 'Pending' && $test->user_id == Auth::user()->id )
                                                    
                                                     <a href="{{ route( 'admin.material.update',[ 'id' => $test->id ] ) }}" class='btn-social-menu btn-instagram btn-menu' ><i class="fa fa-edit"></i></a>
@@ -71,8 +102,9 @@
                                                     @else
                                                         
                                                     @endif
-                                                </td>   
-                                                                            
+                                                </td> 
+                                                
+                                                                    
                                         @endforeach
                                                 </tr>
                                 </tbody>        
@@ -88,6 +120,11 @@
                                 {{ $tests->links()}}
                                 </div> 
                             @endif
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
         </div>
         </div>
         </div>

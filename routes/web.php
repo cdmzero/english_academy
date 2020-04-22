@@ -98,13 +98,15 @@ Route::get('/admin/material/questions/{test_id}','QuestionController@index')->na
     Route::post('/admin/material/questions/store','QuestionController@store')->name('admin.question.store');
     
         //Para la actualizacion de QUESTION
-        Route::get('/admin/material/questions/update/{id}','MaterialController@update')->name('admin.question.update');
-        Route::post('/admin/material/questions/save_update','QuestionController@save_update')->name('admin.question.save_update');
+        Route::get('/admin/material/questions/update/{question_id}','QuestionController@update')->name('admin.question.update');
+        Route::post('/admin/material/questions/update/save_update','QuestionController@save_update')->name('admin.question.save_update');
     
         //Para la actualizacion de QUESTION
-        Route::get('/admin/material/questions/delete/{id}','QuestionController@delete')->name('admin.question.delete');
+        Route::get('/admin/material/questions/delete/{question_id}','QuestionController@delete')->name('admin.question.delete');
 
 
-    // Parte para hacer un EXERCISE
+
+
+    // Parte para hacer un TEST para el usuario
     Route::get('/exercise/{test_id}','TestController@index_exercise')->name('exercise.index');
     Route::post('/exercise/get_results','TestController@store_result')->name('exercise.store');
