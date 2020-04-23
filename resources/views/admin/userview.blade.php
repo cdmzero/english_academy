@@ -68,7 +68,7 @@
         </thead>
         @foreach ($results as $result)
         <tr>
-            <td>{{$result->mark}} %</td>
+            <td>{{$result->total_mark}} %</td>
             <td>{{$result->test->test_name}}</td>
             <td>{{ \FormatTime::LongTimeFilter($result->created_at) }}</td>
             <td>{{ \FormatTime::LongTimeFilter($result->updated_at) }}</td>

@@ -1,0 +1,74 @@
+.our-plans{
+    width:60%;
+    margin-left: 20% ;
+  }
+
+  .our-plans .price-plan{
+    width:100%;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #eaeaea;
+    margin-bottom: 20px;
+  }
+  .our-plans .price-plan:last-child{
+    margin-bottom: 0;
+  }
+
+  .our-plans .price-plan .accept-plan{
+    float:left;
+    padding: 0 10px;
+  }
+  .our-plans .price-plan .plan-details{
+    width: 25%;
+ 
+
+  }
+  .our-plans .price-plan .plan-features{
+    width:55%;
+  }
+  .our-plans .price-plan .accept-plan{
+    width:20%;
+  }
+  
+
+  .our-plans .price-plan .plan-details h3 sub{
+    font-size: 20px;
+    left: -0.6em;
+    position: relative;
+  }
+  .our-plans .price-plan .plan-details h3 sup{
+    top: -0.9em;
+    font-size: 50%;
+    left: -0.01em;
+    font-weight: 700;
+  }
+  /* plan features */
+  .our-plans .price-plan .plan-features ul li{
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 4px;
+  }
+  .our-plans .price-plan .plan-features ul li:before{
+    content: "\f00c";
+      font-family: FontAwesome;
+      font-style: normal;
+      font-weight: normal;
+      text-decoration: inherit;
+  /*--adjust as necessary--*/
+      color: #2154cf;
+      font-size: 18px;
+      padding-right: 0.5em;
+      position: absolute;
+      top: 0px;
+      left: 0;
+  }
+  /* plan details ends here */
+  .our-plans .price-plan .accept-plan{
+    text-align: center;
+    border-radius: 50%;
+  }
+
+  .our-plans .price-plan .accept-plan a:hover{
+    background:#272d33;
+  }
+  

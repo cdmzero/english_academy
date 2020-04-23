@@ -8,9 +8,7 @@
   <div class="container text-center">
     <br>
     <h1 class="display-3 ">Results zone</h1>
-    <div class="add">
-      <a href=" {{ route('admin.results.create') }} " class="btn-email-result"><i class="fa fa-plus"></i></a>
-    </div>
+
   </div>
 </div>
   <div class="container marketing">

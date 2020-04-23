@@ -114,19 +114,21 @@ DROP TABLE IF EXISTS `results`;
 CREATE TABLE results(
 id   int(255) auto_increment not null,
 user_id     int(255),
+test_id     int(255),
 total_mark   float,
 proportion   varchar(255),
 created_at   datetime,
 updated_at   datetime,
 
 CONSTRAINT pk_result PRIMARY KEY (id),
-CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+CONSTRAINT fk_test_id FOREIGN KEY(test_id) REFERENCES tests(id) ON DELETE CASCADE
 
 )ENGINE=InnoDb;
 
-INSERT INTO `results` VALUES (NULL, 1, 98.99,'3/3',CURTIME(), NULL);
-INSERT INTO `results` VALUES (NULL, 1, 78.99,'2/3',CURTIME(), NULL);
-INSERT INTO `results` VALUES (NULL, 1, 68.99,'2/3',CURTIME(), NULL);
+INSERT INTO `results` VALUES (NULL, 1, 1, 98.99,'3/3',CURTIME(), NULL);
+INSERT INTO `results` VALUES (NULL, 1, 1, 78.99,'2/3',CURTIME(), NULL);
+INSERT INTO `results` VALUES (NULL, 1, 1, 68.99,'2/3',CURTIME(), NULL);
 
 
 DROP TABLE IF EXISTS `choices`;

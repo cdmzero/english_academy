@@ -22,7 +22,7 @@
                     <div class="card-body">
 
               
-                    <form action="{{ route('exercise.store') }}" method="post">
+                    <form action="{{ route('exercise.test.store') }}" method="post">
 
                         @csrf
                        
@@ -82,17 +82,6 @@
 
 </div>                        
 
-<script>
-                                                          
-window.onload = function(){
-document.querySelectorAll("INPUT[type='radio']").forEach(function(rd){rd.addEventListener("mousedown",
-
-	function(){
-		if (this.checked) {this.onclick=function(){this.checked=defaultStatus}} else{this.onclick=null}
-	})})}
-
-                                                                </script>     
-    
 
 @endsection
 

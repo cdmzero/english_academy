@@ -71,66 +71,7 @@ public function detail_results($test_id, $user = null){
    
 }
 
-    // Cargar vista de creacion de resultados 
 
-    public function create(){
-
-        $tests = Test::get(['id','test_name']);
-        $users = User::get(['id','user_name','surname','email']);
-
-        return view('admin.results.create',[
-
-            'tests'   =>  $tests,
-            'users'   =>  $users,
-
-        ]);
-    }
-
-
-    // Metodo para crear un resultado
-
-    public function store(Request $request){
-       
-
-        $result = Result::all(); //conseguir todos los campos del resultado identificado
-        
-        //Validamos todos los datos
-
-        $validate = $this->validate($request,[
-
-        'test_id'   => ['required', 'exists:tests,id', 'max:255'],
-        'user_id'   => ['required', 'exists:users,id', 'max:255'],
-        'mark'      => ['required', 'numeric', 'between:0,100.00']
-        ]);
-            
-        //Recogemos los datos del formulario
-        $test_id    = $request->input('test_id');
-        $user_id    = $request->input('user_id');
-        $mark       = $request->input('mark');
-    
-
-        //Asignar nuevos valores al objeto del usuario
-        $result = new Result();
-
-        $current_date = date('Y-m-d H:i:s');
-
-        $result->test_id      = $test_id;
-        $result->user_id      = $user_id;
-        $result->mark         = $mark;
-        $result->created_at   = $current_date;
-        $result->updated_at   = null;
-      
-        //Ejecutamos los cambios en la BD y ademas mostramos un mensaje
-        $result->save();
-
-        
-        return redirect()->route('admin.results.create')
-                         ->with(['message'=>'Result created correctly']);
-
-
-
-    }
- 
     
     public function update_mark(Request $request){
        
@@ -151,7 +92,7 @@ public function detail_results($test_id, $user = null){
         // Conseguir datos
          // Asignar nuevos valores al objeto del usuario
          $result        = Result::find($id);
-         $result->mark  = $mark;
+         $result->total_mark  = $mark;
     
        
     

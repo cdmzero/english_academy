@@ -57,7 +57,7 @@
             <td>{{$result->total_mark}} %</td>
             <td>{{$result->test->test_name}}</td>
             <td>{{ \FormatTime::LongTimeFilter($result->created_at) }}</td>
-            <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+            <td><a href="{{ route( 'exercise.result.index',[ 'result_id' => $result->id ] ) }}" class='btn-social-menu btn-instagram btn-menu'><i class="fa fa-eye"></i></a></td>
         </tr>
         @endforeach
         </table>

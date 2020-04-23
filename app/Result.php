@@ -17,6 +17,12 @@ class Result extends Model
         
     }
 
+    public function test(){
+
+        return $this->belongsTo('App\Test');
+        
+    }
+
     //Relaccion 1 a muchos
 
 

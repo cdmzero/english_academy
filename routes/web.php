@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+
+//FRONT 
+
+
 Auth::routes();
 
     // Index
@@ -26,7 +30,38 @@ Route::get('/img-upload','ImageController@create')->name('image.create');
 
 
 
+//Parte para acceder a un EXAM
 
+Route::get('/exams/index','TestController@index_test')->name('exams.index');
+
+Route::get('/exam/form/{test_id}','TestController@exam_form')->name('exam.form');
+
+
+// Parte para acceder a un EXERCISE  
+
+
+Route::get('/admin/exercise/test/{test_id}','TestController@index_exercise')->name('test.result.index');
+
+
+
+Route::post('/exercise/test/','TestController@store_result')->name('exercise.test.store');
+
+
+
+
+
+
+//Para ver las opciones elegidas por un usuario dentro de un TEST
+    Route::get('/exercise/test/{result_id}','TestController@index_result')->name('exercise.result.index');
+
+
+
+
+
+
+
+
+//BACK
 
 
 
@@ -51,13 +86,11 @@ Route::post('/admin/users/store','UserController@store')->name('admin.users.stor
     // Parte admin de RESULTS
 Route::get('/admin/results','ResultController@results_index')->name('admin.results');
 
-    // Parte la creacion y almacenamiento de RESULTS
-Route::get('/admin/results/create','ResultController@create')->name('admin.results.create');
-Route::post('/admin/results/store','ResultController@store')->name('admin.results.store');
-
-
     // Menu de RESULTS de un test espeficifico
 Route::get('/admin/results/{id}','ResultController@results')->name('admin.results.menu');
+
+
+
 
     //Consultar para actualizar un RESULT 
 Route::get('/admin/detail/{result_id}/{user?}','ResultController@detail_results')->name('admin.results.detail');
@@ -105,8 +138,3 @@ Route::get('/admin/material/questions/{test_id}','QuestionController@index')->na
         Route::get('/admin/material/questions/delete/{question_id}','QuestionController@delete')->name('admin.question.delete');
 
 
-
-
-    // Parte para hacer un TEST para el usuario
-    Route::get('/exercise/{test_id}','TestController@index_exercise')->name('exercise.index');
-    Route::post('/exercise/get_results','TestController@store_result')->name('exercise.store');

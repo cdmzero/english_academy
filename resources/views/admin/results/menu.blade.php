@@ -18,7 +18,6 @@
             <div class="card">
 
                 <div class="card-header text-center"><strong> <h4> {{ $test->test_name }} </strong> results 
-                    <a href=" {{ route('admin.results.create') }} " class="btn-email-result"><i class="fa fa-plus"></i></a>
                 </h4>
                 </div>
                 

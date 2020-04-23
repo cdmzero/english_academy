@@ -12,17 +12,17 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-4 text-center">
-        <a href=""  class="btn-social-head btn-facebook"><i class="fa fa-briefcase"></i></a>
-        <h2>Material</h2>
+        <a href="{{ route('exams.index') }}"  class="btn-social-head btn-facebook"><i class="fa fa-line-chart"></i></a>
+        <h2> Test your English </h2>
       </div><!-- /.col-lg-4 -->
 
       <div class="col-lg-4 text-center">
-        <a href="{{ route('admin.results') }}" class="btn-social-head btn-instagram"><i class="fa fa-area-chart"></i></a>        
-        <h2>Results</h2>
+        <a href="{{ route('admin.results') }}" class="btn-social-head btn-instagram"> <i class="fa fa-book"></i></a>        
+        <h2>Grammar</h2>
       </div><!-- /.col-lg-4 -->
       <div class="col-lg-4 text-center">
-        <a href="{{ route('admin.users') }}"  class="btn-social-head btn-email"><i class=" fa fa-users"></i></a>        
-        <h2>Users</h2>
+        <a href="{{ route('admin.users') }}"  class="btn-social-head btn-email"><i class="fa fa-area-chart"></i></a>        
+        <h2>Exercises</h2>
       </div><!-- /.col-lg-4 -->
     </div><!-- /.row -->
 <br>

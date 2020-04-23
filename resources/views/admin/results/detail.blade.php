@@ -42,7 +42,7 @@
                                                         {{ $result->id }}
                                                     </td>
                                                     <td>{{ $result->user->user_name }} {{ $result->user->surname }}</td>
-                                                    <td class="text-center">{{ $result->mark }} %</td>
+                                                    <td class="text-center">{{ $result->total_mark }} %</td>
                                                     <td>{{ \FormatTime::LongTimeFilter($result->created_at) }}</td>
                                                     @if(!empty($user))
                                                     <td class="text-center"><a class='btn-social-menu btn-lastfm btn-menu' href="{{ route('admin.results.delete',['result_id' => $result->id, 'user_id' => $result->user_id]) }}"><i class="fa fa-trash"></i> 
@@ -60,7 +60,7 @@
                                                             <div class="input-group-prepend">
                                                                 <button class="btn btn-outline-danger" data-dir="dwn" type="button">-</button>
                                                             </div>
-                                                            <input id="mark"  class="form-control text-center @error('mark') is-invalid @enderror"  value="{{ $result->mark }}" step="0.01" data-decimals="2" name="mark" max="100" min="0" required autocomplete="mark" autofocus/>
+                                                            <input id="mark"  class="form-control text-center @error('mark') is-invalid @enderror"  value="{{ $result->total_mark }}" step="0.01" data-decimals="2" name="mark" max="100" min="0" required autocomplete="mark" autofocus/>
                                                             <div class="input-group-append">
                                                                 <button class="btn btn-outline-success" data-dir="up" type="button">+</button>
                                                             </div>
