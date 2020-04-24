@@ -178,7 +178,7 @@
         <!-- Demo info -->
         <div class="row text-center mt-4">
           <div class="col-6 border-right">
-            <div class="h4 font-weight-bold mb-0">28%</div><span class="small text-gray">Calification Average's for {{$test->test_name}} </span>
+            <div class="h4 font-weight-bold mb-0">49.5%</div><span class="small text-gray">Calification Average's for {{$test->test_name}} </span>
           </div>
           <div class="col-6">
             <div class="h4 font-weight-bold mb-0">{{$result->proportion}}</div><span class="small text-gray">Proportion</span>

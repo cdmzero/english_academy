@@ -32,6 +32,24 @@ class QuestionController extends Controller
 
     $cuenta         = $questions->count();
 
+    $status =    Test::withCount(['questions'])->get();
+    
+
+    foreach($status as $test){ 
+        if( !empty($test->questions_count) && $test->questions_count == $test->num_questions){
+
+           if($test->status == 'Pending'){
+                $test->status = 'Complete';
+                $test->save();
+           }
+        }else{
+            if($test->status == 'Complete'){
+                    $test->status = 'Pending';
+                    $test->save();
+           }
+        }
+    }
+
     // Traemos todos los datos del test 
 
     $test           = Test::find($test_id);
@@ -54,7 +72,6 @@ class QuestionController extends Controller
 
    public function create($test_id){
 
-    // Si $c se pasa significa que viene de otra funcion
 
     $questions     = Question::where('test_id', '=', $test_id)
                                 ->orderBy('id', 'ASC')
@@ -65,9 +82,7 @@ class QuestionController extends Controller
 
     $test          = Test::find($test_id);
 
-
     
-
 
 
         return view('admin.material.questions.create',[
@@ -79,6 +94,11 @@ class QuestionController extends Controller
     }
 
 
+
+
+
+
+
     public function store(Request $request){
 
         //Primero
@@ -88,7 +108,7 @@ class QuestionController extends Controller
             $test_id        = $request->input('test_id');
             $answerd        = $request->input('answerd');
 
-        // Creamos el objeto
+        // Creamos un nuevo objeto
 
         
         $question = new Question();
@@ -98,13 +118,11 @@ class QuestionController extends Controller
         $question->answerd          = $answerd;
 
 
-         $question->save();
+        $question->save();
+
 
         $option_title  = $request->input('option_title');
 
-// var_dump( $option_title[0] );
-
-// die();
 
         $question_id = $question->id;
 
@@ -127,23 +145,58 @@ class QuestionController extends Controller
         }
      
 
-     
 
+        $status     =    Test::withCount(['questions'])->get();
+    
+
+       
+
+        foreach($status as $test){ 
+
+            if($test->id == $test_id){
+
+                if( $test->questions_count == $test->num_questions){
+
+                    if($test->status == 'Pending'){
+                         $test->status = 'Complete';
+                         $test->save();
+                    }
+                 }
+                elseif($test->questions_count < $test->num_questions){
+                     if($test->status == 'Complete'){
+                             $test->status = 'Pending';
+                             $test->save();
+                    }
+                 }
+
+            }
+            
+        }
+
+
+
+    $test = Test::find($test_id);
+
+
+
+    if($test->status == "Complete"){
+
+        return redirect()->route('admin.questions',[
+            'test_id' =>  $test_id,
+            
+        ])
+        ->with(['message'=>'Test Ready to public']);
+
+        
+    }else{
+    
         return redirect()->route('admin.question.create',[
                                 'test_id' =>  $test_id,
                                 
                             ])
                              ->with(['message'=>'Question created correctly']);
+        }
 
-        // Validamos todos los datos
-            // $validate = $this->validate($request,[
-            //     'test_name'     => ['required' , 'string' , 'max:20','unique:tests' ],
-            //     'test_type'     => ['required' , 'string' , 'in:Exam,Exercise,Grammar'],
-            //     'num_questions' => ['required' , 'numeric' , 'min:1' , 'max:20'],
-            //     'duration'      => ['required' , 'numeric' , 'min:1' , 'max:60'],
-            // ]);
-    
-    
         }
 
 
@@ -151,6 +204,7 @@ class QuestionController extends Controller
         public function update($question_id){
 
             $question = Question::find($question_id);
+
 
             $test = Test::find($question->test_id);
 
@@ -195,11 +249,8 @@ class QuestionController extends Controller
                 $option->update();
             }
 
-         
-         
-    
-            return redirect()->route('admin.question.update',[
-                                    'question_id' =>  $question_id,
+            return redirect()->route('admin.questions',[
+                                    'test_id' =>  $question->test_id,
                                     
                                 ])
                                  ->with(['message'=>'Question updated correctly']);
@@ -220,17 +271,28 @@ class QuestionController extends Controller
     public function delete($question_id){
 
         $question = Question::find($question_id);
+
+
+        // var_dump($question);
+        // die();
+
         $test_id = $question->test_id;
+     
 
-             $question->delete();
+        $question->delete();
 
-            return redirect()->route('admin.question.create',[
+
+
+    
+
+            return redirect()->route('admin.questions',[
                     'test_id' => $test_id
             ])
             ->with(['message'=>'Question deleted correctly']);   
 
             
 }
+
 
 
 

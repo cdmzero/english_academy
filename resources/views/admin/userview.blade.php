@@ -78,7 +78,7 @@
         </table>
     <small>Data entry <strong>{{$cuenta}}</strong></small>
         </div>
-        <div class="mx-auto" style="width: 20%">
+        <div class="mx-auto" style="width:80%">
             {{ $results->links()}}
             </div> 
     </div>

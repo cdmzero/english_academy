@@ -68,18 +68,24 @@
                                                         @endif 
                                                     </td>
                                                     <td class="text-center">
+                                                    
                                                     @foreach ($status as $questions_to_go)
                                                     @if($test->id == $questions_to_go->id )
-                                                        @if($questions_to_go->questions_count == 0 )
+                                                        @if($questions_to_go->questions_count == 0 && $test->user_id == Auth::user()->id )
                                                         <form method="get" action="{{ route('admin.question.create',['test_id' => $test->id] )}}">  
                                                         <button type="submit" class="btn btn-primary btn-sm mx-auto " style="width:50%">
                                                             Make my first Question <span class="badge badge-success">{{ $test->num_questions }}</span>
                                                         </button>
                                                         </form>
                                                         
-                                                        @elseif( $questions_to_go->questions_count == $test->num_questions )
-                                                        <span class="badge badge-pill badge-success">Ready to be public</span>
+                                                        @elseif( $questions_to_go->questions_count == $test->num_questions)
+                                                            @if($test->status == 'Public')
+
+                                                            @else
+                                                            <span class="badge badge-pill badge-success">Ready to be public</span>
+                                                            @endif
                                                         @else
+                                                            @if($test->user_id == Auth::user()->id)
                                                         <form method="get" action="{{ route('admin.question.create',['test_id' => $test->id] )}}">
                                                         <button type="submit" class="btn btn-primary btn-sm mx-auto" style="width:50%">
                                                             Make other question  <span class="badge badge-success"> 
@@ -87,20 +93,32 @@
                                                             </span>
                                                           </button>
                                                         </form>
+                                                            @endif
                                                         @endif
-                                                        @endif
-                                                        @endforeach
+                                                    @endif
+                                                    @endforeach
                                                      </td>  
-                                                         
+                                                     {{-- <span class="badge badge-pill badge-success">{{ \FormatTime::LongTimeFilter($test->updated_at) }}</td></span> --}}
+
                                                 <td class="text-center">
                                                     @if($test->status == 'Pending' && $test->user_id == Auth::user()->id )
+                                                    
+                                                        @if($questions_to_go->questions_count == 0 )
+                                                        <a href="{{ route( 'admin.material.update',[ 'test_id' => $test->id ] ) }}" class='btn-social-menu btn-instagram btn-menu' ><i class="fa fa-edit"></i></a>
+                                                        <a href="{{ route( 'admin.questions',[ 'test_id' => $test->id ] ) }}" class='btn-social-menu btn-email btn-menu' ><i class="fa fa-eye"></i></a>
+
+                                                        @else
+                                                    <a href="{{ route( 'admin.material.update',[ 'test_id' => $test->id ] ) }}" class='btn-social-menu btn-instagram btn-menu' ><i class="fa fa-edit"></i></a>
+                                                    <a href="{{ route( 'admin.questions',[ 'test_id' => $test->id ] ) }}" class='btn-social-menu btn-email btn-menu' ><i class="fa fa-eye"></i></a>
+                                                        @endif
+                                                    @elseif( $test->status == 'Complete' && $test->user_id == Auth::user()->id )
                                                    
-                                                    <a href="{{ route( 'admin.material.update',[ 'id' => $test->id ] ) }}" class='btn-social-menu btn-instagram btn-menu' ><i class="fa fa-edit"></i></a>
-                                                        <a href="" class="btn-social-menu btn-email btn-menu"><i class="fa fa-plus-circle"></i></a>
-                                                    @elseif($test->status == 'Complete' && $test->user_id == Auth::user()->id )
-                                                     <a href="{{ route( 'admin.questions',[ 'test_id' => $test->id ] ) }}" class='btn-social-menu btn-instagram btn-menu' ><i class="fa fa-eye"></i></a>
-                                                    @else
-                                                        
+                                                    <a href="{{ route( 'admin.material.update',[ 'test_id' => $test->id ] ) }}" class='btn-social-menu btn-instagram btn-menu' ><i class="fa fa-edit"></i></a>
+                                                     <a href="{{ route( 'admin.questions',[ 'test_id' => $test->id ] ) }}" class='btn-social-menu btn-email btn-menu' ><i class="fa fa-eye"></i></a>
+                                                   @else
+                                                        @if($test->status == 'Public')
+                                                            <a href="{{ route( 'admin.questions',[ 'test_id' => $test->id ] ) }}" class='btn-social-menu btn-email btn-menu' ><i class="fa fa-eye"></i></a>
+                                                        @endif
                                                     @endif
                                                 </td> 
                                                 

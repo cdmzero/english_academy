@@ -72,7 +72,8 @@ class MaterialController extends Controller
         // Validamos todos los datos
             $validate = $this->validate($request,[
                 'test_name'     => ['required' , 'string' , 'max:20','unique:tests' ],
-                'test_type'     => ['required' , 'string' , 'in:Exam,Exercise,Grammar'],
+                'test_type'     => ['required' , 'string' , 'in:Exam,Exercise'],
+                'test_level'    => ['required' , 'string' , 'in:Basic,Intermediate,High'],
                 'num_questions' => ['required' , 'numeric' , 'min:1' , 'max:20'],
                 'duration'      => ['required' , 'numeric' , 'min:1' , 'max:60'],
             ]);
@@ -127,10 +128,26 @@ class MaterialController extends Controller
 
         public function update ($id){
 
-            $test = Test::find($id);
-    
+          
+
+            $test   = Test::find($id);
+         
+
+            // var_dump($test->test_name);
+
+            // die();
+
+            $status = Test::withCount(['questions'])->get();
+
+            foreach($status as $statu){
+                if($statu->id == $id){
+                    $current_questions = $statu->questions_count;
+                }
+            }
+         
             return view('admin.material.update',[
-                'test' => $test
+                'test' => $test,
+                'current_questions' => $current_questions
             ]);
 
 
@@ -140,33 +157,44 @@ class MaterialController extends Controller
         public function save_update(Request $request){
            
             $id = $request->input('id');
-    
+
+            $current_questions = $request->input('current_questions');
+          
+
     
             $test = Test::find($id); //conseguir todos los campos del usuario identificado
                 
  
+          
+
             //Validamos todos los datos
 
             $request->input('test_name');
+
+                    // Recogemos los datos del formulario
+                    $test_name              = $request->input('test_name');
+                    $test_type              = $request->input('test_type');
+                    $test_level             = $request->input('test_level');
+                    $num_questions          = $request->input('num_questions');
+                    $mark_wrong             = $request->input('mark_wrong');
+                    $mark_right             = $request->input('mark_right');
+                    $duration               = $request->input('duration');
+                   
     
 
             $validate = $this->validate($request,[
                 'test_name'     => ['required' , 'string' , 'max:20','unique:tests,test_name,'.$test->id],
-                'test_type'     => ['required' , 'string' , 'in:Exam,Exercise,Grammar'],
+                'test_type'     => ['required' , 'string' , 'in:Exam,Exercise'],
                 'test_level'    => ['required' , 'string' , 'in:Basic,Intermediate,High'],
-                'num_questions' => ['required' , 'numeric' , 'min:1' , 'max:20'],
-                'duration'      => ['required' , 'numeric' , 'min:1' , 'max:60'],
+                'num_questions' => ['required' , 'numeric' , 'min:'.$current_questions , 'max:20'],
+                'mark_wrong'    => ['required','numeric', 'min:-2.0','max:0.0','lte:mark_right'],
+                'mark_right'    => ['required','numeric', 'min:0','max:2.0','gte:mark_wrong'],
             ]);
-    
+
           
                 
-            // Recogemos los datos del formulario
-            $test_name              = $request->input('test_name');
-            $test_type              = $request->input('test_type');
-            $test_level             = $request->input('test_level');
-            $num_questions          = $request->input('num_questions');
-            $duration               = $request->input('duration');
-           
+    
+            
             
           // Asignar nuevos valores al objeto
           
@@ -178,7 +206,8 @@ class MaterialController extends Controller
           $test->test_type        = $test_type;
           $test->test_level       = $test_level;
           $test->num_questions    = $num_questions;
-          $test->duration         = $duration;
+          $test->mark_wrong         = $mark_wrong;
+          $test->mark_right         = $mark_right;
           $test->updated_at       = $current_date;
 
 
@@ -187,7 +216,9 @@ class MaterialController extends Controller
             //Ejecutamos los cambios en la BD y ademas mostramos un mensaje
             $test->update();
     
-            return redirect()->route('admin.material')
+            return redirect()->route('admin.material.update',[
+                'test_id'   => $test->id
+            ])
             ->with(['message'=>'Material update correctly']);   
 
     
@@ -199,13 +230,48 @@ class MaterialController extends Controller
 
         $test = Test::find($id);
 
-            //  $test->delete();
+          $test->delete();
 
             return redirect()->route('admin.material')
             ->with(['message'=>'Material deleted correctly']);   
 
             
 }
+
+
+public function publication($test_id){
+
+    $test = Test::find($test_id);
+
+    
+    if($test->status == 'Complete'){
+
+        $test->status = 'Public';
+        $test->update();
+
+
+        return redirect()->route('admin.questions',[
+            'test_id' => $test_id
+    ])
+    ->with(['message'=>'Question published on front-page correctly']);   
+
+
+    }else{
+        $test->status = 'Complete';
+        $test->update();
+
+        return redirect()->route('admin.questions',[
+            'test_id' => $test_id
+    ])
+    ->with(['message'=>'Question unpublish on front-page correctly']);   
+
+    }
+
+
+       
+        
+}
+
 
 
 

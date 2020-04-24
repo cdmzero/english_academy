@@ -16,7 +16,6 @@
             <div class="card">
 
                 <div class="card-header text-center"><h4>Questions of Test<strong> {{ $test->test_name }} </strong>  
-                    <a href=" {{ route('admin.material.create') }} " class="btn-email-result"><i class="fa fa-plus"></i></a>
                 </h4>
                 </div>
                 
@@ -60,12 +59,11 @@
                                                     
                                                     <td class="text-center">
                                                     @if($test->status == 'Complete' && $test->user_id == Auth::user()->id )
-                                                    <a href="{{ route( 'admin.material.update',[ 'id' => $test->id ] ) }}" class='btn-social-menu btn-menu btn-email' ><i class="fa fa-check"></i></a>
-                                                    {{-- <a href="{{ route( 'admin.material.update',[ 'id' => $test->id ] ) }}" class='btn-social-menu btn-instagram btn-menu' ><i class="fa fa-edit"></i></a>
-                                                        <a href="" class="btn-social-menu btn-email btn-menu"><i class="fa fa-plus-circle"></i></a> --}}
                                                     @elseif($test->status == 'Complete' && $test->user_id == Auth::user()->id )
                                                     @else
-                                                        
+                                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title=" You need {{ $test->num_questions - $cuenta }} questions more for public, hurry up!">
+                                                    <a ref="" class='btn-social-menu btn-menu btn-email' ><i class="fa fa-check"></i></a>
+                                                    </span>
                                                     @endif
                                                 </td>   
                                                                             
@@ -221,13 +219,20 @@
 
       <div class="card">
         
-        <div class="card-header">
-            
-        <a class="card-link" data-toggle="collapse" href="#collapse{{$question->id}}">
+        <div class="card-header">  
+      
+                <a class="card-link" data-toggle="collapse" href="#collapse{{$question->id}}">
              {{$question->question_title}} 
           </a>
+
+            
+        
+                
+      
+          
+      
         </div>
-        <div id="collapse{{$question->id}}" class="collapse" data-parent="#accordion">
+        <div id="collapse{{$question->id}}" class="collapse" data-parent="#accordion" >
           <div class="collapsed card-body">
 
 
@@ -236,8 +241,16 @@
                     <tr>
                         <th>Option number</th>
                         <th>Option Title</th>
-                        <th></th>
-                        <th class="text-center">Action</th>
+                        <th>
+                            <div class="text-center" style="width:160%">
+                                <a ref="" class='btn-social-menu btn-menu btn-lastfm' ><i class="fa fa-trash"></i></a>
+                     
+                                <a ref="" class='btn-social-menu btn-menu btn-facebook' ><i class="fa fa-edit"></i></a>
+                              </div>
+                        
+                                
+                        </th>
+                      
                     </tr>
                 </thead>
                     <tbody>
@@ -253,11 +266,11 @@
                             @if($option->option_number == $question->answerd)
                             <span class="badge badge-pill badge-success">Right answerd + {{$test->mark_right}}</span>
                             @endif
+
+                            
                           </td>
-                                        <td class="text-center">
-                                            <a class='btn-social-menu btn-instagram btn-menu' href=""><i class="fa fa-edit"></i></a>
-                                        <a href="" class="btn-social-menu btn-email btn-menu"><i class="fa fa-user"></i></a>
-                                        </td>                                  
+
+                                                                    
                         @endforeach
                                     </tr>
                     </tbody>        
@@ -286,8 +299,11 @@
 </div>
        
 </div>
-
-
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
 
 @endsection
 

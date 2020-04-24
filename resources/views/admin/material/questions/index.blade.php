@@ -16,7 +16,11 @@
             <div class="card">
 
                 <div class="card-header text-center"><h4>Questions of Test<strong> {{ $test->test_name }} </strong>  
-                    <a href=" {{ route('admin.material.create') }} " class="btn-email-result"><i class="fa fa-plus"></i></a>
+                @if($test->status == "Pending" && $test->user_id == Auth::user()->id )
+
+                    <a href=" {{ route('admin.question.create',['test_id' => $test->id]) }} " class="btn-email-result"><i class="fa fa-plus"></i></a>
+                    
+                @endif
                 </h4>
                 </div>
                 
@@ -31,8 +35,15 @@
                                     <th>Mark Per Wrong</th>
                                     <th>Mark Per Right</th>
                                     <th>Num of Questions</th>
+                                    @if($test->status == "Public" )
+                                    <th>
+                                     Published
+                                    </th>
+                                    @endif
                                     <th>Status</th>
+                                    @if($test->user_id == Auth::user()->id)
                                     <th class="text-center">Publish</th>
+                                    @endif
                                 </tr>
                             </thead>
                                 <tbody> 
@@ -54,22 +65,39 @@
                                                     <td class="text-center">
                                                         {{$test->num_questions}}
                                                     </td>
+                                                    @if($test->status == "Public")
+                                                    <td>
+                                                     <span class="badge badge-pill badge-success">{{ \FormatTime::LongTimeFilter($test->updated_at) }}</td></span> 
+
+                                                    </td>
+                                                    @endif
                                                     <td>
                                                         {{$test->status}}
                                                     </td>
-                                                    
+                                                    @if($test->user_id == Auth::user()->id)
                                                     <td class="text-center">
-                                                    @if($test->status == 'Complete' && $test->user_id == Auth::user()->id )
-                                                    <a href="{{ route( 'admin.material.update',[ 'id' => $test->id ] ) }}" class='btn-social-menu btn-menu btn-email' ><i class="fa fa-check"></i></a>
-                                                    {{-- <a href="{{ route( 'admin.material.update',[ 'id' => $test->id ] ) }}" class='btn-social-menu btn-instagram btn-menu' ><i class="fa fa-edit"></i></a>
-                                                        <a href="" class="btn-social-menu btn-email btn-menu"><i class="fa fa-plus-circle"></i></a> --}}
-                                                    @elseif($test->status == 'Complete' && $test->user_id == Auth::user()->id )
-                                                    @else
+
                                                         
-                                                    @endif
-                                                </td>   
-                                                                            
+                                                        @if($test->status == 'Complete' )
+                                                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Are you ready? Let's Go!">
+                                                        <a href="{{ route( 'admin.material.publication',['test_id' => $test->id] ) }}" class='btn-social-menu btn-menu btn-email'><i class="fa fa-check"></i></a>
+                                                        </span>
+
+                                                        @elseif($test->status == 'Pending')
+                                                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title=" You need {{ $test->num_questions - $cuenta }} questions more for publish, hurry up!">
+                                                            <a ref="" class='btn-social-menu btn-menu btn-email' ><i class="fa fa-check"></i></a>
+                                                            </span> 
+                                                        @else
+                                                            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Are you sure? Let's go back!">
+                                                            <a href="{{ route( 'admin.material.publication',['test_id' => $test->id]) }}" class='btn-social-menu btn-menu btn-lastfm' ><i class="fa fa-times-circle"></i></a>
+                                                            </span>
+                                                        @endif
+
+                                                    
+                                                    </td>   
+                                                    @endif                            
                                                 </tr>
+                                               
                                 </tbody> 
                             </table>     
                     </div>
@@ -107,8 +135,18 @@
                     <tr>
                         <th>Option number</th>
                         <th>Option Title</th>
-                        <th></th>
-                        <th class="text-center">Action</th>
+                        <th>
+                        </th>
+                        <th>
+                            @if($test->status != 'Public' )
+                            <div class="text-center" style="width:160%">
+                                <a href="{{ route('admin.question.delete',['question_id' => $question->id]) }}" class='btn-social-menu btn-menu btn-lastfm' ><i class="fa fa-trash"></i></a>
+                     
+                                <a href="{{ route('admin.question.update',['question_id' => $question->id]) }}" class='btn-social-menu btn-menu btn-facebook' ><i class="fa fa-edit"></i></a>
+                              </div>
+                            @endif
+                        </th>
+                        
                     </tr>
                 </thead>
                     <tbody>
@@ -125,10 +163,8 @@
                             <span class="badge badge-pill badge-success">Right answerd + {{$test->mark_right}}</span>
                             @endif
                           </td>
-                                        <td class="text-center">
-                                            <a class='btn-social-menu btn-instagram btn-menu' href=""><i class="fa fa-edit"></i></a>
-                                        <a href="" class="btn-social-menu btn-email btn-menu"><i class="fa fa-user"></i></a>
-                                        </td>                                  
+                            <td class="text-center">              
+                            </td>                                  
                         @endforeach
                                     </tr>
                     </tbody>        
@@ -138,8 +174,6 @@
       </div>
       @endforeach
       </div>
-     
-
       </div>
       </div>
               
@@ -151,15 +185,15 @@
     @include('includes.buttoms') 
 
 
-
-
-
 </div>
        
 </div>
 
-
-
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
 @endsection
 
 

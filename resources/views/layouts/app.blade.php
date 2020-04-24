@@ -44,16 +44,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav justify">
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="">Saber mi nivel</a>
-                       </li>
-                       <li class="nav-item">
-                            <a class="nav-link" href="">Repasar</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">Ejercitarse</a>
-                        </li>
-                       
+                     
                     </ul>
 
                     <!-- Right Side Of Navbar -->

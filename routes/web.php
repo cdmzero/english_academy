@@ -40,7 +40,10 @@ Route::get('/exam/form/{test_id}','TestController@exam_form')->name('exam.form')
 // Parte para acceder a un EXERCISE  
 
 
-Route::get('/admin/exercise/test/{test_id}','TestController@index_exercise')->name('test.result.index');
+Route::get('/exercise/index','TestController@index_exercises')->name('exercises.index');
+
+Route::get('/exercise/form/{test_id}','TestController@exercise_form')->name('exercise.form');
+
 
 
 
@@ -115,16 +118,19 @@ Route::get('/admin/material','MaterialController@index')->name('admin.material')
     Route::post('/admin/material/store','MaterialController@store')->name('admin.material.store');
     
         //Para la actualizacion de MATERIAL
-        Route::get('/admin/material/update/{id}','MaterialController@update')->name('admin.material.update');
+        Route::get('/admin/material/update/{test_id}','MaterialController@update')->name('admin.material.update');
         Route::post('/admin/material/save_update','MaterialController@save_update')->name('admin.material.save_update');
     
         //Para la actualizacion de MATERIAL
         Route::get('/admin/material/delete/{id}','MaterialController@delete')->name('admin.material.delete');
 
+        //Para hacer publico una prueba
+        Route::get('/admin/material/publication/{test_id}','MaterialController@publication')->name('admin.material.publication');
 
 //Parte de QUESTION
 
 Route::get('/admin/material/questions/{test_id}','QuestionController@index')->name('admin.questions');
+
 
     //Para la creaccion y almacenamiento de QUESTION
     Route::get('/admin/material/questions/create/{test_id}','QuestionController@create')->name('admin.question.create');

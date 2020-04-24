@@ -51,9 +51,6 @@
                                 <label class="btn btn-secondary">
                                   <input type="radio" name="test_type" id="Exercise"  value="Exercise"> Exercise
                                 </label>
-                                <label class="btn btn-secondary">
-                                  <input type="radio" name="test_type" id="Grammar"   value="Grammar"> Grammar
-                                </label>
                             </div>     
                             @error('test_type')
                                 <span class="invalid-feedback" role="alert">

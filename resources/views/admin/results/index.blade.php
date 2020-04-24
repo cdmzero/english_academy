@@ -19,14 +19,8 @@
         <a href=" {{ route('admin.results.menu',['id'=>$test->id]) }}"  class="btn-social-head btn-instagram">{{ $test->test_name }}</a>
         <h2 class="title">{{ $test->test_name }}
          
-          <div class="dropdown">
-            <button class="btn btn-noborder" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-cog"></i>
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              {{-- <a class="dropdown-item btn-menu" href= {{! route('admin.test.update',['id'=>$test->id]) !}} ><i class="fa fa-edit"></i> Edit</a> --}}
-              {{-- <a class="dropdown-item btn-menu btn-delete"  href="{{! route('admin.test.update',['id'=>$test->id]) !}}"><i class="fa fa-trash"></i> Remove</a> --}}
-            </div></h2>
+         
+            </h2>
         <br>
       </div><!-- /.col-lg-4 -->
 @endforeach

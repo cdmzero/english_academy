@@ -65,7 +65,7 @@
                             @else
                                 <small> Total data entry {{ $cuenta }} </small>
 
-                                <div class="mx-auto text-center" style="width:30%">
+                                <div class="mx-auto text-center" style="width:70%">
                                 {{ $results->links()}}
                                 </div> 
                             @endif

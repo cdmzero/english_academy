@@ -32,9 +32,9 @@
                                     <th class="text-center">Test Name</th>
                                     <th>Type</th>
                                     <th>Number Questions</th>
-                                    <th>Duration</th>
-                                    <th>Status</th>
-                                    <th>Created</th>
+                                    <th>Mark Per Wrong</th>
+                                    <th>Mark Per Right</th>
+                                    <th>Level</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>     
@@ -45,10 +45,9 @@
                                                     <td>{{ $test->test_name }}</td>
                                                     <td>{{ $test->test_type }} </td>
                                                     <td>{{ $test->num_questions }} </td>                                                                                                     
-                                                    <td>{{ $test->duration }} Min</td>
-                                                    <td>{{ $test->status }}</td>
-                                                    <td>{{ \FormatTime::LongTimeFilter($test->created_at) }}</td>
-            
+                                                    <td>{{ $test->mark_wrong }} Min</td>
+                                                    <td>{{ $test->mark_right }} Min</td>
+                                                    <td>{{ $test->test_level }}</td>
                                                    
                                                     <td class="text-center"><a class='btn-social-menu btn-lastfm btn-menu' href="{{ route('admin.material.delete',['id' => $test->id]) }}"><i class="fa fa-trash"></i> 
                                                                                
@@ -56,6 +55,7 @@
                                                 <tr>
                                                     <td>
                                                         <input id="id" type="hidden" name="id" value="{{ $test->id }}">
+                                                        <input id="id" type="hidden" name="current_questions" value="{{ $current_questions }}">
                                                     </td>
                                                     <td>
                                                         <input id="test_name" type="text" class="form-control @error('test_name') is-invalid @enderror text-center" name="test_name" placeholder="Test Name" value="{{ $test->test_name}}" required autocomplete="test_name" autofocus>
@@ -70,7 +70,6 @@
                                                     <select  name="test_type" id="test_type" class=" form-control @error('test_type') is-invalid @enderror" placeholder="choose" required>
                                                           <option value="Exam" {{ $test->test_type == 'Exam' ? 'selected' : '' }}>          Exam</option>                            
                                                           <option value="Exercise" {{ $test->test_type == 'Exercise' ? 'selected' : '' }}>  Exercise</option>                            
-                                                          <option value="Grammar" {{ $test->test_type == 'Grammar' ? 'selected' : '' }}>    Grammar</option>                                                                     
                                                       </select>
                                                             @error('test_type')
                                                             <span class="invalid-feedback" role="alert">
@@ -80,7 +79,7 @@
                                                      </td>
                                                     <td>
                                                     <select  name="num_questions" id="num_questions" class="form-control @error('num_questions') is-invalid @enderror mx-auto" style="width:50px" placeholder="choose" required>
-                                                            @for($c = 1; $c <= 30; $c++)
+                                                            @for($c = $current_questions; $c <= 30; $c++)
                                                           <option value="{{$c}}"> {{$c}}</option>                            
                                                             @endfor         
                                                       </select>
@@ -90,28 +89,52 @@
                                                             </span>
                                                           @enderror 
                                                      </td>
-                                                  
                                                         <td class="text-center">
                                                             <div class="input-group mb-3 number-spinner mx-auto" style="width:130px">
                                                                 <div class="input-group-prepend">
                                                                     <button class="btn btn-outline-danger" data-dir="dwn" type="button">-</button>
                                                                 </div>
-                                                                <input id="duration"  class="form-control text-center @error('duration') is-invalid @enderror"  value="{{ $test->duration }}"  name="duration" max="30" min="5" required autocomplete="duration" autofocus/>
+                                                                <input id="mark_wrong"  class="form-control text-center @error('mark_wrong') is-invalid @enderror"  value="{{ $test->mark_wrong }}"  name="mark_wrong" min="-2"  required autocomplete="duration" autofocus/>
                                                                     <div class="input-group-append">
                                                                         <button class="btn btn-outline-success" data-dir="up" type="button">+</button>
                                                                     </div>
-                                                                 @error('duration')
+                                                                 @error('mark_wrong')
                                                                     <span class="invalid-feedback text-center" role="alert">
                                                                         <strong>{{ $message }}</strong>
                                                                     </span>
                                                                     @enderror 
                                                             </div>
                                                          </td>
-                                                     <td>
-                                                     </td>
-                                                     <td>
-                                                     </td>
-                                                     
+                                                   
+                                                        <td class="text-center">
+                                                            <div class="input-group mb-3 number-spinner mx-auto" style="width:130px">
+                                                                <div class="input-group-prepend">
+                                                                    <button class="btn btn-outline-danger" data-dir="dwn" type="button">-</button>
+                                                                </div>
+                                                                <input id="mark_right"  class="form-control text-center @error('mark_right') is-invalid @enderror"  value="{{ $test->mark_right }}"  name="mark_right" max="2"  required autocomplete="duration" autofocus/>
+                                                                    <div class="input-group-append">
+                                                                        <button class="btn btn-outline-success" data-dir="up" type="button">+</button>
+                                                                    </div>
+                                                                 @error('mark_right')
+                                                                    <span class="invalid-feedback text-center" role="alert">
+                                                                        <strong>{{ $message }}</strong>
+                                                                    </span>
+                                                                    @enderror 
+                                                            </div>
+                                                         </td>
+                                                   
+                                                    <td>
+                                                        <select  name="test_level" id="test_level" class=" form-control @error('test_type') is-invalid @enderror" placeholder="choose" required>
+                                                              <option value="Basic" {{ $test->test_level == 'Basic' ? 'selected' : '' }}>          Basic</option>                            
+                                                              <option value="Intermediate" {{ $test->test_level == 'Intermediate' ? 'selected' : '' }}>  Intermediate</option>                            
+                                                              <option value="High" {{ $test->test_level == 'High' ? 'selected' : '' }}>    High</option>                                                                     
+                                                          </select>
+                                                                @error('test_level')
+                                                                <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                              @enderror 
+                                                         </td>
                                                     <td class="text-center">
                                                      
                                                     <button class='btn-instagram btn-social-menu btn-menu' type="submit"><i class="fa fa-edit"></i></a></button>
@@ -124,6 +147,7 @@
                                                 </tr>                  
                                 </table>
 
+                             
                 </div>
             </div>
  
@@ -147,30 +171,65 @@
        
         @include('includes.buttoms') 
     </div>
-    <script>
+    {{-- <script>
 
         //Spinner con numeros enteros
     
-        $(document).on('click', '.number-spinner button', function () {    
-             var btn = $(this),
-                 oldValue = btn.closest('.number-spinner').find('input').val().trim(),
-                 newVal = 1;
+        // $(document).on('click', '.number-spinner button', function () {    
+        //      var btn = $(this),
+        //          oldValue = btn.closest('.number-spinner').find('input').val().trim(),
+        //          newVal = 1;
              
-             if (btn.attr('data-dir') == 'up') {
-                 newVal = parseInt(oldValue) + 1;
+        //      if (btn.attr('data-dir') == 'up') {
+        //          newVal = parseInt(oldValue) + 1;
              
-             } else {
-                 if (oldValue > 1) {
-                     newVal = parseInt(oldValue) - 1;
+        //      } else {
+        //          if (oldValue > 1) {
+        //              newVal = parseInt(oldValue) - 1;
                  
                      
-                 } else {
-                     newVal = 0;
-                 }
-             }
-             btn.closest('.number-spinner').find('input').val(newVal);
-         });
+        //          } else {
+        //              newVal = 0;
+        //          }
+        //      }
+        //      btn.closest('.number-spinner').find('input').val(newVal);
+        //  });
      
-     </script>
+</script> --}}
+<script>
+    
+
+    $(document).on('click', '.number-spinner button', function () {    
+         var btn = $(this),
+             oldValue = btn.closest('.number-spinner').find('input').val().trim(),
+             newVal = 1;
+         
+         if (btn.attr('data-dir') == 'up') {
+             newVal = parseFloat(oldValue) + 0.1;
+             newVal = newVal.toFixed(2);
+             if(oldValue >= 2){
+                newVal = 2
+              }
+
+         } else {
+             if (oldValue > 1) {
+                 newVal = parseFloat(oldValue) - 0.1;
+                 newVal = newVal.toFixed(2);
+                 
+             } else {
+                newVal = parseFloat(oldValue) - 0.1;
+                newVal = newVal.toFixed(2);
+              if(oldValue <= -2){
+                newVal = -2
+              }
+
+             }
+         }
+         btn.closest('.number-spinner').find('input').val(newVal);
+     });
+ 
+ </script>
+  
+  
 
 @endsection

@@ -11,17 +11,16 @@
 <br>
   <div class="container">
     <div class="row">
-      <div class="col-lg-4 text-center">
+      <div class="col-lg-6 text-center">
         <a href="{{ route('exams.index') }}"  class="btn-social-head btn-facebook"><i class="fa fa-line-chart"></i></a>
         <h2> Test your English </h2>
       </div><!-- /.col-lg-4 -->
 
-      <div class="col-lg-4 text-center">
-        <a href="{{ route('admin.results') }}" class="btn-social-head btn-instagram"> <i class="fa fa-book"></i></a>        
-        <h2>Grammar</h2>
-      </div><!-- /.col-lg-4 -->
-      <div class="col-lg-4 text-center">
-        <a href="{{ route('admin.users') }}"  class="btn-social-head btn-email"><i class="fa fa-area-chart"></i></a>        
+      <div class="col-lg-2 text-center">
+      </div>
+
+      <div class="col-lg-2 text-center">
+        <a href="{{ route('exercises.index') }}"  class="btn-social-head btn-email"><i class="fa fa-area-chart"></i></a>        
         <h2>Exercises</h2>
       </div><!-- /.col-lg-4 -->
     </div><!-- /.row -->

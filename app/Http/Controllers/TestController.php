@@ -22,6 +22,32 @@ class TestController extends Controller
     }
 
 
+    public function index_exercises(){
+
+        $tests           = Test::where('test_type','=','Exercise')
+                                ->where('status','=','Public')
+                                ->get();
+
+
+        $cuenta         = $tests->count();
+
+
+        return view('exercise.index',[
+            'cuenta'    => $cuenta,
+            'tests'      => $tests,
+                ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
 //Para ver cada las respuestas de los usuarios  ZONA ADMIN / BACK
 
 
@@ -57,7 +83,9 @@ class TestController extends Controller
 
     public function index_test(){
 
-        $tests           = Test::where('test_type','=','Exam')->get();
+        $tests           = Test::where('test_type','=','Exam')
+                                ->Orwhere('status','=','Public')
+                                ->get();
 
 
         $cuenta         = $tests->count();
@@ -71,6 +99,7 @@ class TestController extends Controller
             'tests'      => $tests,
                 ]);
     }
+
 
 
 
@@ -98,7 +127,7 @@ class TestController extends Controller
 
 
 
-    public function index_exercise($test_id){
+    public function exercise_form($test_id){
 
         $questions      = Question::where('test_id','=',$test_id)->get();
 

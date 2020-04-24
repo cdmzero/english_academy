@@ -16,7 +16,6 @@
             <div class="card">
 
                 <div class="card-header text-center"><h4>Questions of Test<strong> {{ $test->test_name }} </strong>  
-                    <a href=" {{ route('admin.material.create') }} " class="btn-email-result"><i class="fa fa-plus"></i></a>
                 </h4>
                 </div>
                 

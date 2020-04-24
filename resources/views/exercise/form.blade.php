@@ -37,7 +37,7 @@
                                                     <div class="card-body">
                                                         @foreach($question->options as $option)
 
-                                                        <input type="radio"  id="user_choice[{{$question->id}}]"  name="user_choice[{{$question->id}}]"  value="{{$option->option_number}}"></input>{{ " ".$option->option_number ." "}}                                                    
+                                                        <input type="radio"  id="user_choice[{{$question->id}}]"  name="user_choice[{{$question->id}}]"  value="{{$option->option_number}}"></input>
                                                 
 
 
