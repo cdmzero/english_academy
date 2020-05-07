@@ -81,8 +81,7 @@ public function detail_results($test_id, $user = null){
     
         $validate = $this->validate($request,[
             'mark' => ['required','numeric', 'between:0,100.00']
-        ],
-        );
+        ]);
     
         // Recogemos los datos del formulario
         $mark         = $request->input('mark');
