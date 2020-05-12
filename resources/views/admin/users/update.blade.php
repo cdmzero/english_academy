@@ -51,6 +51,9 @@
                           <input type="radio" name="role" id="user" value="user" {{ $user->role == 'user' ? 'checked' : '' }}> User
                         </label>
                         <label class="btn btn-secondary">
+                          <input type="radio" name="role" id="teacher" value="teacher" {{ $user->role == 'teacher' ? 'checked' : '' }}> Teacher
+                        </label>
+                        <label class="btn btn-secondary">
                           <input type="radio" name="role" id="admin" value="admin" {{ $user->role == 'admin' ? 'checked' : '' }}> Admin
                         </label>
                     </div>     

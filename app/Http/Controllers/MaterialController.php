@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Auth;  
+use Gate;  
 use App\Result; //Modelo de Result
 use App\Test; //Modelo de Test
 use App\User; //Modelo de user
@@ -16,6 +17,9 @@ use App\User; //Modelo de user
 class MaterialController extends Controller
 {
 
+    public function __construct(){
+        $this->middleware('admin');
+    }
 
    public function index(){
 
@@ -128,15 +132,17 @@ class MaterialController extends Controller
 
         public function update ($id){
 
-          
+            $test   = Test::findOrFail($id);
 
-            $test   = Test::find($id);
+
+            // Para conseguir la autorizacion
+            $exam_owner =   $test->user_id;
+            $user = Auth::user()->id;
+
+    
+            if (Gate::forUser($user)->allows('owner-exam', $exam_owner)) {
+
          
-
-            // var_dump($test->test_name);
-
-            // die();
-
             $status = Test::withCount(['questions'])->get();
 
             foreach($status as $statu){
@@ -149,23 +155,34 @@ class MaterialController extends Controller
                 'test' => $test,
                 'current_questions' => $current_questions
             ]);
+        }else{
 
+            return redirect()->route('admin.material')
+                             ->with(['message'=>'Sorry, you do not have enough permissions for that :/']);
+        }
 
         }
     
     
         public function save_update(Request $request){
-           
-            $id = $request->input('id');
+
+        $id = $request->input('id');
+
+        $test = Test::findOrFail($id); //conseguir todos los campos del usuario identificado
+
+        // Para conseguir la autorizacion
+
+        $exam_owner =   $test->user_id;
+        $user = Auth::user()->id;
+     
+         
+        if (Gate::forUser($user)->allows('owner-exam', $exam_owner)) {
+             
 
             $current_questions = $request->input('current_questions');
           
 
-    
-            $test = Test::find($id); //conseguir todos los campos del usuario identificado
-                
- 
-          
+         
 
             //Validamos todos los datos
 
@@ -191,11 +208,6 @@ class MaterialController extends Controller
                 'mark_right'    => ['required','numeric', 'min:0','max:2.0','gte:mark_wrong'],
             ]);
 
-          
-                
-    
-            
-            
           // Asignar nuevos valores al objeto
           
      
@@ -222,18 +234,39 @@ class MaterialController extends Controller
             ->with(['message'=>'Material update correctly']);   
 
     
+    }else{
+        return redirect()->route('admin.material.update',[
+            'test_id'   => $test->id
+        ])
+        ->with(['message'=>'Sorry you cannot do that :/']); 
+    }
+    
     }    
+    
 
 
 
     public function delete($id){
 
-        $test = Test::find($id);
+         $test = Test::findOrFail($id);
+
+         // Para conseguir la autorizacion
+         $exam_owner =   $test->user_id;
+         $user = Auth::user()->id;
+
+ 
+         if (Gate::forUser($user)->allows('owner-exam', $exam_owner)) {
+
+
 
           $test->delete();
 
             return redirect()->route('admin.material')
             ->with(['message'=>'Material deleted correctly']);   
+         }else{
+            return redirect()->route('admin.material')
+            ->with(['message'=>'Sorry, you do not have enough permissions for that :/']);   
+         }
 
             
 }
@@ -241,31 +274,54 @@ class MaterialController extends Controller
 
 public function publication($test_id){
 
-    $test = Test::find($test_id);
+        $test = Test::findOrFail($test_id);
 
-    
-    if($test->status == 'Complete'){
+         // Para conseguir la autorizacion
+         $exam_owner =   $test->user_id;
 
-        $test->status = 'Public';
-        $test->update();
+         $user = Auth::user()->id;
 
-
-        return redirect()->route('admin.questions',[
-            'test_id' => $test_id
-    ])
-    ->with(['message'=>'Question published on front-page correctly']);   
+ 
+         if (Gate::forUser($user)->allows('owner-exam', $exam_owner)) {
 
 
-    }else{
-        $test->status = 'Complete';
-        $test->update();
+            
+                if($test->status == 'Complete'){
+                    $test->status = 'Public';
+                    $test->update();
 
-        return redirect()->route('admin.questions',[
-            'test_id' => $test_id
-    ])
-    ->with(['message'=>'Question unpublish on front-page correctly']);   
 
-    }
+                    return redirect()->route('admin.questions',[
+                        'test_id' => $test_id])
+                        ->with(['message'=>'Question published on front-page correctly']);   
+
+
+                }
+                if($test->status == 'Public'){
+                    $test->status = 'Complete';
+                    $test->update();
+
+                    return redirect()->route('admin.questions',[
+                        'test_id' => $test_id])
+                    ->with(['message'=>'Question unpublish on front-page correctly']);  
+                }
+
+
+                if($test->status == 'Pending'){
+
+                    return redirect()->route('admin.questions',[
+                        'test_id' => $test_id])
+                    ->with(['message'=>'Please check the status before anything thanks ;-)']);  
+                
+                }
+
+
+        }else{
+
+            return redirect()->route('admin.material')
+            ->with(['message'=>'Sorry, you do not have enough permissions for that :/']);   
+
+        }
 
 
        

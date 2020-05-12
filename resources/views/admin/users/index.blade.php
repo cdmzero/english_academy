@@ -25,6 +25,8 @@
   <br>
   <br>
   <br>
+  <br>
+  <br>
 </div>
  
   <div class="container">
@@ -55,14 +57,6 @@
         @include('includes.buttoms') 
      
     </div>
-
-<script>
-
-function myFunction() {
-  alert("Hello! I am an alert box!");
-
-</script>
-
 
 
     @include('includes.live_search') 

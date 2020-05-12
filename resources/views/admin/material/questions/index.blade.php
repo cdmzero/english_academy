@@ -16,7 +16,7 @@
             <div class="card">
 
                 <div class="card-header text-center"><h4>Questions of Test<strong> {{ $test->test_name }} </strong>  
-                @if($test->status == "Pending" && $test->user_id == Auth::user()->id )
+                @if($test->status == "Pending" && $test->user_id == Auth::user()->id || $test->status == "Pending" && Auth::user()->role == 'admin' )
 
                     <a href=" {{ route('admin.question.create',['test_id' => $test->id]) }} " class="btn-email-result"><i class="fa fa-plus"></i></a>
                     
@@ -41,7 +41,7 @@
                                     </th>
                                     @endif
                                     <th>Status</th>
-                                    @if($test->user_id == Auth::user()->id)
+                                    @if($test->user_id == Auth::user()->id || Auth::user()->role == "admin")
                                     <th class="text-center">Publish</th>
                                     @endif
                                 </tr>
@@ -74,7 +74,7 @@
                                                     <td>
                                                         {{$test->status}}
                                                     </td>
-                                                    @if($test->user_id == Auth::user()->id)
+                                                    @if($test->user_id == Auth::user()->id || Auth::user()->role == "admin")
                                                     <td class="text-center">
 
                                                         
@@ -138,7 +138,7 @@
                         <th>
                         </th>
                         <th>
-                            @if($test->status != 'Public' )
+                            @if($test->status != 'Public' && $test->user_id == Auth::user()->id|| $test->status != 'Public' && Auth::user()->role == 'admin' )
                             <div class="text-center" style="width:160%">
                                 <a href="{{ route('admin.question.delete',['question_id' => $question->id]) }}" class='btn-social-menu btn-menu btn-lastfm' ><i class="fa fa-trash"></i></a>
                      

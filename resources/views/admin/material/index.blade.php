@@ -98,10 +98,9 @@
                                                     @endif
                                                     @endforeach
                                                      </td>  
-                                                     {{-- <span class="badge badge-pill badge-success">{{ \FormatTime::LongTimeFilter($test->updated_at) }}</td></span> --}}
 
                                                 <td class="text-center">
-                                                    @if($test->status == 'Pending' && $test->user_id == Auth::user()->id )
+                                                    @if($test->status == 'Pending' && $test->user_id == Auth::user()->id || $test->status == 'Pending' && Auth::user()->role == "admin")
                                                     
                                                         @if($questions_to_go->questions_count == 0 )
                                                         <a href="{{ route( 'admin.material.update',[ 'test_id' => $test->id ] ) }}" class='btn-social-menu btn-instagram btn-menu' ><i class="fa fa-edit"></i></a>
@@ -111,7 +110,7 @@
                                                     <a href="{{ route( 'admin.material.update',[ 'test_id' => $test->id ] ) }}" class='btn-social-menu btn-instagram btn-menu' ><i class="fa fa-edit"></i></a>
                                                     <a href="{{ route( 'admin.questions',[ 'test_id' => $test->id ] ) }}" class='btn-social-menu btn-email btn-menu' ><i class="fa fa-eye"></i></a>
                                                         @endif
-                                                    @elseif( $test->status == 'Complete' && $test->user_id == Auth::user()->id )
+                                                    @elseif( $test->status == 'Complete' && $test->user_id == Auth::user()->id || $test->status == 'Complete' && Auth::user()->role == 'admin' )
                                                    
                                                     <a href="{{ route( 'admin.material.update',[ 'test_id' => $test->id ] ) }}" class='btn-social-menu btn-instagram btn-menu' ><i class="fa fa-edit"></i></a>
                                                      <a href="{{ route( 'admin.questions',[ 'test_id' => $test->id ] ) }}" class='btn-social-menu btn-email btn-menu' ><i class="fa fa-eye"></i></a>
@@ -119,7 +118,7 @@
                                                         @if($test->status == 'Public')
                                                             <a href="{{ route( 'admin.questions',[ 'test_id' => $test->id ] ) }}" class='btn-social-menu btn-email btn-menu' ><i class="fa fa-eye"></i></a>
                                                         @endif
-                                                    @endif
+                                                   @endif
                                                 </td> 
                                                 
                                                                     

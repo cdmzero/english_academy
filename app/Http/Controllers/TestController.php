@@ -40,20 +40,12 @@ class TestController extends Controller
 
 
 
-
-
-
-
-
-
-
-
 //Para ver cada las respuestas de los usuarios  ZONA ADMIN / BACK
 
 
     public function index_result($result_id){
         //Recogemos el ID de resultado
-            $result     = Result::find($result_id);
+            $result     = Result::findOrFail($result_id);
         
         //Del anterior resultado tomamos el campo ID_Examen para buscarlo el Objeto
             $test       = Test::find($result->test_id);
@@ -105,16 +97,13 @@ class TestController extends Controller
 
     public function exam_form($test_id){
 
+        $test           = Test::findOrFail($test_id);
+
         $questions      = Question::where('test_id','=',$test_id)->get();
 
         $cuenta         = $questions->count();
 
-        $test           = Test::find($test_id);
-
-
-        $question   = Question::find(1);
-
-        $test       =  Test::find($question->test_id);
+       
 
 
         return view('exam.form',[
@@ -129,16 +118,13 @@ class TestController extends Controller
 
     public function exercise_form($test_id){
 
+        $test           = Test::findOrFail($test_id);
+
         $questions      = Question::where('test_id','=',$test_id)->get();
 
         $cuenta         = $questions->count();
 
-        $test           = Test::find($test_id);
 
-
-        $question   = Question::find(1);
-
-        $test       =  Test::find($question->test_id);
 
 
         return view('exercise.form',[

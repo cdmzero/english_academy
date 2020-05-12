@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Auth;
+use Gate;
 use App\User;       //Modelo de user
 use App\Test;       //Modelo de Test
 use App\Question;   //Modelo de Question
@@ -17,11 +18,32 @@ use App\Option;     //Modelo de Result
 class QuestionController extends Controller
 {
 
+    public function __construct(){
+
+        $this->middleware('admin');
+
+    }
 
    public function index($test_id){
 
+    //Comprobamos que el test exista
+    
+    $test_check = Test::findOrFail($test_id);
+
+
+    $test = Test::findOrFail($test_id);
+
+    $exam_owner =   $test->user_id;
+
+    $user = Auth::user()->id;
+
+
+    if (Gate::forUser($user)->allows('owner-exam', $exam_owner) | $test->status == 'Public') {
+
 
     // Primero traemos toda pregunta asociada al test para listar y paginar
+
+
 
      $questions     = Question::where('test_id', '=', $test_id)
                                 ->orderBy('id', 'ASC')
@@ -30,13 +52,14 @@ class QuestionController extends Controller
     
     // Contamos toda pregunta asociada a este test
 
-    $cuenta         = $questions->count();
+    $cuenta        = $questions->count();
 
-    $status =    Test::withCount(['questions'])->get();
+    $status         =    Test::withCount(['questions'])->get();
     
 
     foreach($status as $test){ 
-        if( !empty($test->questions_count) && $test->questions_count == $test->num_questions){
+ 
+        if( !empty($test->questions_count) && $test->questions_count == $test->num_questions ){
 
            if($test->status == 'Pending'){
                 $test->status = 'Complete';
@@ -50,11 +73,7 @@ class QuestionController extends Controller
         }
     }
 
-    // Traemos todos los datos del test 
-
-    $test           = Test::find($test_id);
-   
-
+    $test = Test::find($test_id);
 
     return view('admin.material.questions.index',[
         'questions' => $questions,
@@ -63,14 +82,31 @@ class QuestionController extends Controller
             ])
         
     ->with(['message'=>'Question created correctly']);   
-            ;
+            
+
+    }else{
+        return redirect()->route('admin.material')
+        ->with(['message'=>'Make sure you do not mess around    ;-)']); 
     }
+
+}
 
 
     // Funcion para crear una nueva pregunta
 
 
    public function create($test_id){
+
+    //Comprobamos que el test exista
+    
+    $test = Test::findOrFail($test_id);
+
+    $exam_owner =   $test->user_id;
+
+    $user = Auth::user()->id;
+
+
+    if (Gate::forUser($user)->allows('owner-exam', $exam_owner) && $test->status != 'Complete' && $test->status != 'Public') {
 
 
     $questions     = Question::where('test_id', '=', $test_id)
@@ -80,10 +116,6 @@ class QuestionController extends Controller
 
     $cuenta        = $questions->count();
 
-    $test          = Test::find($test_id);
-
-    
-
 
         return view('admin.material.questions.create',[
             'questions' => $questions,
@@ -91,9 +123,15 @@ class QuestionController extends Controller
             'test'      => $test,
                 ]);
 
+    
+
+    }else{
+
+        return redirect()->route('admin.material')
+        ->with(['message'=>'Make sure you do not mess around    ;-)']);  
     }
 
-
+}
 
 
 
@@ -101,6 +139,16 @@ class QuestionController extends Controller
 
     public function store(Request $request){
 
+
+        $test = Test::findOrFail($request->input('test_id'));
+
+        $exam_owner =   $test->user_id;
+    
+        $user = Auth::user()->id;
+    
+    
+        if (Gate::forUser($user)->allows('owner-exam', $exam_owner) && $test->status != 'Complete' && $test->status != 'Public') {
+    
         //Primero
             //Recogemos los campos de la pregunta
                 
@@ -185,7 +233,7 @@ class QuestionController extends Controller
             'test_id' =>  $test_id,
             
         ])
-        ->with(['message'=>'Test Ready to public']);
+        ->with(['message'=>'Test ready to be public']);
 
         
     }else{
@@ -197,36 +245,77 @@ class QuestionController extends Controller
                              ->with(['message'=>'Question created correctly']);
         }
 
+
+    }else{
+        return redirect()->route('admin.material')
+        ->with(['message'=>'Make sure you do not mess around    ;-)']); 
+    }
         }
 
 
 
         public function update($question_id){
 
-            $question = Question::find($question_id);
+            $check_question = Question::findOrFail($question_id);
+
+            $question = Question::find($question_id); //recuperamos la pregunta por su id
+
+            $test = Test::find($question->test_id); //recuperamos los datos del test
+
+            $exam_owner =   $test->user_id;
+        
+            $user = Auth::user()->id;
+        
+            if (Gate::forUser($user)->allows('owner-exam', $exam_owner) && $test->status != 'Public') {
 
 
-            $test = Test::find($question->test_id);
 
-            $options = Option::where('question_id', '=', $question->id)->get();
+      
+
+            $questions     = Question::where('test_id', '=',$question->test_id) // preguntamos a que test pertenece la pregunta recuperada de la BD
+                                                ->orderBy('id', 'ASC')
+                                                ->get();
+
+            $cuenta         = $questions->count(); //Contamos el numero de preguntas creadas para el test al que pertenecen
+
+            $test = Test::find($question->test_id); //recuperamos los datos del test
+
+            $options = Option::where('question_id', '=', $question->id)->get(); //recuperamos la opciones que pertenecen a la pregunta
+
+         
     
             return view('admin.material.questions.update',[
                 'question'  => $question,
                 'test'      =>$test,
-                'options'   =>  $options
+                'options'   =>  $options,
+                'cuenta'   =>  $cuenta
             ]);
 
+        }else{
+            return redirect()->route('admin.material')
+            ->with(['message'=>'Make sure you do not mess around    ;-)']); 
         }
-    
+
+
+        }
     
         public function save_update(Request $request){
            
 
-            $question_id = $request->input('question_id');
+            $question_id    = $request->input('question_id');
             
-            $question = Question::find($question_id); //conseguir todos los campos de la pregunta identificado
-             
+            $question       = Question::findOrFail($question_id); //conseguir todos los campos de la pregunta identificado
 
+            $test           = Test::findOrFail($question->test_id);
+
+            $exam_owner     =   $test->user_id;
+
+            $user           = Auth::user()->id;
+
+
+            if (Gate::forUser($user)->allows('owner-exam', $exam_owner) && $test->status != 'Public') {
+
+             
             //Recogemos los campos del formulario
             
             $question_title = $request->input('question_title');
@@ -264,31 +353,46 @@ class QuestionController extends Controller
                 // ]);
         
         
+            }else{
+                return redirect()->route('admin.material')
+                ->with(['message'=>'Make sure you do not mess around    ;-)']); 
+            }
+
             }
 
 
 
     public function delete($question_id){
 
-        $question = Question::find($question_id);
+
+        $question       = Question::findOrFail($question_id);
 
 
-        // var_dump($question);
-        // die();
+        $test           = Test::find($question->test_id);
 
-        $test_id = $question->test_id;
-     
-
-        $question->delete();
-
-
-
+        $exam_owner     = $test->user_id;
+    
+        $user           = Auth::user()->id;
     
 
-            return redirect()->route('admin.questions',[
-                    'test_id' => $test_id
-            ])
-            ->with(['message'=>'Question deleted correctly']);   
+        if (Gate::forUser($user)->allows('owner-exam', $exam_owner) && $test->status != 'Public') {
+
+
+            $test_id = $question->test_id;
+        
+
+            $question->delete();
+
+
+                return redirect()->route('admin.questions',[
+                        'test_id' => $test_id
+                ])
+                ->with(['message'=>'Question deleted correctly']);   
+
+        }else{
+            return redirect()->route('admin.material')
+            ->with(['message'=>'Make sure you do not mess around    ;-)']); 
+        }
 
             
 }

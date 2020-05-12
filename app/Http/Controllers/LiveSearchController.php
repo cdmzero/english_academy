@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 use App\User; //Modelo de User
+use Auth; //Modelo de User
 
 use Illuminate\Http\Request;
 
 class LiveSearchController extends Controller
 {
 
+  
+
     function action(Request $request)
     {
+
+      
      if($request->ajax())
      {
       $output = '';
@@ -22,6 +27,9 @@ class LiveSearchController extends Controller
          ->get();
          
       }else{
+
+       
+
        $data = User::orderBy('id', 'asc')
          ->get();
       }
@@ -29,7 +37,7 @@ class LiveSearchController extends Controller
       if($total_row > 0){
         foreach($data as $row)
         {
-            if($row->image){
+            if($row->image && Auth::user()->role == "admin"){
                 $output .= 
                 '
                 <div class="col-lg-4 text-center panel">
@@ -51,7 +59,24 @@ class LiveSearchController extends Controller
                         </h2>      
                 </div>                   
                 ';
-            }else{
+
+            }elseif($row->image){
+              $output .= 
+                '
+                <div class="col-lg-4 text-center panel">
+               
+                <a href="'. route('admin.userview',['id'=>$row->id]) .'">
+                        <img src="'.route('user.avatar',['filename'=>$row->image]) .'" class="rounded-circle" height="150px" width="150px"></img>
+                        </a>
+                        <h2 class="title">'. $row->user_name ." ". $row->surname .'
+                      
+                      <div class="dropdown">
+                      </div>
+                        </h2>      
+                </div>                   
+                ';
+
+            }elseif( $row->image == "" && Auth::user()->role == "admin"){
                 $output .= '
               <div class="col-lg-4 text-center">
                         <a href="'. route('admin.userview',['id'=>$row->id]) .'">
@@ -73,7 +98,24 @@ class LiveSearchController extends Controller
              </div>               
                     
                 ';
-            }   
+            }else{
+              $output .= '
+              <div class="col-lg-4 text-center">
+                        <a href="'. route('admin.userview',['id'=>$row->id]) .'">
+                        <img src="../img/nopic.png" class="rounded-circle" height="150px" width="150px"></img>
+                        </a>
+                        <h2 class="title">'. $row->user_name ." ". $row->surname.
+
+                        '<div class="dropdown">
+
+                        
+                        </div>
+                        
+                        </h2>
+             </div>               
+                    
+                ';
+            }  
         }
       }else{
        $output = '

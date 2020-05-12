@@ -50,7 +50,12 @@
                                                         {{  \FormatTime::LongTimeFilter($result->created_at) }}
                                                     </td>
                                                     <td class="text-center">
+                                                        @if($test->user_id == Auth::user()->id || Auth::user()->role == 'admin')
                                                         <a class='btn-social-menu btn-instagram btn-menu' href="{{ route('admin.results.detail',['result_id' => $result->id]) }}"><i class="fa fa-edit"></i></a>
+                                                        
+                                                        @endif
+                                                        
+
                                                     <a href="{{ route('admin.userview',['id' => $result->user_id]) }}" class="btn-social-menu btn-email btn-menu"><i class="fa fa-user"></i></a>
                                                     </td>   
                                                                             

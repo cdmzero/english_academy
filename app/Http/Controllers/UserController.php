@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User; //Modelo de user
+use Auth; //Modelo de user
 use App\Result; //Modelo de result
 use Illuminate\Support\Facades\Hash; //Para cifrar contraseña
 use Illuminate\Http\Request; //Trae todas las cosas que mandemos por POST
@@ -15,7 +16,9 @@ class UserController extends Controller{
 
 
     public function __construct(){
+
         $this->middleware('auth');
+
     }
 
 
@@ -23,8 +26,6 @@ class UserController extends Controller{
         return view('user.config');
     }
 
-
-    
 
     //Metodo para ver el perfil del usuario logueado
 
@@ -61,7 +62,10 @@ class UserController extends Controller{
 
     // Vista para crear un USER
     public function create(){
-        return view('admin.users.create');
+
+            return view('admin.users.create');
+    
+
     }
 
 
@@ -135,11 +139,20 @@ class UserController extends Controller{
 
     public function update($id){
 
-        $user = User::find($id);
+        if (Auth::user()->role == "admin"){
 
-        return view('admin.users.update',[
+            $user = User::findOrFail($id);
+
+            return view('admin.users.update',[
             'user' => $user
         ]);
+
+        }else{
+            return redirect()->route('admin.users')
+            ->with(['message'=>'Sorry, you do not have enough permissions for that :/']);
+        }
+
+        
     }
 
 
@@ -158,7 +171,7 @@ class UserController extends Controller{
             'surname'       => ['required' , 'string' , 'max:20' , 'regex:/^([A-Za-zÑñ]+[áéíóú]?[A-Za-z]*){2,18}\s?([A-Za-zÑñ]+[áéíóú]?[A-Za-z]*){0,36}$/iu'],
             'nick'          => ['required' , 'string' , 'max:20' , 'unique:users,nick,'.$id],
             'email'         => ['required' , 'string' , 'max:30' , 'unique:users,email,'.$id],
-            'role'          => ['required' , 'in:user,admin'],
+            'role'          => ['required' , 'in:user,teacher,admin'],
             'image_path'    => ['nullable' , 'mimes:jpeg,jpg,png,gif' , 'max:3000'],
         ]);
             
@@ -208,11 +221,11 @@ class UserController extends Controller{
 
     
     public function delete($id){
+    
 
-        $user = User::find($id);
 
+        $user = User::findorFail($id);
 
-      
             //  $user->delete();
             return redirect()->route('admin.users')
             ->with(['message'=>'User deleted correctly']);   
@@ -292,7 +305,7 @@ public function getImage($filename){
 
     public function user_view($id){
 
-        $user    = User::find($id);
+        $user    = User::findOrFail($id);
     
         $results = Result::where('user_id','=',$id)
                             ->paginate(5);

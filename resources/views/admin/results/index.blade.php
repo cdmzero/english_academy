@@ -12,6 +12,13 @@
   </div>
 </div>
   <div class="container marketing">
+
+
+    @if(session('message'))
+    <div class="alert alert-success">
+        {{ session('message') }}
+    </div>
+    @endif
     <!-- Three columns of text below the carousel -->
     <div class="row">
       @foreach ($tests as $test)

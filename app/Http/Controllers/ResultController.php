@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Auth;  
+use Gate;  
 use App\Result; //Modelo de Result
 use App\Test; //Modelo de Test
 use App\User; //Modelo de User
@@ -14,6 +15,11 @@ use Illuminate\Support\Facades\Redirect; // para redireccionar a otras rutas
 class ResultController extends Controller
 {
 
+    public function __construct(){
+
+        $this->middleware('admin');
+
+    }
 
     public function results_index(){
 
@@ -33,7 +39,7 @@ class ResultController extends Controller
 
 
 
-        $test      = Test::where('id','=',$id)->first();
+        $test       = Test::findOrFail($id);
 
         $results    = Result::where('test_id','=',$id)
                             ->orderBy('id', 'DESC')
@@ -54,9 +60,17 @@ class ResultController extends Controller
 
 // Cargar la vista para editar un resultado
 
-public function detail_results($test_id, $user = null){
+public function detail_results($result_id, $user = null){
 
-    $result   = Result::find($test_id);
+
+    $result   = Result::findOrFail($result_id);
+
+    $test       = Test::find($result->test_id);
+
+    $exam_owner = $test->user_id;
+    $user_check = Auth::user()->id;;
+
+    if (Gate::forUser($user_check)->allows('owner-exam', $exam_owner)) {
 
     if($user){
         return view('admin.results.detail',[
@@ -69,13 +83,35 @@ public function detail_results($test_id, $user = null){
                     ]);    
     }
    
-}
+    }else{
+        
+        if(empty($user)){
+            return Redirect::route('admin.results.menu', array('id' => $result->test_id))
+                ->with(['message'=>'Sorry, you do not have enough permissions for that! :/']);
 
+
+        }else{
+            return Redirect::route('admin.results')
+            ->with(['message'=>'Sorry, you do not have enough permissions for that! :/']);
+
+        }
+    }
+
+}
 
     
     public function update_mark(Request $request){
+
+        $result = Result::findOrFail($request->input('id'));
+        $test = Test::find($result->test_id);
+   
+        $exam_owner = $test->user_id;
+
+        $user = Auth::user()->id;
+        
+        if (Gate::forUser($user)->allows('owner-exam', $exam_owner)) {
        
-        //variable para controlador si la peticion viene de la vista 'resultado' o  de la vista 'usuario'
+    // Variable para controlador si la peticion viene de la vista 'resultado' o  de la vista 'usuario'
        
          $user = $request->input('user');
     
@@ -83,66 +119,84 @@ public function detail_results($test_id, $user = null){
             'mark' => ['required','numeric', 'between:0,100.00']
         ]);
     
-        // Recogemos los datos del formulario
+    // Recogemos los datos del formulario
         $mark         = $request->input('mark');
-        $id           = $request->input('id');
     
     
-        // Conseguir datos
-         // Asignar nuevos valores al objeto del usuario
-         $result        = Result::find($id);
+    // Conseguir datos
+    // Asignar nuevos valores al objeto del usuario
+
          $result->total_mark  = $mark;
-    
-       
-    
-    
-        //Ejecutamos consulta,cambios en la BD y ademas mostramos un mensaje
+
+    // Ejecutamos consulta,cambios en la BD y ademas mostramos un mensaje
         $result->update();
     
         if(empty($user)){
             return redirect()->route('admin.results.detail',[
-                'result_id' => $id
-                        ])
-            ->with(['message'=>'Result updated correctly']);
+                'result_id' => $request->input('id')
+                            ])
+                    ->with(['message'=>'Result updated correctly']);
     
         }else{
             return redirect()->route('admin.results.detail',[
-                'result_id' => $id,
+                'result_id' => $request->input('id'),
                 'user'   => $user,
-                        ])
-            ->with(['message'=>'Result updated correctly']);
+                            ])
+                    ->with(['message'=>'Result updated correctly']);
         }
     
+    }else{
+        return redirect()->route('admin.results.detail',[
+            'result_id' => $request->input('id')
+                            ])
+                    ->with(['message'=>'You do not have enough permissions for that! :/']);
+    }
+
+
+
     }
     
 
-
-    // Funcion para borrar un resultado
 
 public function delete_result($result_id, $user_id = null){
 
     $result = Result::find($result_id);
 
+    // Para conseguir la autorizacion recuperamos el ID del creador
+    $test = Test::find($result->test_id);
+   
+    $exam_owner =   $test->user_id;
+    $user = Auth::user()->id;
+
     $test_id = $result->test_id;
 
-    $result->delete();
+    if (Gate::forUser($user)->allows('owner-exam', $exam_owner)) {
 
-    //Por si se queda a 0 en resultados el usuario
-    $cuenta = Result::where('user_id','=',$user_id)->count();
+        $result->delete();
+
+        //Por si se queda a 0 la vista de user_view
+        $cuenta = Result::where('user_id','=',$user_id)->count();
 
 
-    if(empty($user_id) || $cuenta == 0 ){
+        if(empty($user_id) || $cuenta == 0 ){
 
-        return Redirect::route('admin.results.menu', array('id' => $test_id))
-        ->with(['message'=>'Result deleted correctly']);
+            return Redirect::route('admin.results.menu', array('id' => $test_id))
+            ->with(['message'=>'Result deleted correctly']);
+
+        }else{
+            return Redirect::route('admin.userview', array('id' => $user_id))
+                ->with(['message'=>'Result deleted correctly']);
+                        
+        }
 
     }else{
-          return Redirect::route('admin.userview', array('id' => $user_id))
-            ->with(['message'=>'Result deleted correctly']);
-                    
+        return Redirect::route('admin.results.menu', array('id' => $test_id))
+        ->with(['message'=>'Sorry you do not have enough permissions for that :/']);
     }
 
-
 }
+
+
+
 
 }
