@@ -45,7 +45,11 @@
                               <label class="custom-control-label" for="customRadio{{$contador}}5" >I prefer not answerd </label>
                             </div>         
                   </div> 
-               <!-- Plans ends -->         
+            
+                  
+
+
+
 @endforeach
                <input type="hidden" name="test_id" value="{{$test->id}}">
                <div class="mx-auto" style="width:50px">
@@ -60,4 +64,6 @@
          </div>
          </div>
       </section>
+
+  
 @endsection

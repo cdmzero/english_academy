@@ -37,6 +37,9 @@ Route::get('/exams/index','TestController@index_test')->name('exams.index');
 Route::get('/exam/form/{test_id}','TestController@exam_form')->name('exam.form');
 
 
+Route::post('/exam/diploma/','TestController@export_pdf')->name('exam.diploma.store');
+
+
 // Parte para acceder a un EXERCISE  
 
 

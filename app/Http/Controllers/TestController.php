@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-
+use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Http\Response; //Para devolver la imagen desde la BD
 use Auth;
 use App\User;       //Modelo de user
 use App\Test;       //Modelo de Test
 use App\Question;   //Modelo de Question
 use App\Choice;     //Modelo de Choice
 use App\Result;     //Modelo de Result
-// use App\Option;     //Modelo de Result
 
 
 class TestController extends Controller
@@ -247,12 +246,13 @@ class TestController extends Controller
     if($test->test_type == 'Exam'){
 
         return view('exam.user_result',[
+            'result_id' => $result->id,
             'nota'  => $nota,
             'test' =>  $test ,
             'n_aciertos' => $n_aciertos,
              'choices' => $choices,
         ])
-        ->with(['message'=>'Test saved correctly']);
+        ->with(['message'=>'Exam submitted correctly']);
 
     } else{
 
@@ -262,15 +262,26 @@ class TestController extends Controller
             'n_aciertos' => $n_aciertos,
              'choices' => $choices,
         ])
-        ->with(['message'=>'Test saved correctly']);
+        ->with(['message'=>'Exercise submitted correctly']);
     
+        }
+
     }
+
+    public function export_pdf(Request $request)
+    {
+
+        $result  = Result::findOrFail($request->input('result_id'));
+
+        // var_dump($user);
+        // die();
+
+        $pdf = PDF::loadView('exam.diploma', compact('result'));
+
+        return $pdf->setPaper('a4', 'landscape')->download('diploma.pdf');
     }
 
-   
-
-
-
+ 
 
 
 

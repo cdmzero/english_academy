@@ -130,7 +130,12 @@
                                                 </td>   
                                                     <td class="text-center">
                                                       @if($nota >= 65)
-                                                      <a href="" class='btn-social-menu btn-menu btn-email' ><i class="fa fa-check"></i></a>
+                                                    <form action="{{ route('exam.diploma.store') }}" method="post">
+                                                        @csrf
+                                                    <input type="hidden" name="result_id" value="{{$result_id}}">
+                                                  
+                                                      <a onclick="$(this).closest('form').submit()" class='btn-social-menu btn-menu btn-email' ><i class="fa fa-check"></i></a>
+                                                    </form>
                                                       @else
                                                       <a href="" class='btn-social-menu btn-menu btn-lastfm' ><i class="fa fa-times-circle"></i></a>
                                                       @endif
