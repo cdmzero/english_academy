@@ -139,26 +139,52 @@ class TestController extends Controller
 
     public function store_result(Request $request){
 
+
+
     //Recogemos el array de las opciones marcadas por el usuario
 
     $choices = $request->input('user_choice');
     $nota = $n_aciertos = 0;
 
     
-    $test = Test::find($request->input('test_id'));
+$error = false;
 
-    //Comprobamos que se han contestado la mitad de las preguntas
+    foreach($choices as $clave => $valor)
+        {
+        $question = Question::findOrFail($clave);
 
-    $limite_para_no_contestar =  $test->num_questions / 2;
+        if($question->test_id != $request->input('test_id'))
+        {
+            $error = true;
+        }
 
-    $valores_contestados = array_count_values($choices);
+        if($valor > 5 || $valor < 1 || $error )
+        {
+            Question::findOrFail('404Error');
+        }
+    }
 
-  
+
+
+    $test = Test::findOrFail($request->input('test_id'));
+
+   
+
+    $limite_para_no_contestar =  $test->num_questions / 2; //Limite para comprobar que se han contestado la mitad de las preguntas
+
+    $lim = round($limite_para_no_contestar);
+
+    $valores_contestados = array_count_values($choices);    //Contamos las opciones elegidas del 1 al 5
+
+
+
     foreach( $valores_contestados as $clave => $valor){
+
+        //Si la opcion 5(No se, no contesto) ha sido elegida mas del 50% en todo el test volvemos atras// 
+
         if($clave == 5 && $valor > $limite_para_no_contestar){
-            $clave = "Debes contestar al menos la mitad de las preguntas";
-            var_dump($clave);
-            die();
+
+            return back()->with(['error'=>"You must answerd at least $lim questions"]);
         }
     }
 

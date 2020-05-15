@@ -16,11 +16,21 @@
             </div>
             <br><br>
 
+            @if(session('message'))
+            <div class="alert alert-success">
+                {{ session('message') }}
+            </div>
+            @endif
+
+            @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+            @endif
+
 <form action="{{ route('exercise.test.store') }}" method="post">
   @csrf
 @foreach ($questions as $question)
-
-            <!-- PLANS STARTS -->
 
                   <div class="price-plan">
              

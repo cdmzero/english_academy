@@ -16,7 +16,6 @@ body {background:rgb(255, 255, 255);}
     box-shadow:none;
     
 }
-
 #cert {
     background-image:url(/img/diploma.jpg);
     height:95%;
@@ -24,51 +23,43 @@ body {background:rgb(255, 255, 255);}
     background-repeat:no-repeat;
     border: 0px; 
 }
-
 #tittle {
     margin-top:76mm;
     text-align:center;
     font-size:35mm;
     font-weight:lighter;
     font-family: "Times New Roman", Times, serif;
-
 }
 #subtitle {
     margin-top:10mm;
     text-align:center;
     font-size:10mm;
     font: oblique bold cursive
-
 }
 #par {
     margin-top:38mm;
     text-align:center;
-    font-size:10mm;
+    font-size:15mm;
     font-weight:lighter;
     font: oblique  cursive
-
 }
 #impar {
     margin-top:10mm;
     text-align:center;
-    font-size:10mm;
+    font-size:15mm;
     font-weight:lighter;
     font: oblique  cursive
-
 }
 #sign {
-    margin-top:60mm;
+    margin-top:50mm;
     margin-left:100mm;
     text-align:left;
     font-size:7mm;
     font: oblique  cursive
-
 }
 #logo {
-    margin-top:30mm;
+    margin-top:20mm;
     margin-left:110mm;
-
-
 }
 #footer {
     margin-top:5mm;
@@ -77,11 +68,10 @@ body {background:rgb(255, 255, 255);}
     font-size:5mm;
     font: oblique  cursive
 
-}
-.box {
-}
 
+.box{
 
+}
 .left {
     float: left;
     width: 50%;
@@ -115,7 +105,7 @@ body {background:rgb(255, 255, 255);}
                         </div>
                         
                         <div class="right">
-                            <p id="logo"><img src="img/logo.jpg" height="250px" width="300px"></p>
+                            <p id="logo"><img src="img/coat.jpg" height="250px" width="300px"></p>
                 
                              
                         </div>

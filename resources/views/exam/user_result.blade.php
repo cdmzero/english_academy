@@ -137,7 +137,9 @@
                                                       <a onclick="$(this).closest('form').submit()" class='btn-social-menu btn-menu btn-email' ><i class="fa fa-check"></i></a>
                                                     </form>
                                                       @else
+                                                      <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Sorry your mark is lower than 65% keep practicing! ">
                                                       <a href="" class='btn-social-menu btn-menu btn-lastfm' ><i class="fa fa-times-circle"></i></a>
+                                                      </span>
                                                       @endif
                                                 </td>   
                                                                             
@@ -159,7 +161,11 @@
 </div>
 
     
-
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
 @endsection
 
 
