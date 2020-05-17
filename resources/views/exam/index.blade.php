@@ -44,7 +44,7 @@
 
   <!-- FOOTER -->
   <footer class="container">
-    <p>&copy; 2020 English Value School, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+    <p>&copy; 2020 English Value School, Inc. &middot; <a href="{{ route('privacy-policy') }}">Privacy</a></p>
   </footer>
 </main>
 

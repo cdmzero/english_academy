@@ -64,7 +64,7 @@ Route::post('/exercise/test/','TestController@store_result')->name('exercise.tes
 
 
 // Parte admin
-Route::get('/admin/index','AdminController@admin_index')->name('admin.index')->middleware('admin');
+Route::get('/admin/index','MaterialController@admin_index')->name('admin.index')->middleware('admin');
 
     // Parte admin de USERS
 Route::get('/admin/users','UserController@users_index')->name('admin.users')->middleware('admin');
@@ -94,7 +94,7 @@ Route::get('/admin/results/{id}','ResultController@results')->name('admin.result
 Route::get('/admin/detail/{result_id}/{user?}','ResultController@detail_results')->name('admin.results.detail')->middleware('admin');
 Route::post('/admin/result/update/','ResultController@update_mark')->name('admin.results.update')->middleware('admin');
     //Borrar un RESULT 
-Route::get('/admin/result/delete/{result_id}/{user_id?}','ResultController@delete_result')->name('admin.results.delete')->middleware('super_admin');
+Route::get('/admin/result/delete/{result_id}/{user_id?}','ResultController@delete_result')->name('admin.results.delete')->middleware('admin');
 
 
 //Para el userview de USERS
@@ -140,3 +140,6 @@ Route::get('/admin/material/questions/{test_id}','QuestionController@index')->na
         Route::get('/admin/material/questions/delete/{question_id}','QuestionController@delete')->name('admin.question.delete')->middleware('admin');
 
 
+//Ruta para la privacidad
+
+Route::get('/privacy','UserController@privacy')->name('privacy-policy');

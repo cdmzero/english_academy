@@ -21,6 +21,12 @@ class MaterialController extends Controller
         $this->middleware('admin');
     }
 
+    public function admin_index(){
+
+        return view('admin.index');
+    }
+
+
    public function index(){
 
 //  Para controlar si los examenes estan listos para ser publicados 
@@ -158,7 +164,7 @@ class MaterialController extends Controller
         }else{
 
             return redirect()->route('admin.material')
-                             ->with(['message'=>'Sorry, you do not have enough permissions for that :/']);
+                             ->with(['error'=>'Sorry, you do not have enough permissions for that :/']);
         }
 
         }

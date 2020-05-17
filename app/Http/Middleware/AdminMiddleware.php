@@ -20,6 +20,6 @@ class AdminMiddleware
         if(Auth::check() && Auth::user()->role=='admin' || Auth::check() && Auth::user()->role=='teacher')
             return $next($request);
 
-        return redirect('/');
+        return redirect('/')->with(['error'=>"You do not have permissions for that"]);
     }
 }

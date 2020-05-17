@@ -157,15 +157,6 @@
       </div>
 
 
-<div class="mx-auto text-center">
-<br>
-    @include('includes.buttoms') 
-
-
-
-
-
-</div>
        
 </div>
 

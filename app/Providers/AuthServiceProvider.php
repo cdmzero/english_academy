@@ -33,7 +33,6 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
 
-
         Gate::define('owner-exam' , function($user, $exam_owner) {
 
             return $user === $exam_owner || Auth::user()->role === "admin";

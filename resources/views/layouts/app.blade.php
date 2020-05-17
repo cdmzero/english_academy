@@ -31,6 +31,7 @@
 
 </head>
 <body>
+   
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light  bg-white fixed-top shadow-sm">
             <div class="container">
@@ -105,7 +106,10 @@
             <div class="bar">
             </div>
             @yield('content')
+       
+
         </main>
     </div>
 </body>
+@include('cookieConsent::index')
 </html>

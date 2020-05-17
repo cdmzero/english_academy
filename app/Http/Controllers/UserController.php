@@ -14,7 +14,10 @@ use Illuminate\Http\Response; //Para devolver la imagen desde la BD
 
 class UserController extends Controller{
 
-
+    public function privacy(){
+        return view('privacy.content');
+    }
+    
     public function __construct(){
 
         $this->middleware('auth');
@@ -25,6 +28,8 @@ class UserController extends Controller{
     public function config(){
         return view('user.config');
     }
+
+    
 
 
     //Metodo para ver el perfil del usuario logueado

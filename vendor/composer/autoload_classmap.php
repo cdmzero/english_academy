@@ -3616,6 +3616,8 @@ return array(
     'SebastianBergmann\\Type\\UnknownType' => $vendorDir . '/sebastian/type/src/UnknownType.php',
     'SebastianBergmann\\Type\\VoidType' => $vendorDir . '/sebastian/type/src/VoidType.php',
     'SebastianBergmann\\Version' => $vendorDir . '/sebastian/version/src/Version.php',
+    'Spatie\\CookieConsent\\CookieConsentMiddleware' => $vendorDir . '/spatie/laravel-cookie-consent/src/CookieConsentMiddleware.php',
+    'Spatie\\CookieConsent\\CookieConsentServiceProvider' => $vendorDir . '/spatie/laravel-cookie-consent/src/CookieConsentServiceProvider.php',
     'Svg\\DefaultStyle' => $vendorDir . '/phenx/php-svg-lib/src/Svg/DefaultStyle.php',
     'Svg\\Document' => $vendorDir . '/phenx/php-svg-lib/src/Svg/Document.php',
     'Svg\\Gradient\\Stop' => $vendorDir . '/phenx/php-svg-lib/src/Svg/Gradient/Stop.php',

@@ -13,11 +13,21 @@
                 {{ session('message') }}
             </div>
             @endif
+
+            @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+            @endif
+
+
             <div class="card">
 
                 <div class="card-header text-center"><strong> <h4> {{ $test->test_name }} </strong> Exercise 
                 </h4>
                 </div>
+
+
                 
                     <div class="card-body">
 
@@ -76,11 +86,6 @@
 </div>
     
 <br>
-<div class="col-xl-6 m-auto text-center">
-<br>
-    @include('includes.buttoms') 
-
-</div>                        
 
 
 @endsection

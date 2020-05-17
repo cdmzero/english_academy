@@ -14,7 +14,7 @@
     <div class="row">
       @foreach ($tests as $test)
       <div class="col-lg-4 text-center">
-        <a href=" {{ route('exercise.form',['test_id' => $test->id]) }}"  class="btn-social-head btn-instagram">{{ $test->test_name }}</a>
+        <a href=" {{ route('exercise.form',['test_id' => $test->id]) }}"  class="btn-social-head btn-email">{{ $test->test_name }}</a>
         <h2 class="title">{{ $test->test_level }}
             </h2>
         <br>
@@ -44,7 +44,7 @@
 
   <!-- FOOTER -->
   <footer class="container">
-    <p>&copy; 2020 English Value School, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+  <p>&copy; 2020 English Value School, Inc. &middot; <a href="{{ route('privacy-policy') }}">Privacy</a></p>
   </footer>
 </main>
 

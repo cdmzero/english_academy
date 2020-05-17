@@ -74,15 +74,15 @@
             <td>{{$result->test->user->nick}}</td>
             <td>{{ \FormatTime::LongTimeFilter($result->created_at) }}</td>
             <td>{{ \FormatTime::LongTimeFilter($result->updated_at) }}</td>
-            <td>
+            <td class="text-center">
             @if($result->test->user_id == Auth::user()->id || Auth::user()->role == 'admin' )
            <a class='btn-social-menu btn-instagram btn-menu' href="{{ route('admin.results.detail',['result_id' => $result->id, 'user' => 'u']) }}"><i class="fa fa-edit"></i></a>
            <a href="{{ route( 'exercise.result.index',[ 'result_id' => $result->id ] ) }}" class='btn-social-menu btn-email btn-menu'><i class="fa fa-eye"></i></a>
 
             @else
-            <td class="text-center">
                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Sorry, you are not the right teacher for that :/">
                 <a class='btn-social-menu btn-instagram btn-menu'><i class="fa fa-edit"></i></a>
+                <a class='btn-social-menu btn-email btn-menu'><i class="fa fa-eye"></i></a>
             </span>
           
             @endif

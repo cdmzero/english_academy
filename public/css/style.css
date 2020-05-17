@@ -1,5 +1,21 @@
 
 /* Para la imagen el avatar en la formulario update*/
+.js-cookie-consent{
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    z-index: 9999;
+    background-color: #fffbdb;
+    border-color: #fffacc;
+    border: solid 1px;
+  }
+
+
+
+
 form .avatar{
 
 width: 150px;
