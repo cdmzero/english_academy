@@ -29,6 +29,43 @@ class UserController extends Controller{
         return view('user.config');
     }
 
+
+    public function change_password(){
+        return view('auth.change');
+    }
+
+    public function changePassword(Request $request){
+
+
+        if (!(Hash::check($request->get('cur_pass'), Auth::user()->password))) {
+            // The passwords matches
+            return back()->with(['error'=>'Sorry your current password and the password you provided doesnt match']);
+        }
+
+        if(strcmp($request->get('cur_pass'), $request->get('newpass')) == 0){
+            //Current password and new password are same
+            return back()->with(['error'=>'Sorry you cannot use the same password for the new password']);
+        }
+
+        $validate = $request->validate([
+            'cur_pass' => ['required'],
+            'newpass' => ['required' , 'string' , 'min:6' , 'confirmed']
+        ]);
+
+        $password   = Hash::make($request->input('newpass'));
+
+        //Change Password
+        $user = Auth::user();
+        $user->password = $password;
+
+
+        $user->saveOrfail();
+
+        return back()->with(['message'=>'Password changed correctly']);
+
+
+    }
+
     
 
 

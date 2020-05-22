@@ -21,6 +21,17 @@ CONSTRAINT pk_user PRIMARY KEY(id)
 
 )ENGINE=InnoDb;
 
+DROP TABLE IF EXISTS `password_resets`;
+CREATE TABLE `password_resets`(
+id          int(255) auto_increment not null,
+email       varchar(255),
+token varchar(255),
+created_at datetime,
+
+CONSTRAINT pk_passresets PRIMARY KEY(id)
+
+)ENGINE=InnoDb;
+
 INSERT INTO users VALUES(NULL,'Jose Francisco','Funez Arcediano', 'admin','cdmzero','jose@jose.com','$2y$10$4zxuopgbsSNIdE518WKd/u8KpRx.1qogtgxO7JJZJd92vXOl.uuiu','1586281316tio.png',CURTIME(),NULL,NULL);
 INSERT INTO users VALUES(NULL,'Juan','Lopez', 'user','juanlp','jlp@gmail.com','pass',null,CURTIME(),NULL,NULL);
 INSERT INTO users VALUES(NULL,'Manolo','Garcia', 'user','manlo','manolo@gmail.com','pass',null,CURTIME(),NULL,NULL);

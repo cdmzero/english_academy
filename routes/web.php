@@ -19,6 +19,11 @@ Route::post('/profile/update','UserController@update_profile')->name('user.updat
     //Para ver el perfil
 Route::get('/profile','UserController@profile')->name('user.profile');
 
+    //Para cambiar la contraseña
+Route::get('/profile/change-password','UserController@change_password')->name('user.change.password');
+Route::post('/profile/changePassword','UserController@changePassword')->name('changePassword');
+
+
 
 
     // Para del AVATAR 
@@ -68,6 +73,7 @@ Route::get('/admin/index','MaterialController@admin_index')->name('admin.index')
 
     // Parte admin de USERS
 Route::get('/admin/users','UserController@users_index')->name('admin.users')->middleware('admin');
+
 
     //Para la creaccion y almacenamiento de USERS
 Route::get('/admin/users/create','UserController@create')->name('admin.users.create')->middleware('admin');

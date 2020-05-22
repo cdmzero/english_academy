@@ -77,11 +77,15 @@
                                     <a class="dropdown-item" href=" {{ route('config') }} ">
                                         Edit
                                     </a>
+                                    <a class="dropdown-item" href="{{ route('user.change.password') }} ">
+                                        Change Password
+                                    </a>
                                     @if(Auth::user()->role != 'user')
                                     <a class="dropdown-item" href=" {{ route('admin.index') }} ">
                                         Admin Zone
                                     </a>
                                     @endif
+                             
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

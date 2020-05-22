@@ -299,8 +299,7 @@ $error = false;
 
         $result  = Result::findOrFail($request->input('result_id'));
 
-        // var_dump($user);
-        // die();
+    
 
         $pdf = PDF::loadView('exam.diploma', compact('result'));
 
