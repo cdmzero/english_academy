@@ -11,6 +11,8 @@ use Gate;
 use App\Result; //Modelo de Result
 use App\Test; //Modelo de Test
 use App\User; //Modelo de user
+use App\Question;   //Modelo de Question
+use App\Choice;     //Modelo de Choice
 
 
 
@@ -140,32 +142,43 @@ class MaterialController extends Controller
 
             $test   = Test::findOrFail($id);
 
-
-            // Para conseguir la autorizacion
-            $exam_owner =   $test->user_id;
-            $user = Auth::user()->id;
-
-    
-            if (Gate::forUser($user)->allows('owner-exam', $exam_owner)) {
-
-         
-            $status = Test::withCount(['questions'])->get();
-
-            foreach($status as $statu){
-                if($statu->id == $id){
-                    $current_questions = $statu->questions_count;
-                }
-            }
-         
-            return view('admin.material.update',[
-                'test' => $test,
-                'current_questions' => $current_questions
-            ]);
-        }else{
+          if( $test->status == 'Public'){
 
             return redirect()->route('admin.material')
-                             ->with(['error'=>'Sorry, you do not have enough permissions for that :/']);
-        }
+                                 ->with(['error'=>'Sorry, you need to unpublish before anything :/']);
+
+          }else{
+
+
+             // Para conseguir la autorizacion
+             $exam_owner =   $test->user_id;
+             $user = Auth::user()->id; 
+
+
+            if (Gate::forUser($user)->allows('owner-exam', $exam_owner) ) {
+
+         
+                $status = Test::withCount(['questions'])->get();
+    
+                foreach($status as $statu){
+                    if($statu->id == $id){
+                        $current_questions = $statu->questions_count;
+                    }
+                }
+             
+                return view('admin.material.update',[
+                    'test' => $test,
+                    'current_questions' => $current_questions
+                ]);
+            }else{
+    
+                return redirect()->route('admin.material')
+                                 ->with(['error'=>'Sorry, you do not have enough permissions for that :/']);
+            }
+
+          }
+           
+           
 
         }
     
@@ -299,14 +312,27 @@ public function publication($test_id){
 
                     return redirect()->route('admin.questions',[
                         'test_id' => $test_id])
-                        ->with(['message'=>'Question published on front-page correctly']);   
-
+                        ->with(['message'=>'Question published on front-page correctly']);
 
                 }
                 if($test->status == 'Public'){
+
+                    //Cuando despubliquemos un ejercicio las respuestas que hayamos dado se borraran , pero se mantendran los resultados.
                     $test->status = 'Complete';
                     $test->update();
 
+                    $results = Result::where('test_id','=',$test->id)
+                                        ->get();
+                                        
+                    foreach($results as $result){
+                        $choices = Choice::where('result_id','=',$result->id)->get();   
+                            foreach($choices as $choice){
+                                $choice->delete();
+                            }                            
+                    }
+
+
+                   
                     return redirect()->route('admin.questions',[
                         'test_id' => $test_id])
                     ->with(['message'=>'Question unpublish on front-page correctly']);  
@@ -317,7 +343,7 @@ public function publication($test_id){
 
                     return redirect()->route('admin.questions',[
                         'test_id' => $test_id])
-                    ->with(['message'=>'Please check the status before anything thanks ;-)']);  
+                    ->with(['error'=>'Please check the status before anything thanks ;-)']);  
                 
                 }
 
@@ -325,7 +351,7 @@ public function publication($test_id){
         }else{
 
             return redirect()->route('admin.material')
-            ->with(['message'=>'Sorry, you do not have enough permissions for that :/']);   
+            ->with(['error'=>'Sorry, you do not have enough permissions for that :/']);   
 
         }
 

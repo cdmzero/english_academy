@@ -73,10 +73,16 @@
 <br>
 <br>
 
+{{-- {{ $ldate = date('Y-m-d H:i:s')}} <br>
+{{ $test->updated_at }}
+{{ $result->created_at }} --}}
 
+{{-- para mantener la integridad de las respuestas de los usuarios respecto a los tests --}}
+ {{-- no mostraremos las preguntas de aquellos tests que la fecha de modificacion interna sea mas posterior a la obtencion de ese resultado --}}
 <div class="row justify-content-center">
     <div class="col-md-8">
-        
+      @if($test->updated_at == null || $test->updated_at < $result->created_at)
+      
     <div id="accordion">
     @foreach ($questions as $question)
 
@@ -143,14 +149,12 @@
                                     </tr>
                     </tbody>        
                 </table>
-
-
-
           </div>
         </div>
       </div>
       @endforeach
       </div>
+      @endif
      <br>
      <br>
      <br>

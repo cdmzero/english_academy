@@ -149,7 +149,50 @@
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
+
+
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h1 class="display-5 ">Train Your English <br></h1>
+                            </div>
+                        <div class="row col-md-13">
+                            <table class="table responsible ">
+                                
+                            <thead>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th class="text-center">
+                                    <a href=" {{ route('exercise.form',['test_id' => $test->id]) }}"  class="btn-social-head btn-email">{{ $test->test_name }}</a>
+                                    </th>
+
+                                </tr>
+                            </tbody>
+                            </table>     
+                    </div>
+                </div>
+            </div>
+            {{-- </div>
+            <div class="container">
+               <div class=" text-center">
+              <br>
+              <h1 class="display-4 text-center ">Train Your English <br></h1> --}}
+         
+                {{-- @foreach ($test as $test) --}}
+                {{-- <div class="col-lg-4 text-center">
+                  <a href=" {{ route('exercise.form',['test_id' => $test->id]) }}"  class="btn-social-head btn-email">{{ $test->test_name }}</a>
+                  <h2 class="title">{{ $test->test_level }}
+                      </h2> --}}
+                  <br>
+                </div>
+          {{-- @endforeach --}}
+          
+            
+            
+            </div>
     </div>
 </div>
 

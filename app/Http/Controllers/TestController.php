@@ -75,15 +75,15 @@ class TestController extends Controller
     public function index_test(){
 
         $tests           = Test::where('test_type','=','Exam')
-                                ->Orwhere('status','=','Public')
+                                ->where('status','=','Public')
                                 ->get();
 
+                                
 
         $cuenta         = $tests->count();
 
 
-        // var_dump($tests);
-        // die();
+
 
         return view('exam.index',[
             'cuenta'    => $cuenta,
@@ -97,6 +97,10 @@ class TestController extends Controller
     public function exam_form($test_id){
 
         $test           = Test::findOrFail($test_id);
+
+        if($test->test_type != 'Exam' || $test->status != 'Public'){
+            Test::findOrFail('fail');
+        }
 
         $questions      = Question::where('test_id','=',$test_id)->get();
 
@@ -118,6 +122,11 @@ class TestController extends Controller
     public function exercise_form($test_id){
 
         $test           = Test::findOrFail($test_id);
+
+     
+        if($test->test_type == 'Exam' || $test->status != 'Public'){
+            Test::findOrFail('fail');
+        }
 
         $questions      = Question::where('test_id','=',$test_id)->get();
 
@@ -253,7 +262,16 @@ $error = false;
 
     }else{
 
-        $nota = $nota / $test->num_questions * 100;   
+        $nota = $nota / $test->num_questions * 100;
+        
+        if($nota <= 65){
+            //Si la nota es menor del 65% traeremos todos los ejercicios disponibles para el nivel del examen que estemos realizando
+
+            $exercises = Test::where('test_type','=','Exercise')
+                                ->where('status','=','Public')
+                                ->paginate(3);
+
+        }
     }
 
     $n_aciertos = $n_aciertos . "/$test->num_questions";
