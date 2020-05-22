@@ -165,14 +165,17 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                  @foreach($exercises as $exercise)
                                     <th class="text-center">
-                                    <a href=" {{ route('exercise.form',['test_id' => $test->id]) }}"  class="btn-social-head btn-email">{{ $test->test_name }}</a>
+                                  
+                                    <a href=" {{ route('exercise.form',['test_id' => $exercise->id]) }}"  class="btn-social-head btn-email">{{ $test->test_name }}</a>
                                     </th>
+                                    @endforeach
 
                                 </tr>
                             </tbody>
                             </table>     
-                    </div>
+                    <div>
                 </div>
             </div>
             {{-- </div>
