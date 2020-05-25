@@ -298,29 +298,53 @@ $error = false;
     $result->update();
 
     if($test->test_type == 'Exam'){
+        if($nota <= 65){
+       //Si la nota es menor del 65% traeremos todos los ejercicios disponibles para el nivel del examen que estemos realizando
 
-        return view('exam.user_result',[
-            'result_id' => $result->id,
-            'nota'  => $nota,
-            'test' =>  $test ,
-            'n_aciertos' => $n_aciertos,
-             'choices' => $choices,
+        $exercises = Test::where('test_type','=','Exercise')
+                           ->where('status','=','Public')
+                           ->paginate(3);
+
+       return view('exam.user_result',[
+       'exercises' => $exercises,
+       'result_id' => $result->id,
+       'nota'  => $nota,
+       'test' =>  $test ,
+       'n_aciertos' => $n_aciertos,
+        'choices' => $choices,
         ])
         ->with(['message'=>'Exam submitted correctly']);
 
-    } else{
+       }else{
 
-        return view('exercise.user_result',[
-            'nota'  => $nota,
-            'test' =>  $test ,
-            'n_aciertos' => $n_aciertos,
-             'choices' => $choices,
-        ])
-        ->with(['message'=>'Exercise submitted correctly']);
-    
-        }
+       return view('exam.user_result',[
+       'result_id' => $result->id,
+       'nota'  => $nota,
+       'test' =>  $test ,
+       'n_aciertos' => $n_aciertos,
+        'choices' => $choices,
+   ])
+   ->with(['message'=>'Exam submitted correctly']);
+
+
 
     }
+
+
+
+
+} else{
+
+    return view('exam.user_result',[
+        'result_id' => $result->id,
+        'nota'  => $nota,
+        'test' =>  $test ,
+        'n_aciertos' => $n_aciertos,
+         'choices' => $choices,
+    ])
+    ->with(['message'=>'Exam submitted correctly']);
+    }
+}
 
     public function export_pdf(Request $request)
     {

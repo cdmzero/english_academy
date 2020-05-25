@@ -140,11 +140,24 @@ class QuestionController extends Controller
     public function store(Request $request){
 
 
-        $test = Test::findOrFail($request->input('test_id'));
+        $test           = Test::findOrFail($request->input('test_id'));
 
-        $exam_owner =   $test->user_id;
+        $exam_owner     =   $test->user_id;
     
-        $user = Auth::user()->id;
+        $user           = Auth::user()->id;
+
+
+
+        
+
+
+
+        $validate = $this->validate($request,[
+            'question_title'     => ['required' , 'string' , 'max:100','unique:questions'],
+            'answerd'     => ['required' , 'string' , 'in:1,2,3,4'],
+            "option_title.*"  => ['required','string','distinct','max:100'],
+
+        ]);
     
     
         if (Gate::forUser($user)->allows('owner-exam', $exam_owner) && $test->status != 'Complete' && $test->status != 'Public') {
@@ -300,11 +313,23 @@ class QuestionController extends Controller
         }
     
         public function save_update(Request $request){
-           
 
             $question_id    = $request->input('question_id');
+
+                $question       = Question::findOrFail($question_id); //conseguir todos los campos de la pregunta identificado
+
+
             
-            $question       = Question::findOrFail($question_id); //conseguir todos los campos de la pregunta identificado
+            // Validamos todos los datos
+                 $validate = $this->validate($request,[
+                     'question_title'     => ['required' , 'string' , 'max:100','unique:questions,id,'.$question_id],
+                     'answerd'     => ['required' , 'string' , 'in:1,2,3,4'],
+                     "option_title.*"  => ['required','string','distinct','max:100'],
+
+                 ]);
+
+     
+            
 
             $test           = Test::findOrFail($question->test_id);
 
@@ -344,13 +369,7 @@ class QuestionController extends Controller
                                 ])
                                  ->with(['message'=>'Question updated correctly']);
     
-            // Validamos todos los datos
-                // $validate = $this->validate($request,[
-                //     'test_name'     => ['required' , 'string' , 'max:20','unique:tests' ],
-                //     'test_type'     => ['required' , 'string' , 'in:Exam,Exercise,Grammar'],
-                //     'num_questions' => ['required' , 'numeric' , 'min:1' , 'max:20'],
-                //     'duration'      => ['required' , 'numeric' , 'min:1' , 'max:60'],
-                // ]);
+       
         
         
             }else{

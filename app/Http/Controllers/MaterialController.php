@@ -312,7 +312,7 @@ public function publication($test_id){
 
                     return redirect()->route('admin.questions',[
                         'test_id' => $test_id])
-                        ->with(['message'=>'Question published on front-page correctly']);
+                        ->with(['message'=>'Material published on front-page correctly']);
 
                 }
                 if($test->status == 'Public'){
@@ -335,7 +335,7 @@ public function publication($test_id){
                    
                     return redirect()->route('admin.questions',[
                         'test_id' => $test_id])
-                    ->with(['message'=>'Question unpublish on front-page correctly']);  
+                    ->with(['message'=>'Material unpublish on front-page correctly']);  
                 }
 
 

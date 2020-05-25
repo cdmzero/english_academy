@@ -73,10 +73,6 @@
 <br>
 <br>
 
-{{-- {{ $ldate = date('Y-m-d H:i:s')}} <br>
-{{ $test->updated_at }}
-{{ $result->created_at }} --}}
-
 {{-- para mantener la integridad de las respuestas de los usuarios respecto a los tests --}}
  {{-- no mostraremos las preguntas de aquellos tests que la fecha de modificacion interna sea mas posterior a la obtencion de ese resultado --}}
 <div class="row justify-content-center">

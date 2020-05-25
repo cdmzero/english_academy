@@ -217,14 +217,8 @@
       
                 <a class="card-link" data-toggle="collapse" href="#collapse{{$question->id}}">
              {{$question->question_title}} 
-          </a>
-
-            
-        
-                
-      
+          </a>  
           
-      
         </div>
         <div id="collapse{{$question->id}}" class="collapse" data-parent="#accordion" >
           <div class="collapsed card-body">
@@ -236,13 +230,13 @@
                         <th>Option number</th>
                         <th>Option Title</th>
                         <th>
+                            @if($test->status != 'Public' && $test->user_id == Auth::user()->id|| $test->status != 'Public' && Auth::user()->role == 'admin' )
                             <div class="text-center" style="width:160%">
-                                <a ref="" class='btn-social-menu btn-menu btn-lastfm' ><i class="fa fa-trash"></i></a>
+                                <a href="{{ route('admin.question.delete',['question_id' => $question->id]) }}" class='btn-social-menu btn-menu btn-lastfm' ><i class="fa fa-trash"></i></a>
                      
-                                <a ref="" class='btn-social-menu btn-menu btn-facebook' ><i class="fa fa-edit"></i></a>
+                                <a href="{{ route('admin.question.update',['question_id' => $question->id]) }}" class='btn-social-menu btn-menu btn-facebook' ><i class="fa fa-edit"></i></a>
                               </div>
-                        
-                                
+                            @endif
                         </th>
                       
                     </tr>

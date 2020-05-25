@@ -163,33 +163,22 @@
                                 
                             <thead>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <th class="text-center">
-                                    <a href=" {{ route('exercise.form',['test_id' => $test->id]) }}"  class="btn-social-head btn-email">{{ $test->test_name }}</a>
-                                    </th>
+                            <tr>
+                              @foreach($exercises as $exercise)
+                                <th class="text-center">
+                                <a href=" {{ route('exercise.form',['test_id' => $exercise->id]) }}"  class="btn-social-head btn-email">{{ $exercise->test_name }}</a>
+                                </th>
+                                @endforeach
 
-                                </tr>
-                            </tbody>
-                            </table>     
+                            </tr>
+                        </tbody>
+                        </table>     
+               
                     </div>
                 </div>
             </div>
-            {{-- </div>
-            <div class="container">
-               <div class=" text-center">
-              <br>
-              <h1 class="display-4 text-center ">Train Your English <br></h1> --}}
-         
-                {{-- @foreach ($test as $test) --}}
-                {{-- <div class="col-lg-4 text-center">
-                  <a href=" {{ route('exercise.form',['test_id' => $test->id]) }}"  class="btn-social-head btn-email">{{ $test->test_name }}</a>
-                  <h2 class="title">{{ $test->test_level }}
-                      </h2> --}}
                   <br>
-                </div>
-          {{-- @endforeach --}}
-          
+        </div>
             
             
             </div>
