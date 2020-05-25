@@ -43,8 +43,18 @@ class TestController extends Controller
 
 
     public function index_result($result_id){
+
+
         //Recogemos el ID de resultado
             $result     = Result::findOrFail($result_id);
+
+            if(Auth::user()->id != $result->user_id ){
+                
+                if(Auth::user()->role != 'admin'){
+                    Result::findOrFail('Fail');
+                }
+                
+            }
         
         //Del anterior resultado tomamos el campo ID_Examen para buscarlo el Objeto
             $test       = Test::find($result->test_id);
