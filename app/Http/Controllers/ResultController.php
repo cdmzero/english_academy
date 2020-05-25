@@ -41,9 +41,13 @@ class ResultController extends Controller
 
         $test       = Test::findOrFail($id);
 
+   
+
         $results    = Result::where('test_id','=',$id)
                             ->orderBy('id', 'DESC')
                             ->paginate(5);
+
+       
 
         $cuenta     = Result::where('test_id','=',$id)
                             ->count();
