@@ -197,7 +197,7 @@
       </div>
       </div>
               
-
+@if(Auth::User()->role != 'user')
 <div class="mx-auto text-center">
 <br>
 
@@ -207,9 +207,8 @@
 
 
 
-
 </div>
-       
+@endif
 </div>
 
     
