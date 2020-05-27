@@ -11,6 +11,8 @@ use App\Test;       //Modelo de Test
 use App\Question;   //Modelo de Question
 use App\Choice;     //Modelo de Choice
 use App\Result;     //Modelo de Result
+use App\Option;     //Modelo de Option
+use App\Line;       //Modelo de Line
 
 
 class TestController extends Controller
@@ -166,10 +168,10 @@ class TestController extends Controller
     $nota = $n_aciertos = 0;
 
     
-$error = false;
+    $error = false;
 
     foreach($choices as $clave => $valor)
-        {
+    {
         $question = Question::findOrFail($clave);
 
         if($question->test_id != $request->input('test_id'))
@@ -187,7 +189,6 @@ $error = false;
 
     $test = Test::findOrFail($request->input('test_id'));
 
-   
 
     $limite_para_no_contestar =  $test->num_questions / 2; //Limite para comprobar que se han contestado la mitad de las preguntas
 
@@ -199,12 +200,12 @@ $error = false;
 
     foreach( $valores_contestados as $clave => $valor){
 
-        //Si la opcion 5(No se, no contesto) ha sido elegida mas del 50% en todo el test volvemos atras// 
+        //Si la opcion 5 (no se, no contesto) ha sido elegida mas del 50% en todo el test volvemos atras 
 
-        if($clave == 5 && $valor > $limite_para_no_contestar){
+            if($clave == 5 && $valor > $limite_para_no_contestar){
 
-            return back()->with(['error'=>"You must answerd at least $lim questions"]);
-        }
+                return back()->with(['error'=>"You must answerd at least $lim questions"]);
+            }
     }
 
 
@@ -228,7 +229,29 @@ $error = false;
     /// La key se corresponde al ID de Option
     // El value se corresponde a la opcion elegida por el usuario
 
-    $question = Question::find($key);
+    $question   = Question::find($key);
+
+    $line       = new Line(); //Creamos nueva una instacia del objeto linea
+
+    $options    = Option::where('question_id','=',$key)->get();
+
+
+    foreach($options as $option){
+
+        $opt[$key][] = $option->option_title;
+
+    }
+
+  
+    $line->question_title   = $question->question_title;
+    $line->Option1          = $opt[$key][0]; 
+    $line->Option2          = $opt[$key][1]; 
+    $line->Option3          = $opt[$key][2]; 
+    $line->Option4          = $opt[$key][3]; 
+    $line->answerd          = $question->answerd;
+   
+
+
 
     $test = Test::find($question->test_id);
 
@@ -237,12 +260,16 @@ $error = false;
 
 
         $choice->result_id      = $result->id;
+        $line->result_id        = $result->id;
+
         $choice->question_id    = $key;
 
         if($value == 5){
                  $choice->user_choice    =  0;
+                 $line->user_choice      =  0;
         }else{
                  $choice->user_choice    = $value;
+                 $line->user_choice      = $value;
         }
         
     // Calculo de nota individual y global, y tambien, la proporcion.
@@ -264,6 +291,13 @@ $error = false;
         $choice->updated_at     = null;
 
         $choice->save();
+
+        $line->updated_at = null;
+        $line->save();
+
+
+
+
     }
 
     if($nota < 0){
@@ -290,12 +324,16 @@ $error = false;
 
     $result  = Result::find($result->id);
 
+
+
             $result->total_mark       = $nota;
             $result->proportion       = $n_aciertos;
 
-            $result->updated_at = null;
-
+    $result->updated_at = null;
     $result->update();
+
+
+
 
     if($test->test_type == 'Exam'){
         if($nota <= 65){
