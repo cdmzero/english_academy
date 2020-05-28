@@ -200,6 +200,11 @@ class MaterialController extends Controller
 
             $current_questions = $request->input('current_questions');
           
+      
+            if ($current_questions == 0){
+                $current_questions = 1;
+            }
+       
 
          
 

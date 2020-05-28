@@ -21,6 +21,12 @@ CONSTRAINT pk_user PRIMARY KEY(id)
 
 )ENGINE=InnoDb;
 
+
+INSERT INTO users VALUES(NULL,'Jose Francisco','Funez Arcediano', 'admin','cdmzero','jose@jose.com','$2y$10$4zxuopgbsSNIdE518WKd/u8KpRx.1qogtgxO7JJZJd92vXOl.uuiu','1586281316tio.png',CURTIME(),NULL,NULL);
+INSERT INTO users VALUES(NULL,'Juan','Lopez', 'user','juanlp','jlp@gmail.com','pass',null,CURTIME(),NULL,NULL);
+INSERT INTO users VALUES(NULL,'Manolo','Garcia', 'user','manlo','manolo@gmail.com','pass',null,CURTIME(),NULL,NULL);
+INSERT INTO users VALUES(NULL,'Laura','Gutierrez','user','lagu', 'lora@lora.com','$2y$10$IXualmuT4bAf/bEObGb5peHAoIPu0m2DQWXeTchOM.WWNakNqlPf.','1586343460BEFDEA3B-D632-46E8-9F01-0CBF1A7E93FF.jpeg',CURTIME(),NULL,NULL);
+
 DROP TABLE IF EXISTS `password_resets`;
 CREATE TABLE `password_resets`(
 id          int(255) auto_increment not null,
@@ -31,11 +37,6 @@ created_at datetime,
 CONSTRAINT pk_passresets PRIMARY KEY(id)
 
 )ENGINE=InnoDb;
-
-INSERT INTO users VALUES(NULL,'Jose Francisco','Funez Arcediano', 'admin','cdmzero','jose@jose.com','$2y$10$4zxuopgbsSNIdE518WKd/u8KpRx.1qogtgxO7JJZJd92vXOl.uuiu','1586281316tio.png',CURTIME(),NULL,NULL);
-INSERT INTO users VALUES(NULL,'Juan','Lopez', 'user','juanlp','jlp@gmail.com','pass',null,CURTIME(),NULL,NULL);
-INSERT INTO users VALUES(NULL,'Manolo','Garcia', 'user','manlo','manolo@gmail.com','pass',null,CURTIME(),NULL,NULL);
-INSERT INTO users VALUES(NULL,'Laura','Gutierrez','user','lagu', 'lora@lora.com','$2y$10$IXualmuT4bAf/bEObGb5peHAoIPu0m2DQWXeTchOM.WWNakNqlPf.','1586343460BEFDEA3B-D632-46E8-9F01-0CBF1A7E93FF.jpeg',CURTIME(),NULL,NULL);
 
 
 
@@ -144,7 +145,7 @@ INSERT INTO `results` VALUES (NULL, 1, 1, 68.99,'2/3',CURTIME(), NULL);
 
 
 DROP TABLE IF EXISTS `lines`;
-CREATE TABLE lines(
+CREATE TABLE `lines`(
 id                  int(255) auto_increment not null,
 result_id           int(255),
 question_title     varchar(255),
@@ -158,13 +159,13 @@ created_at          datetime,
 updated_at          datetime,
 
 CONSTRAINT pk_line_choices PRIMARY KEY (id),
-CONSTRAINT fk_result_id FOREIGN KEY(result_id) REFERENCES results(id) ON DELETE CASCADE
+CONSTRAINT fk_result_ids FOREIGN KEY(result_id) REFERENCES results(id) ON DELETE CASCADE
 
 )ENGINE=InnoDb;
 
-INSERT INTO `lines` VALUES (NULL, 1,1, '¿En que ciudad se encuentra la Torre Eifel?','PARIS','MADRID','BARCELONA','POBLETE', '1',NULL,NULL);
-INSERT INTO `lines` VALUES (NULL, 1,3, '¿Como se llama la capital de Francia?','PARIS','MADRID','PUERTOLLANO','POBLETE', '1',NULL,NULL);
-INSERT INTO `lines` VALUES (NULL, 1,1, '¿Cual es la ciudad mas importante que cruza el Senna?','PARIS','MADRID','MARBELLA','POBLETE', '1',NULL,NULL);
+INSERT INTO `lines` VALUES (NULL, 1,'¿En que ciudad se encuentra la Torre Eifel?', 1, 'PARIS','MADRID','BARCELONA','POBLETE', '1',NULL,NULL);
+INSERT INTO `lines` VALUES (NULL, 1,'¿Como se llama la capital de Francia?', 3,'PARIS','MADRID','PUERTOLLANO','POBLETE', '1',NULL,NULL);
+INSERT INTO `lines` VALUES (NULL, 1,'¿Cual es la ciudad mas importante que cruza el Senna?', 1, 'PARIS','MADRID','MARBELLA','POBLETE', '1',NULL,NULL);
 
 
 DROP TABLE IF EXISTS `choices`;

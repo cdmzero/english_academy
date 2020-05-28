@@ -58,25 +58,78 @@ class TestController extends Controller
                 
             }
         
-        //Del anterior resultado tomamos el campo ID_Examen para buscarlo el Objeto
+        //Del anterior resultado tomamos el campo ID_Examen para buscar el Objeto
             $test       = Test::find($result->test_id);
+
+            $lines       = Line::where('result_id','=',$result_id)->get();
+
+           
+// 1.Cogemos todas las lineas
+    // 2. A cada linea le corresponde 4 opciones
+            // 3. Esas 4 opciones se meten en un array y ademas se clasifican por un indice del 1 al 4
+
+foreach($lines as $line){
+
+     $opts[$line->id][1] = $line->Option1          ; 
+     $opts[$line->id][2] = $line->Option2          ; 
+     $opts[$line->id][3] = $line->Option3          ; 
+     $opts[$line->id][4] = $line->Option4          ; 
+   
+}
+
+
+// 4.Ahora recorremos los indices y los guardamos como claves
+    //5. Estas claves nos ayudaran para asociar la opcion elegida por el usuario entre las 4 opciones y tambien si esta correcta la opcion o no.
+
+
+foreach($opts as $key => $value){
+
+  $option_numbers =  array_keys($value);
+
+}
+
+// foreach($lines as $line){
+
+//     echo $line->question_title ."<br>";
+
+//     foreach ($option_number as $op){
+
+//     if( $line->answerd == $op ){
+
+//         echo $op ;
+//         echo "Solucion <br>";
+//     if($line->user_choice == $op){
+//         echo " +1  <br> ";
+//     }
+//     }else{
+//        echo  "Error <br>";
+//     }
+
+//     }
+
+//    echo  "<br>";
+// }
+
         
-        //Del resultado anterior tomamos el campo ID de la tabla Exam para buscar las QUESTIONS asociadas
+            //Del resultado anterior tomamos el campo ID de la tabla Exam para buscar las QUESTIONS asociadas
         
-            $questions = Question::where('test_id' ,'=',$test->id)->get();
+            // $questions = Question::where('test_id' ,'=',$test->id)->get();
         
-        //Aqui filtramos el numero de CHOICES solo por el ID de RESULT al que pertenecen
+            //Aqui filtramos el numero de CHOICES solo por el ID de RESULT al que pertenecen
         
-            $choices    = Choice::where('result_id' ,'=',$result_id)->get();
+            // $choices    = Choice::where('result_id' ,'=',$result_id)->get();
         
         
             //Pasamos los parametros a la vista
             
             return view('admin.results.test',[
-                 'questions' => $questions,
-                 'choices' => $choices,
-                 'result' => $result,
-                 'test' => $test,
+                //  'questions' => $questions,
+                //  'choices' => $choices,
+                'option_numbers'=>$option_numbers,
+                'opts'          =>$opts,
+                'lines'         => $lines,
+                'result'        => $result,
+                'test'          => $test,
             ]);
         
         }
@@ -238,7 +291,7 @@ class TestController extends Controller
 
     foreach($options as $option){
 
-        $opt[$key][] = $option->option_title;
+        $opt[$key][] = $option->option_title;  //Le creo un array de array
 
     }
 
@@ -250,8 +303,6 @@ class TestController extends Controller
     $line->Option4          = $opt[$key][3]; 
     $line->answerd          = $question->answerd;
    
-
-
 
     $test = Test::find($question->test_id);
 
@@ -308,14 +359,14 @@ class TestController extends Controller
 
         $nota = $nota / $test->num_questions * 100;
         
-        if($nota <= 65){
-            //Si la nota es menor del 65% traeremos todos los ejercicios disponibles para el nivel del examen que estemos realizando
+        // if($nota <= 65){
+        //     //Si la nota es menor del 65% traeremos todos los ejercicios disponibles para el nivel del examen que estemos realizando
 
-            $exercises = Test::where('test_type','=','Exercise')
-                                ->where('status','=','Public')
-                                ->paginate(3);
+        //     $exercises = Test::where('test_type','=','Exercise')
+        //                         ->where('status','=','Public')
+        //                         ->paginate(3);
 
-        }
+        // }
     }
 
     $n_aciertos = $n_aciertos . "/$test->num_questions";
