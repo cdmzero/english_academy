@@ -320,11 +320,8 @@ foreach($opts as $key => $value){
     }else{
 
         $nota = $nota / $test->num_questions * 100;
-<<<<<<< HEAD
-=======
         
         
->>>>>>> master
     }
 
     $n_aciertos = $n_aciertos . "/$test->num_questions";
@@ -345,7 +342,6 @@ foreach($opts as $key => $value){
 
 
     if($test->test_type == 'Exam'){
-<<<<<<< HEAD
         if($nota <= 65){
        //Si la nota es menor del 65% traeremos todos los ejercicios disponibles para el nivel del examen que estemos realizando
 
@@ -355,33 +351,10 @@ foreach($opts as $key => $value){
 
             return view('exam.user_result',[
             'exercises' => $exercises,
-=======
-             if($nota <= 65){
-            //Si la nota es menor del 65% traeremos todos los ejercicios disponibles para el nivel del examen que estemos realizando
-
-             $exercises = Test::where('test_type','=','Exercise')
-                                ->where('status','=','Public')
-                                ->paginate(3);
-                                
-            return view('exam.user_result',[
-            'exercises' => $exercides,
             'result_id' => $result->id,
             'nota'  => $nota,
             'test' =>  $test ,
             'n_aciertos' => $n_aciertos,
-             'choices' => $choices,
-             ])
-             ->with(['message'=>'Exam submitted correctly']);
-                                
-            }else{
-        
-            return view('exam.user_result',[
->>>>>>> master
-            'result_id' => $result->id,
-            'nota'  => $nota,
-            'test' =>  $test ,
-            'n_aciertos' => $n_aciertos,
-<<<<<<< HEAD
             'choices' => $choices,
 
           
@@ -399,19 +372,6 @@ foreach($opts as $key => $value){
    ])
    ->with(['message'=>'Exam submitted correctly']);
 
-=======
-             'choices' => $choices,
-        ])
-        ->with(['message'=>'Exam submitted correctly']);
-        
-        
-         }
-    
-    
-    
-        
-    } else{
->>>>>>> master
 
 
     }
