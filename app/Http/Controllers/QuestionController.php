@@ -11,7 +11,6 @@ use Gate;
 use App\User;       //Modelo de user
 use App\Test;       //Modelo de Test
 use App\Question;   //Modelo de Question
-use App\Choice;     //Modelo de Choice
 use App\Result;     //Modelo de Result
 use App\Option;     //Modelo de Result
 
@@ -298,10 +297,10 @@ class QuestionController extends Controller
          
     
             return view('admin.material.questions.update',[
-                'question'  => $question,
-                'test'      =>$test,
+                'question'  =>  $question,
+                'test'      =>  $test,
                 'options'   =>  $options,
-                'cuenta'   =>  $cuenta
+                'cuenta'    =>  $cuenta
             ]);
 
         }else{

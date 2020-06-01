@@ -78,8 +78,11 @@
                                                           @enderror 
                                                      </td>
                                                     <td>
-                                                    <select  name="num_questions" id="num_questions" class="form-control @error('num_questions') is-invalid @enderror mx-auto" style="width:50px" placeholder="choose" required>
-                                                            @for($c = $current_questions; $c <= 30; $c++)
+                                                    <select  name="num_questions" id="num_questions" class="form-control @error('num_questions') is-invalid @enderror mx-auto " style="width:100px" placeholder="choose" required>
+                                                        @if($current_questions == 0)
+                                                            {{ $current_questions = 1 }};
+                                                        @endif
+                                                        @for($c = $current_questions; $c <= 30; $c++)
                                                           <option value="{{$c}}"> {{$c}}</option>                            
                                                             @endfor         
                                                       </select>

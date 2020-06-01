@@ -8,11 +8,11 @@
 <br>
 <body>
     <div class="main-content">
-    <div class="container md-8">        
+    <div class="container md-10">        
     <!-- Table -->
     <div class="row">
        
-    <div class="col-xl-10 m-auto order-xl-2 mb-7 mb-xl-0">
+    <div class="col-xl-10 m-auto order-xl-5 mb-9 mb-xl-1">
         @if(session('message'))
         <div class="alert alert-success">
             {{ session('message') }}
@@ -35,7 +35,7 @@
     </div>
     @endif
     </div>
-    <div class="card-body pt-3 pt-md-4">
+    <div class="card-body pt-6 pt-md-9">
  
     <div class="text-center">
     <h3>

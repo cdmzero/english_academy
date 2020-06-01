@@ -9,8 +9,9 @@ use Auth;
 use App\User;       //Modelo de user
 use App\Test;       //Modelo de Test
 use App\Question;   //Modelo de Question
-use App\Choice;     //Modelo de Choice
 use App\Result;     //Modelo de Result
+use App\Option;     //Modelo de Option
+use App\Line;       //Modelo de Line
 
 
 class TestController extends Controller
@@ -39,7 +40,7 @@ class TestController extends Controller
 
 
 
-//Para ver cada las respuestas de los usuarios  ZONA ADMIN / BACK
+//Para ver cada una de las respuestas de los usuarios  ZONA ADMIN / BACK
 
 
     public function index_result($result_id){
@@ -56,25 +57,42 @@ class TestController extends Controller
                 
             }
         
-        //Del anterior resultado tomamos el campo ID_Examen para buscarlo el Objeto
+        //Del anterior resultado tomamos el campo ID_Examen para buscar el Objeto
             $test       = Test::find($result->test_id);
-        
-        //Del resultado anterior tomamos el campo ID de la tabla Exam para buscar las QUESTIONS asociadas
-        
-            $questions = Question::where('test_id' ,'=',$test->id)->get();
-        
-        //Aqui filtramos el numero de CHOICES solo por el ID de RESULT al que pertenecen
-        
-            $choices    = Choice::where('result_id' ,'=',$result_id)->get();
-        
-        
-            //Pasamos los parametros a la vista
-            
+
+            $lines       = Line::where('result_id','=',$result_id)->get();
+
+           
+// 1.Cogemos todas las lineas
+    // 2. A cada linea le corresponde 4 opciones
+            // 3. Esas 4 opciones se meten en un array y ademas se clasifican por un indice del 1 al 4
+
+foreach($lines as $line){
+
+     $opts[$line->id][1] = $line->Option1          ; 
+     $opts[$line->id][2] = $line->Option2          ; 
+     $opts[$line->id][3] = $line->Option3          ; 
+     $opts[$line->id][4] = $line->Option4          ; 
+   
+}
+
+
+// 4.Ahora recorremos los indices y los guardamos como claves
+    //5. Estas claves nos ayudaran para asociar la opcion elegida por el usuario entre las 4 opciones y tambien si esta correcta la opcion o no.
+
+
+foreach($opts as $key => $value){
+
+  $option_numbers =  array_keys($value);
+
+}
+
             return view('admin.results.test',[
-                 'questions' => $questions,
-                 'choices' => $choices,
-                 'result' => $result,
-                 'test' => $test,
+                'option_numbers'=>$option_numbers,
+                'opts'          =>$opts,
+                'lines'         => $lines,
+                'result'        => $result,
+                'test'          => $test,
             ]);
         
         }
@@ -112,7 +130,12 @@ class TestController extends Controller
             Test::findOrFail('fail');
         }
 
-        $questions      = Question::where('test_id','=',$test_id)->get();
+        $questions      = Question::where('test_id','=',$test_id)->inRandomOrder()->get();
+
+        foreach($questions as $question){
+            $options[$question->id]  = Option::where('question_id','=',$question->id)->inRandomOrder()->get(); 
+        }
+
 
         $cuenta         = $questions->count();
 
@@ -123,6 +146,7 @@ class TestController extends Controller
             'questions' => $questions,
             'cuenta'    => $cuenta,
             'test'      => $test,
+            'options'   => $options,
                 ]);
     }
 
@@ -166,10 +190,10 @@ class TestController extends Controller
     $nota = $n_aciertos = 0;
 
     
-$error = false;
+    $error = false;
 
     foreach($choices as $clave => $valor)
-        {
+    {
         $question = Question::findOrFail($clave);
 
         if($question->test_id != $request->input('test_id'))
@@ -187,7 +211,6 @@ $error = false;
 
     $test = Test::findOrFail($request->input('test_id'));
 
-   
 
     $limite_para_no_contestar =  $test->num_questions / 2; //Limite para comprobar que se han contestado la mitad de las preguntas
 
@@ -199,12 +222,12 @@ $error = false;
 
     foreach( $valores_contestados as $clave => $valor){
 
-        //Si la opcion 5(No se, no contesto) ha sido elegida mas del 50% en todo el test volvemos atras// 
+        //Si la opcion 5 (no se, no contesto) ha sido elegida mas del 50% en todo el test volvemos atras 
 
-        if($clave == 5 && $valor > $limite_para_no_contestar){
+            if($clave == 5 && $valor > $limite_para_no_contestar){
 
-            return back()->with(['error'=>"You must answerd at least $lim questions"]);
-        }
+                return back()->with(['error'=>"You must answerd at least $lim questions"]);
+            }
     }
 
 
@@ -228,42 +251,66 @@ $error = false;
     /// La key se corresponde al ID de Option
     // El value se corresponde a la opcion elegida por el usuario
 
-    $question = Question::find($key);
+    $question   = Question::find($key);
+
+    $line       = new Line(); //Creamos una nueva instacia de linea
+
+    $options    = Option::where('question_id','=',$key)->get();
+
+
+    foreach($options as $option){
+
+        $opt[$key][] = $option->option_title;  //Le creo un array de arrays
+
+    }
+
+  
+    $line->question_title   = $question->question_title;
+    $line->Option1          = $opt[$key][0]; 
+    $line->Option2          = $opt[$key][1]; 
+    $line->Option3          = $opt[$key][2]; 
+    $line->Option4          = $opt[$key][3]; 
+    $line->answerd          = $question->answerd;
+   
 
     $test = Test::find($question->test_id);
 
-    // Instanciamos Choices en segundo lugar para que herede el ID de RESULT
-    $choice = new Choice();
 
+        $line->result_id        = $result->id;
 
-        $choice->result_id      = $result->id;
-        $choice->question_id    = $key;
 
         if($value == 5){
-                 $choice->user_choice    =  0;
+                 $line->user_choice      =  0;
         }else{
-                 $choice->user_choice    = $value;
+         
+                 $line->user_choice      = $value;
         }
         
     // Calculo de nota individual y global, y tambien, la proporcion.
 
     if($value == $question->answerd){
 
-        $choice->mark       = $test->mark_right;
+        $nota      += $test->mark_right;
       
-        $nota               += $choice->mark ;
+        
         $n_aciertos++;
     }
     
     if($value != $question->answerd && $value != 5 ){
-        $choice->mark        = $test->mark_wrong;
-        $nota                += $choice->mark ;
-    }else{
-        $choice->mark = 0;
-    }
-        $choice->updated_at     = null;
+        
+        $nota       += $test->mark_wrong; 
 
-        $choice->save();
+    }else{
+        $nota += 0;
+    }
+
+
+        $line->updated_at = null;
+        $line->save();
+
+
+
+
     }
 
     if($nota < 0){
@@ -273,15 +320,6 @@ $error = false;
     }else{
 
         $nota = $nota / $test->num_questions * 100;
-        
-        if($nota <= 65){
-            //Si la nota es menor del 65% traeremos todos los ejercicios disponibles para el nivel del examen que estemos realizando
-
-            $exercises = Test::where('test_type','=','Exercise')
-                                ->where('status','=','Public')
-                                ->paginate(3);
-
-        }
     }
 
     $n_aciertos = $n_aciertos . "/$test->num_questions";
@@ -290,12 +328,16 @@ $error = false;
 
     $result  = Result::find($result->id);
 
+
+
             $result->total_mark       = $nota;
             $result->proportion       = $n_aciertos;
 
-            $result->updated_at = null;
-
+    $result->updated_at = null;
     $result->update();
+
+
+
 
     if($test->test_type == 'Exam'){
         if($nota <= 65){
@@ -305,15 +347,17 @@ $error = false;
                            ->where('status','=','Public')
                            ->paginate(3);
 
-       return view('exam.user_result',[
-       'exercises' => $exercises,
-       'result_id' => $result->id,
-       'nota'  => $nota,
-       'test' =>  $test ,
-       'n_aciertos' => $n_aciertos,
-        'choices' => $choices,
-        ])
-        ->with(['message'=>'Exam submitted correctly']);
+            return view('exam.user_result',[
+            'exercises' => $exercises,
+            'result_id' => $result->id,
+            'nota'  => $nota,
+            'test' =>  $test ,
+            'n_aciertos' => $n_aciertos,
+            'choices' => $choices,
+
+          
+            ])
+            ->with(['message'=>'Exam submitted correctly']);
 
        }else{
 
@@ -331,20 +375,16 @@ $error = false;
     }
 
 
+}else{
 
-
-} else{
-
-    return view('exam.user_result',[
+    return  redirect()->action('TestController@index_result', [
         'result_id' => $result->id,
-        'nota'  => $nota,
-        'test' =>  $test ,
-        'n_aciertos' => $n_aciertos,
-         'choices' => $choices,
-    ])
-    ->with(['message'=>'Exam submitted correctly']);
+    ]);
+
     }
+
 }
+
 
     public function export_pdf(Request $request)
     {

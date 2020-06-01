@@ -59,10 +59,6 @@ Route::get('/exercise/form/{test_id}','TestController@exercise_form')->name('exe
 Route::post('/exercise/test/','TestController@store_result')->name('exercise.test.store');
 
 
-
-
-
-
 //Para ver las opciones elegidas por un usuario dentro de un TEST
     Route::get('/exercise/test/{result_id}','TestController@index_result')->name('exercise.result.index');
 

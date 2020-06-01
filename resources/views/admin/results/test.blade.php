@@ -15,7 +15,6 @@
             </div>
             @endif
             <div class="card">
-
                 <div class="card-header text-center"><h4>Results of <strong> {{ $test->test_name }} </strong>  
                 </h4>
                 </div>
@@ -73,27 +72,23 @@
 <br>
 <br>
 
-{{-- para mantener la integridad de las respuestas de los usuarios respecto a los tests --}}
- {{-- no mostraremos las preguntas de aquellos tests que la fecha de modificacion interna sea mas posterior a la obtencion de ese resultado --}}
 <div class="row justify-content-center">
     <div class="col-md-8">
-      @if($test->updated_at == null || $test->updated_at < $result->created_at)
       
     <div id="accordion">
-    @foreach ($questions as $question)
+    @foreach ($lines as $line)
 
       <div class="card">
         
         <div class="card-header">
             
-        <a class="card-link" data-toggle="collapse" href="#collapse{{$question->id}}">
-             {{$question->question_title}} 
+        <a class="card-link" data-toggle="collapse" href="#collapse{{ $line->id }}">
+             {{ $line->question_title }} 
           </a>
         </div>
-        <div id="collapse{{$question->id}}" class="collapse" data-parent="#accordion">
+        <div id="collapse{{ $line->id }}" class="collapse" data-parent="#accordion">
           <div class="collapsed card-body">
-
-
+            <br>
             <table class="table custab">
                 <thead>
                     <tr>
@@ -104,44 +99,39 @@
                     </tr>
                 </thead>
                     <tbody>
-                        @foreach( $question->options as $option)
+                              @foreach($option_numbers as $option)
 
-                        @foreach ($choices as $choice)
-
-                               @if($choice->question_id == $question->id )
-
-                                    @if($choice->user_choice != $question->answerd &&  $choice->user_choice == $option->option_number )
+                                    @if($line->user_choice != $line->answerd &&  $line->user_choice == $option )
                                     <tr class="alert alert-danger">
                                         <td>
-                                        <input type="radio" disabled {{ $choice->user_choice != $option->answerd ? 'checked' : '' }}  >
+                                        <input type="radio" disabled {{ $line->user_choice != $line->answerd ? 'checked' : '' }}  >
                                         </td>
-                                     @else
-                                   <tr class="{{ $choice->user_choice == $question->answerd &&  $choice->user_choice == $option->option_number ? 'alert alert-success' : '' }}">
+                                     @else 
+                                   <tr class="{{ $line->user_choice == $line->answerd &&  $line->user_choice == $option ? 'alert alert-success' : '' }}">
                                        <td>
-                                      <input type="radio" disabled {{ $choice->user_choice == $option->option_number ? 'checked' : '' }}  >
-                                    </td> 
-                                    @endif           
+                                      <input type="radio" disabled {{ $line->user_choice == $option ? 'checked' : '' }}  >
+                                    </td>
+                                    @endif 
                                         <td>
-                                         {{ $option->option_number}}
+                                         {{ $option}}
                                         </td>
                                         <td>
-                                            {{ $option->option_title}}
+                                            {{ $opts[$line->id][$option] }}
                                         </td>
                           <td class="center">
-                            @if($option->option_number == $question->answerd)
+                            @if($option == $line->answerd)
 
                             <span class="badge badge-pill badge-success">Right answerd + {{$test->mark_right}}</span>
 
-                            @elseif($choice->user_choice == $option->option_number && $choice->user_choice != $question->answerd)
+                            @elseif($line->user_choice == $option && $line->user_choice != $line->answerd)
                             
-                            <span class="badge badge-pill badge-danger">Wrong answerd {{$test->mark_wrong}}</span>
+                            <span class="badge badge-pill badge-danger">Wrong answerd {{ $test->mark_wrong }}</span>
 
-                            @endif
+                            @endif 
                             
                           </td>
-                          @endif
-                          @endforeach                     
-                        @endforeach
+                          @endforeach
+                     
                                     </tr>
                     </tbody>        
                 </table>
@@ -150,7 +140,6 @@
       </div>
       @endforeach
       </div>
-      @endif
      <br>
      <br>
      <br>
@@ -162,7 +151,7 @@
       <h2 class="h6 font-weight-bold text-center mb-4"> <strong> {{$result->user->user_name}} {{$result->user->surname}} </strong>calification's</h2>
 
         <!-- Progress bar 1 -->
-      <div class="progress mx-auto" data-value='{{$result->total_mark}}'>
+      <div class="progress mx-auto" data-value='{{ $result->total_mark }}'>
           <span class="progress-left">
                         <span class="progress-bar border-primary"></span>
           </span>

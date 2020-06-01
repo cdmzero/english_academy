@@ -7,10 +7,10 @@
 
 <body>
     <div class="main-content">
-    <div class="container mt-7">
+    <div class="container mt-10">
     <!-- Table -->
     <div class="row">
-    <div class="col-xl-8 m-auto order-xl-2 mb-5 mb-xl-0">
+    <div class="col-xl-10 m-auto order-xl-2 mb-5 mb-xl-0">
     <div class="card card-profile shadow">
     <div class="row justify-content-center">
     @if($user->image != null)
@@ -47,7 +47,8 @@
         <thead>
             <tr>
                 <th>Mark</th>
-                <th>Test</th>
+                <th>Type</th>
+                <th>Name</th>
                 <th>Obtained</th>
                 <th class="text-center">Action</th>
             </tr>
@@ -55,6 +56,7 @@
         @foreach ($results as $result)
         <tr>
             <td>{{$result->total_mark}} %</td>
+            <td>{{$result->test->test_type}} </td>
             <td>{{$result->test->test_name}}</td>
             <td>{{ \FormatTime::LongTimeFilter($result->created_at) }}</td>
             <td><a href="{{ route( 'exercise.result.index',[ 'result_id' => $result->id ] ) }}" class='btn-social-menu btn-instagram btn-menu'><i class="fa fa-eye"></i></a></td>
