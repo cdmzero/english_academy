@@ -71,11 +71,11 @@
                                                         
                                         @endforeach
 
-                                                    <input type="hidden" name="test_id" value="{{$test->id}}">
-                                        <div class="mx-auto" style="35px">
+                                        <input type="hidden" name="test_id" value="{{$test->id}}">
+                                        <div class="mx-auto text-center" style="35px">
                                             <br>
                                             <button type="submit" class="btn btn-primary">
-                                            Save   
+                                            Check answerds   
                                             </button>
                                         </div>
 

@@ -168,24 +168,3 @@ INSERT INTO `lines` VALUES (NULL, 1,'¿Como se llama la capital de Francia?', 3,
 INSERT INTO `lines` VALUES (NULL, 1,'¿Cual es la ciudad mas importante que cruza el Senna?', 1, 'PARIS','MADRID','MARBELLA','POBLETE', '1',NULL,NULL);
 
 
-DROP TABLE IF EXISTS `choices`;
-CREATE TABLE choices(
-id               int(255) auto_increment not null,
-result_id                 int(255),
-question_id             int(255),
-user_choice             int(255),
-mark                    float,
-created_at   datetime,
-updated_at datetime,
-
-
-CONSTRAINT pk_choice PRIMARY KEY (id),
-CONSTRAINT `fk_questioncho` FOREIGN KEY(question_id) REFERENCES `questions`(id) ON DELETE CASCADE,
-CONSTRAINT fk_result_id FOREIGN KEY(result_id) REFERENCES results(id) ON DELETE CASCADE
-
-
-)ENGINE=InnoDb;
-
-INSERT INTO choices VALUES(NULL, 1,1,3,-1,CURTIME(),NULL);
-INSERT INTO choices VALUES(NULL, 1,2,1,1,CURTIME(),NULL);
-INSERT INTO choices VALUES(NULL, 1,3,1,1,CURTIME(),NULL);

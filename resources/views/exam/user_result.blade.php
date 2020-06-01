@@ -52,6 +52,7 @@
                                   @if($key == $question->id )
                                         @if($value != $question->answerd &&  $value == $option->option_number )
                                         <tr class="alert alert-danger">
+                                       
                                         @else
                                      <tr class="{{ $value == $question->answerd &&  $value == $option->option_number ? 'alert alert-success' : '' }}">
                                         @endif
@@ -59,9 +60,8 @@
                                           <input type="radio" disabled {{ $value == $option->option_number ? 'checked' : '' }}  >
                                         </td>                            
                                   @endif
-    
-                                  
-                            @endforeach
+                                  @endforeach   
+                          
                                             <td>
                                              {{ $option->option_number}}
                                             </td>
@@ -70,8 +70,19 @@
                                             </td>
                               <td class="center">
                                 @if($option->option_number == $question->answerd)
+
                                 <span class="badge badge-pill badge-success">Right answerd + {{$test->mark_right}}</span>
-                                @endif
+                                @else
+                                    @foreach ($choices as $key => $value)
+                                    @if($key == $question->id )
+                                    @if($value != $question->answerd &&  $value == $option->option_number )
+                                    <span class="badge badge-pill badge-danger">Wrong answerd {{$test->mark_wrong}}</span>
+                                    @endif
+                                    @endif
+                                    @endforeach    
+    
+                                @endif 
+                               
                               </td>
                                                       
                             @endforeach
@@ -86,10 +97,15 @@
 
             </div>
             </div>
-                    
+                    <br>
+                    <br>
+                    <br>
+                    <br>
             <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-8">
+                <div class="col-md-10">
+                    <h1 class="display-5 text-center">Get Your Diploma<br></h1>
+
                     <div class="card-body">
                         <div class="row col-md-13">
                             <table class="table responsible ">
@@ -126,7 +142,7 @@
                                                     </td>  
                                                     
                                                     <td class="text-center">
-                                                      {{ $nota}} %
+                                                      {{ $nota }} %
                                                 </td>   
                                                     <td class="text-center">
                                                       @if($nota >= 65)
@@ -150,14 +166,18 @@
                 </div>
             </div>
             </div>
-{{-- 
-@if($exercises =! null )
+<br>
+<br>
+<br>
+<br>
+
+@if(!empty($exercises))
  
             <div class="row justify-content-center">
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <div class="card-body">
                         <div class="text-center">
-                            <h1 class="display-5 ">Train Your English <br></h1>
+                            <h1 class="display-5 ">Keep Praticing Your English <br></h1>
                             </div>
                         <div class="row col-md-13">
                             <table class="table responsible ">
@@ -165,9 +185,10 @@
                             <thead>
                             </thead>
                             <tr>
-                              @foreach($exercises as $exercise)
+                                
+                               @foreach($exercises as $exercise)
                                 <th class="text-center">
-                                <a href=" {{ route('exercise.form',['test_id' => $exercise->id]) }}"  class="btn-social-head btn-email">{{ $exercise->test_name }}</a>
+                                 <a href=" {{ route('exercise.form',['test_id' => $exercise->id]) }}"  class="btn-social-head btn-email">{{ $exercise->test_name }}</a> 
                                 </th>
                                 @endforeach
 
@@ -178,7 +199,7 @@
                     </div>
                 </div>
             </div>
-@endif --}}
+             @endif   
                   <br>
         </div>
             

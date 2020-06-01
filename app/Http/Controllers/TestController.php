@@ -9,7 +9,6 @@ use Auth;
 use App\User;       //Modelo de user
 use App\Test;       //Modelo de Test
 use App\Question;   //Modelo de Question
-use App\Choice;     //Modelo de Choice
 use App\Result;     //Modelo de Result
 use App\Option;     //Modelo de Option
 use App\Line;       //Modelo de Line
@@ -41,7 +40,7 @@ class TestController extends Controller
 
 
 
-//Para ver cada las respuestas de los usuarios  ZONA ADMIN / BACK
+//Para ver cada una de las respuestas de los usuarios  ZONA ADMIN / BACK
 
 
     public function index_result($result_id){
@@ -88,43 +87,7 @@ foreach($opts as $key => $value){
 
 }
 
-// foreach($lines as $line){
-
-//     echo $line->question_title ."<br>";
-
-//     foreach ($option_number as $op){
-
-//     if( $line->answerd == $op ){
-
-//         echo $op ;
-//         echo "Solucion <br>";
-//     if($line->user_choice == $op){
-//         echo " +1  <br> ";
-//     }
-//     }else{
-//        echo  "Error <br>";
-//     }
-
-//     }
-
-//    echo  "<br>";
-// }
-
-        
-            //Del resultado anterior tomamos el campo ID de la tabla Exam para buscar las QUESTIONS asociadas
-        
-            // $questions = Question::where('test_id' ,'=',$test->id)->get();
-        
-            //Aqui filtramos el numero de CHOICES solo por el ID de RESULT al que pertenecen
-        
-            // $choices    = Choice::where('result_id' ,'=',$result_id)->get();
-        
-        
-            //Pasamos los parametros a la vista
-            
             return view('admin.results.test',[
-                //  'questions' => $questions,
-                //  'choices' => $choices,
                 'option_numbers'=>$option_numbers,
                 'opts'          =>$opts,
                 'lines'         => $lines,
@@ -167,7 +130,12 @@ foreach($opts as $key => $value){
             Test::findOrFail('fail');
         }
 
-        $questions      = Question::where('test_id','=',$test_id)->get();
+        $questions      = Question::where('test_id','=',$test_id)->inRandomOrder()->get();
+
+        foreach($questions as $question){
+            $options[$question->id]  = Option::where('question_id','=',$question->id)->inRandomOrder()->get(); 
+        }
+
 
         $cuenta         = $questions->count();
 
@@ -178,6 +146,7 @@ foreach($opts as $key => $value){
             'questions' => $questions,
             'cuenta'    => $cuenta,
             'test'      => $test,
+            'options'   => $options,
                 ]);
     }
 
@@ -284,14 +253,14 @@ foreach($opts as $key => $value){
 
     $question   = Question::find($key);
 
-    $line       = new Line(); //Creamos nueva una instacia del objeto linea
+    $line       = new Line(); //Creamos una nueva instacia de linea
 
     $options    = Option::where('question_id','=',$key)->get();
 
 
     foreach($options as $option){
 
-        $opt[$key][] = $option->option_title;  //Le creo un array de array
+        $opt[$key][] = $option->option_title;  //Le creo un array de arrays
 
     }
 
@@ -306,20 +275,14 @@ foreach($opts as $key => $value){
 
     $test = Test::find($question->test_id);
 
-    // Instanciamos Choices en segundo lugar para que herede el ID de RESULT
-    $choice = new Choice();
 
-
-        $choice->result_id      = $result->id;
         $line->result_id        = $result->id;
 
-        $choice->question_id    = $key;
 
         if($value == 5){
-                 $choice->user_choice    =  0;
                  $line->user_choice      =  0;
         }else{
-                 $choice->user_choice    = $value;
+         
                  $line->user_choice      = $value;
         }
         
@@ -327,21 +290,20 @@ foreach($opts as $key => $value){
 
     if($value == $question->answerd){
 
-        $choice->mark       = $test->mark_right;
+        $nota      += $test->mark_right;
       
-        $nota               += $choice->mark ;
+        
         $n_aciertos++;
     }
     
     if($value != $question->answerd && $value != 5 ){
-        $choice->mark        = $test->mark_wrong;
-        $nota                += $choice->mark ;
-    }else{
-        $choice->mark = 0;
-    }
-        $choice->updated_at     = null;
+        
+        $nota       += $test->mark_wrong; 
 
-        $choice->save();
+    }else{
+        $nota += 0;
+    }
+
 
         $line->updated_at = null;
         $line->save();
@@ -358,15 +320,6 @@ foreach($opts as $key => $value){
     }else{
 
         $nota = $nota / $test->num_questions * 100;
-        
-        // if($nota <= 65){
-        //     //Si la nota es menor del 65% traeremos todos los ejercicios disponibles para el nivel del examen que estemos realizando
-
-        //     $exercises = Test::where('test_type','=','Exercise')
-        //                         ->where('status','=','Public')
-        //                         ->paginate(3);
-
-        // }
     }
 
     $n_aciertos = $n_aciertos . "/$test->num_questions";
@@ -394,15 +347,17 @@ foreach($opts as $key => $value){
                            ->where('status','=','Public')
                            ->paginate(3);
 
-       return view('exam.user_result',[
-       'exercises' => $exercises,
-       'result_id' => $result->id,
-       'nota'  => $nota,
-       'test' =>  $test ,
-       'n_aciertos' => $n_aciertos,
-        'choices' => $choices,
-        ])
-        ->with(['message'=>'Exam submitted correctly']);
+            return view('exam.user_result',[
+            'exercises' => $exercises,
+            'result_id' => $result->id,
+            'nota'  => $nota,
+            'test' =>  $test ,
+            'n_aciertos' => $n_aciertos,
+            'choices' => $choices,
+
+          
+            ])
+            ->with(['message'=>'Exam submitted correctly']);
 
        }else{
 
@@ -420,20 +375,16 @@ foreach($opts as $key => $value){
     }
 
 
+}else{
 
-
-} else{
-
-    return view('exam.user_result',[
+    return  redirect()->action('TestController@index_result', [
         'result_id' => $result->id,
-        'nota'  => $nota,
-        'test' =>  $test ,
-        'n_aciertos' => $n_aciertos,
-         'choices' => $choices,
-    ])
-    ->with(['message'=>'Exam submitted correctly']);
+    ]);
+
     }
+
 }
+
 
     public function export_pdf(Request $request)
     {

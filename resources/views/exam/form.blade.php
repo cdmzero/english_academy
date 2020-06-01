@@ -43,7 +43,7 @@
                           
                         </h4>                  
     <br>   
-                          @foreach ($question->options as $option)
+                          @foreach ($options[$question->id] as $option)
                           <div class="custom-control custom-radio">
                           <input type="radio" id="customRadio{{$option->id}}{{$option->option_number}}" name="user_choice[{{ $question->id }}]" value="{{$option->option_number}}" class="custom-control-input" required>
                             <label class="custom-control-label" for="customRadio{{$option->id}}{{$option->option_number}}"> {{$option->option_title}}</label>

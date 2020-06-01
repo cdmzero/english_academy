@@ -12,7 +12,6 @@ use App\Result; //Modelo de Result
 use App\Test; //Modelo de Test
 use App\User; //Modelo de user
 use App\Question;   //Modelo de Question
-use App\Choice;     //Modelo de Choice
 
 
 
@@ -328,13 +327,6 @@ public function publication($test_id){
 
                     $results = Result::where('test_id','=',$test->id)
                                         ->get();
-                                        
-                    foreach($results as $result){
-                        $choices = Choice::where('result_id','=',$result->id)->get();   
-                            foreach($choices as $choice){
-                                $choice->delete();
-                            }                            
-                    }
 
 
                    
