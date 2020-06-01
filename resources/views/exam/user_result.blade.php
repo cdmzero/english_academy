@@ -184,6 +184,7 @@
                                 
                             <thead>
                             </thead>
+<<<<<<< HEAD
                             <tr>
                                 
                                @foreach($exercises as $exercise)
@@ -197,6 +198,21 @@
                         </table>     
                
                     </div>
+=======
+                            <tbody>
+                                <tr>
+                                  @foreach($exercises as $exercise)
+                                    <th class="text-center">
+                                  
+                                    <a href=" {{ route('exercise.form',['test_id' => $exercise->id]) }}"  class="btn-social-head btn-email">{{ $test->test_name }}</a>
+                                    </th>
+                                    @endforeach
+
+                                </tr>
+                            </tbody>
+                            </table>     
+                    <div>
+>>>>>>> master
                 </div>
             </div>
              @endif   
