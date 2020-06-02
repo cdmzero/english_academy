@@ -121,11 +121,16 @@
                             <div class="col-md-6">
                                 <div class="btn-group btn-group-toggle  @error('role') is-invalid @enderror" data-toggle="buttons">
                                     <label class="btn btn-secondary active">
-                                      <input type="radio" name="role" id="user" value="user" autocomplete="off" checked> User
+                                      <input type="radio" name="role" id="user" value="user" checked> User
+                                    </label>
+                                    @if(Auth::user()->role == 'admin')
+                                    <label class="btn btn-secondary active">
+                                      <input type="radio" name="role" id="teacher" value="teacher" autocomplete="off" > Teacher
                                     </label>
                                     <label class="btn btn-secondary">
                                       <input type="radio" name="role" id="admin" value="admin" autocomplete="off"> Admin
                                     </label>
+                                    @endif
                                   </div>                             
                                 @error('role')
                                     <span class="invalid-feedback" role="alert">

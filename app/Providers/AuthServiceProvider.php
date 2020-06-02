@@ -38,5 +38,11 @@ class AuthServiceProvider extends ServiceProvider
             return $user === $exam_owner || Auth::user()->role === "admin";
 
         });
+
+        Gate::define('role-admin' , function($user, $role) {
+
+            return $role === "admin" ;
+
+        });
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User; //Modelo de user
 use Auth; //Modelo de user
+use Gate; //Modelo de user
 use App\Result; //Modelo de result
 use Illuminate\Support\Facades\Hash; //Para cifrar contraseña
 use Illuminate\Http\Request; //Trae todas las cosas que mandemos por POST
@@ -114,18 +115,37 @@ class UserController extends Controller{
     // Metodo para crear un USER
 
     public function store(Request $request){
+
+
+    $role = Auth::user()->role;
+    $user_check = Auth::user()->id;
+
                
-       
-    // Validamos todos los datos
+    if (Gate::forUser($user_check)->allows('role-admin', $role)) {
+
         $validate = $this->validate($request,[
             'user_name'     => ['required' , 'string' , 'max:20' , 'regex:/^([A-Za-zÑñ]+[áéíóú]?[A-Za-z]*){2,10}\s?([A-Za-zÑñ]+[áéíóú]?[A-Za-z]*){0,10}$/iu'],
             'surname'       => ['required' , 'string' , 'max:20' , 'regex:/^([A-Za-zÑñ]+[áéíóú]?[A-Za-z]*){2,18}\s?([A-Za-zÑñ]+[áéíóú]?[A-Za-z]*){0,36}$/iu'],
             'nick'          => ['required' , 'string' , 'max:11' , 'unique:users'],
             'email'         => ['required' , 'string' , 'email' , 'max:30' , 'unique:users'],
             'password'      => ['required' , 'string' , 'min:5' , 'max:20' ,'confirmed'],
-            'role'          => ['required' , 'in:user,admin'],
+            'role'          => ['required' , 'in:user,teacher,admin'],
             'image_path'    => ['nullable' , 'mimes:jpeg,jpg,png,gif' , 'max:3000'],
         ]);
+
+    }else{
+        $validate = $this->validate($request,[
+            'user_name'     => ['required' , 'string' , 'max:20' , 'regex:/^([A-Za-zÑñ]+[áéíóú]?[A-Za-z]*){2,10}\s?([A-Za-zÑñ]+[áéíóú]?[A-Za-z]*){0,10}$/iu'],
+            'surname'       => ['required' , 'string' , 'max:20' , 'regex:/^([A-Za-zÑñ]+[áéíóú]?[A-Za-z]*){2,18}\s?([A-Za-zÑñ]+[áéíóú]?[A-Za-z]*){0,36}$/iu'],
+            'nick'          => ['required' , 'string' , 'max:11' , 'unique:users'],
+            'email'         => ['required' , 'string' , 'email' , 'max:30' , 'unique:users'],
+            'password'      => ['required' , 'string' , 'min:5' , 'max:20' ,'confirmed'],
+            'role'          => ['required' , 'in:user'],
+            'image_path'    => ['nullable' , 'mimes:jpeg,jpg,png,gif' , 'max:3000'],
+        ]);
+    }
+
+    
 
       
             
@@ -268,7 +288,7 @@ class UserController extends Controller{
 
         $user = User::findorFail($id);
 
-            //  $user->delete();
+            $user->delete();
             return redirect()->route('admin.users')
             ->with(['message'=>'User deleted correctly']);   
 
