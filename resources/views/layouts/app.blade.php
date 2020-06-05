@@ -62,10 +62,17 @@
                                 </li>
                             @endif
                         @else
-
+    
                             <li class="nav-item">
-                            <a href="{{ route('user.profile') }}">  @include('includes.avatar')</a>
+                                
+                            <a href="{{ route('user.profile') }}"> 
+                                @if(Auth::user()->image)
+                                 @include('includes.avatar')</a>
+                                @else
+                                <img src="../img/nopic.png" class="rounded-circle" height="150px" width="150px"></img>
+                                @endif
                             </li>
+                        
                         
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
