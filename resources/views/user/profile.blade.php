@@ -1,4 +1,6 @@
 @extends('layouts.app')
+
+
 @section('content')
 <br>
 <br>
@@ -13,14 +15,16 @@
     <div class="col-xl-10 m-auto order-xl-2 mb-5 mb-xl-0">
     <div class="card card-profile shadow">
     <div class="row justify-content-center">
+        <div class="mx-auto">
+            <br>
+            <br>
+            <br>
     @if($user->image != null)
-    <div class="mx-auto">
-    <br>
-    <br>
-    <br>
         <img src="{{ route('user.avatar',['filename'=>$user->image]) }}" class="rounded-circle" height="150px" width="150px">
-    </div>
+    @else
+            <img src="../img/nopic.png" class="rounded-circle" height="150px" width="150px">
     @endif
+    </div>
     </div>
     <div class="card-body pt-0 pt-md-4">
     <br>

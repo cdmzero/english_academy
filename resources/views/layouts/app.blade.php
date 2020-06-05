@@ -28,6 +28,7 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/buttoms.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{ asset('img/favicon.png') }}">
+    @yield("recaptcha")
 
 </head>
 <body>
@@ -66,11 +67,11 @@
                             <li class="nav-item">
                                 
                             <a href="{{ route('user.profile') }}"> 
-                                @if(Auth::user()->image)
-                                 @include('includes.avatar')</a>
-                                @else
-                                <img src="../img/nopic.png" class="rounded-circle" height="150px" width="150px"></img>
-                                @endif
+                             
+                                    @include('includes.avatar')
+                                
+                                    @include('includes.noavatar')
+                                
                             </li>
                         
                         

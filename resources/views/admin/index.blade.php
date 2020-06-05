@@ -3,7 +3,7 @@
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
     <br>
-    <h1 class="display-5 ">Admin zone</h1>
+    <h1 class="display-5 ">{{ ucfirst(Auth::user()->role) }} zone</h1>
   <h3 class="display-4 text-center"> Welcome {{ Auth::user()->user_name }}</h3>
   <p class="lead text-right">{{ date("F j, Y, g:i a") }}</p>
   </div>

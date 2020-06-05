@@ -321,7 +321,7 @@ foreach($opts as $key => $value){
 
         $nota = $nota / $test->num_questions * 100;
         
-        
+        $nota = round($nota, 2);
     }
 
     $n_aciertos = $n_aciertos . "/$test->num_questions";

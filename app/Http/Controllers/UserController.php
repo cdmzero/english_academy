@@ -67,7 +67,6 @@ class UserController extends Controller{
 
     }
 
-    
 
 
     //Metodo para ver el perfil del usuario logueado

@@ -162,7 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-        
+        Biscolab\ReCaptcha\ReCaptchaServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -233,6 +233,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'FormatTime' => App\Helpers\FormatTime::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'ReCaptcha' => Biscolab\ReCaptcha\Facades\ReCaptcha::class,
        
     ],
 
