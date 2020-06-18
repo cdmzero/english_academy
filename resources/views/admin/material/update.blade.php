@@ -45,8 +45,8 @@
                                                     <td>{{ $test->test_name }}</td>
                                                     <td>{{ $test->test_type }} </td>
                                                     <td>{{ $test->num_questions }} </td>                                                                                                     
-                                                    <td>{{ $test->mark_wrong }} Min</td>
-                                                    <td>{{ $test->mark_right }} Min</td>
+                                                    <td>{{ $test->mark_wrong }} </td>
+                                                    <td>+{{ $test->mark_right }} </td>
                                                     <td>{{ $test->test_level }}</td>
                                                    
                                                     <td class="text-center"><a class='btn-social-menu btn-lastfm btn-menu' href="{{ route('admin.material.delete',['id' => $test->id]) }}"><i class="fa fa-trash"></i> 

@@ -237,13 +237,13 @@ class MaterialController extends Controller
     
           $current_date = date('Y-m-d H:i:s');
     
-          $test->test_name        = $test_name;
-          $test->test_type        = $test_type;
-          $test->test_level       = $test_level;
-          $test->num_questions    = $num_questions;
+          $test->test_name          = $test_name;
+          $test->test_type          = $test_type;
+          $test->test_level         = $test_level;
+          $test->num_questions      = $num_questions;
           $test->mark_wrong         = $mark_wrong;
           $test->mark_right         = $mark_right;
-          $test->updated_at       = $current_date;
+          $test->updated_at         = $current_date;
 
 
                 

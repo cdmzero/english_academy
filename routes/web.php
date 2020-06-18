@@ -71,7 +71,7 @@ Route::get('/admin/index','MaterialController@admin_index')->name('admin.index')
 Route::get('/admin/users','UserController@users_index')->name('admin.users')->middleware('admin');
 
 
-    //Para la creaccion y almacenamiento de USERS
+    //Para la creacion y almacenamiento de USERS
 Route::get('/admin/users/create','UserController@create')->name('admin.users.create')->middleware('admin');
 Route::post('/admin/users/store','UserController@store')->name('admin.users.store')->middleware('admin');
 
