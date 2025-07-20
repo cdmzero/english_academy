@@ -252,7 +252,7 @@
                                         </td>
                           <td class="center">
                             @if($option->option_number == $question->answerd)
-                            <span class="badge badge-pill badge-success">Right answerd + {{$test->mark_right}}</span>
+                            <span class="badge badge-pill badge-success">Right answer + {{$test->mark_right}}</span>
                             @endif
 
                             

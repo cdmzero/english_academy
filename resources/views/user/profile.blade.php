@@ -45,7 +45,8 @@
 <br>
 <i class="ni education_hat mr-2"></i><h4>Results</h4>
         <!-- Table -->
-    <div class="col-xl-8 m-auto order-xl-2 mb-5 mb-xl-0">
+    
+    <div class="col-xl-8 m-auto order-xl-2 mb-5 mb-xl-0 table-responsive">
         <div class="row align-items-center">
         <table class="table table-striped custab">
         <thead>

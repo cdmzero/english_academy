@@ -30,8 +30,8 @@
 <br>
 
 <blockquote class="blockquote text-center">
-    <p class="mb-0">All you need is time and patience, practice makes perfect!</p>
-    <footer class="blockquote-footer">English Idiom |<cite title="Source Title"> culture of EVS</cite></footer>
+    <p class="mb-0">All you need is time and patience, practise makes perfect!</p>
+    <footer class="blockquote-footer">English idiom |<cite title="Source Title"> culture of EVS</cite></footer>
   </blockquote>
 
 <br>
@@ -44,7 +44,7 @@
 
   <!-- FOOTER -->
   <footer class="container">
-  <p>&copy; 2020 English Value School, Inc. &middot; <a href="{{ route('privacy-policy') }}">Privacy</a></p>
+  <p>&copy; 2025 English Value School, Inc. &middot; <a href="{{ route('privacy-policy') }}">Privacy</a></p>
   </footer>
 </main>
 

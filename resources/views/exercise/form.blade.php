@@ -56,8 +56,11 @@
                                                         
 
                                                         <br>                                                        
-                                                        @endforeach                    
-                                                        <input type="radio"  name="user_choice[{{$question->id}}]" value="5"  checked ></input> No se, no respondo
+                                                        @endforeach
+                                                        <div class="custom-control custom-radio d-none">
+                                                        <input type="radio" id="5" name="user_choice[{{ $question->id }}]" value="5" class="custom-control-input" required checked>
+                                                        <label class="custom-control-label" for="5" >Prefer not answer </label>
+                                                        </div>                           
                                
                                                         </div>
 
@@ -75,7 +78,7 @@
                                         <div class="mx-auto text-center" style="35px">
                                             <br>
                                             <button type="submit" class="btn btn-primary">
-                                            Check answerds   
+                                            Check answers   
                                             </button>
                                         </div>
 

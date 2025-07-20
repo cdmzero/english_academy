@@ -19,7 +19,7 @@
                 </h4>
                 </div>
                 
-                    <div class="card-body">
+                    <div class="card-body table-responsive">
                         <div class="container">
                         <div class="row col-md-13">
                             <table class="table table-striped custab">
@@ -87,7 +87,7 @@
           </a>
         </div>
         <div id="collapse{{ $line->id }}" class="collapse" data-parent="#accordion">
-          <div class="collapsed card-body">
+          <div class="collapsed card-body table-responsive ">
             <br>
             <table class="table custab">
                 <thead>

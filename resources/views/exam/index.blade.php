@@ -6,7 +6,7 @@
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
     <br>
-    <h1 class="display-4 text-center ">Test Your English <br></h1>
+    <h1 class="display-4 text-center ">Test Your Level <br></h1>
   </div>
 </div>
 <br>
@@ -30,8 +30,8 @@
 <br>
 
 <blockquote class="blockquote text-center">
-    <p class="mb-0">All these exams include a Diploma in recognisation to your level, I hope you get one!<sup>*</sup></p>
-    <footer class="blockquote-footer">Jose F Funez<cite title="Source Title"> CEO of EVS</cite></footer>
+    <p class="mb-0">All these exams include a Diploma in recognisation to your level, I expect you to get one!<sup></sup></p>
+    <footer class="blockquote-footer">Jose Funez<cite title="Source Title"> CEO of EVS</cite></footer>
   </blockquote>
 
 <br>
@@ -44,7 +44,7 @@
 
   <!-- FOOTER -->
   <footer class="container">
-    <p>&copy; 2020 English Value School, Inc. &middot; <a href="{{ route('privacy-policy') }}">Privacy</a></p>
+    <p>&copy; 2025 English Value School, Inc. &middot; <a href="{{ route('privacy-policy') }}">Privacy</a></p>
   </footer>
 </main>
 
