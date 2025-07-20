@@ -27,12 +27,11 @@
 <br>
 <br>
   <div class="container">
-
     <div class="row">
       <div class="col-lg-6 text-center">
         <a href="{{ route('exams.index') }}"  class="btn-social-head btn-facebook"><i class="fa fa-line-chart"></i></a>
         <h2> Test your English </h2>
-      </div><!-- /.col-lg-4 -->
+      </div>
 
       <div class="col-lg-2 text-center">
       </div>
@@ -40,8 +39,8 @@
       <div class="col-lg-2 text-center">
         <a href="{{ route('exercises.index') }}"  class="btn-social-head btn-email"><i class="fa fa-area-chart"></i></a>        
         <h2>Exercises</h2>
-      </div><!-- /.col-lg-4 -->
-    </div><!-- /.row -->
+      </div>
+    </div>
 <br>
 <br>
 <br>
@@ -61,7 +60,7 @@
         <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
       </div>
       <div class="col-md-5">   
-            <img class="logo" src="../img/london.jpg"></a> 
+          <img class="img-fluid d-block mx-auto logo" src="../img/london.jpg"></a> 
       </div>
     </div>
 <br>
@@ -81,7 +80,7 @@
         <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
       </div>
       <div class="col-md-5 order-md-1">
-        <img class="logo" src="../img/campus.jpg"></a>
+        <img class="img-fluid d-block mx-auto logo" src="../img/campus.jpg"></a>
       </div>
     </div>
 <br>
@@ -102,7 +101,7 @@
         <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
       </div>
       <div class="col-md-5">
-        <img class="logo" src="../img/uni.jpg"></a>
+        <img class="img-fluid d-block mx-auto logo" src="../img/uni.jpg"></a>
       </div>
     </div>
     <br>
@@ -117,7 +116,7 @@
   <!-- FOOTER -->
   <footer class="container">
     <p class="float-right"><a href="#">Back to top</a></p>
-    <p>&copy; 2020 English Value School, Inc. &middot; <a href="{{ route('privacy-policy') }}">Privacy</a></p>
+    <p>&copy; 2025 English Value School. &middot; <a href="{{ route('privacy-policy') }}">Privacy</a></p>
   </footer>
 </main>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

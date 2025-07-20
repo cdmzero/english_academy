@@ -25,10 +25,8 @@
                   <br><br>
                   @foreach ($test->questions as $question)
 
-                  <div class="price-plan">
-             
-                      
-                    <h4>{{$contador++}} 
+                  <div class="table-responsive">
+                    <h4>{{$contador++}}.
                 
                        
                            <strong>{{$question->question_title}} </strong><sub></sub>
@@ -71,12 +69,12 @@
                               <td class="center">
                                 @if($option->option_number == $question->answerd)
 
-                                <span class="badge badge-pill badge-success">Right answerd + {{$test->mark_right}}</span>
+                                <span class="badge badge-pill badge-success">Right answer + {{$test->mark_right}}</span>
                                 @else
                                     @foreach ($choices as $key => $value)
                                     @if($key == $question->id )
                                     @if($value != $question->answerd &&  $value == $option->option_number )
-                                    <span class="badge badge-pill badge-danger">Wrong answerd {{$test->mark_wrong}}</span>
+                                    <span class="badge badge-pill badge-danger">Wrong answer {{$test->mark_wrong}}</span>
                                     @endif
                                     @endif
                                     @endforeach    
@@ -97,17 +95,14 @@
 
             </div>
             </div>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
+            <div class="mb-4"></div>
             <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-10">
                     <h1 class="display-5 text-center">Get Your Diploma<br></h1>
 
-                    <div class="card-body">
-                        <div class="row col-md-13">
+                    <div class="table-responsive">
+                        <div class="row col-md-12">
                             <table class="table responsible ">
                             <thead>
                                 <tr>
@@ -153,8 +148,9 @@
                                                       <a onclick="$(this).closest('form').submit()" class='btn-social-menu btn-menu btn-email' ><i class="fa fa-check"></i></a>
                                                     </form>
                                                       @else
-                                                      <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Sorry your mark is lower than 65% keep practicing! ">
-                                                      <a class='btn-social-menu btn-menu btn-lastfm' ><i class="fa fa-times-circle"></i></a>
+                                                      <a class='btn-social-menu btn-menu btn-lastfm'>
+                                                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Sorry your mark is lower than 65% keep practising! ">
+                                                      <i class="fa fa-times-circle"></i></a>
                                                       </span>
                                                       @endif
                                                 </td>   
@@ -166,10 +162,7 @@
                 </div>
             </div>
             </div>
-<br>
-<br>
-<br>
-<br>
+<div class="mb-4"></div>
 
 @if(!empty($exercises))
  
@@ -177,11 +170,12 @@
                 <div class="col-md-10">
                     <div class="card-body">
                         <div class="text-center">
-                            <h1 class="display-5 ">Keep Praticing Your English <br></h1>
+                            <h1 class="display-5 ">Keep Pratising English <br></h1>
                             </div>
-                        <div class="row col-md-13">
-                            <table class="table responsible ">
-                                
+                        <div class="row col-md-12">
+                            <div class="table-responsive">
+                            <!-- <table class="table responsible "> -->
+                            <table class="table custab">
                             <thead>
                             </thead>
                             <tr>
@@ -195,7 +189,7 @@
                             </tr>
                         </tbody>
                         </table>     
-               
+                        </div>
                     </div>
                 </div>
             </div>

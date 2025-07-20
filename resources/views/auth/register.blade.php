@@ -4,6 +4,7 @@
 @endsection
 
 @section('content')
+
 <br>
 <br>
 <br>
@@ -19,7 +20,7 @@
                         @csrf
 
                         <div class="form-group row">
-                            <label for="user_name" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
+                            <label for="user_name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
                             <div class="col-md-6">
                                 <input id="user_name" type="text" class="form-control @error('user_name') is-invalid @enderror" name="user_name" value="{{ old('user_name') }}" required autocomplete="user_name" autofocus>
@@ -45,7 +46,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="nick" class="col-md-4 col-form-label text-md-right">{{ __('Nick') }}</label>
+                            <label for="nick" class="col-md-4 col-form-label text-md-right">{{ __('Nickname') }}</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('nick') is-invalid @enderror" name="nick" value="{{ old('nick') }}" required autocomplete="nick" autofocus>
@@ -72,28 +73,44 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                       <div class="form-group row">
+    <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+    <div class="col-md-6 position-relative">
+        <input id="password" type="password" 
+               class="form-control @error('password') is-invalid @enderror" 
+               name="password" required autocomplete="new-password">
 
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+        <button type="button" 
+        class="btn p-0 bg-transparent border-0 position-absolute" 
+        style="top: 50%; right: 25px; transform: translateY(-50%)"
+        onclick="togglePasswordVisibility('password', this)">👁️
+        </button>
 
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+        @error('password')
+            <span class="invalid-feedback d-block" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+    </div>
+</div>
 
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-  
+<div class="form-group row">
+    <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+
+    <div class="col-md-6 position-relative">
+        <input id="password-confirm" type="password" 
+               class="form-control" name="password_confirmation" required 
+               autocomplete="new-password">
+
+        <button type="button" 
+        class="btn p-0 bg-transparent border-0 position-absolute" 
+        style="top: 50%; right: 25px; transform: translateY(-50%)"
+        onclick="togglePasswordVisibility('password-confirm', this)">👁️
+        </button>
+    </div>
+</div>
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

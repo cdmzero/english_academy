@@ -35,6 +35,12 @@
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
+                                    <button type="button" 
+                                    class="btn p-0 bg-transparent border-0 position-absolute" 
+                                    style="top: 50%; right: 25px; transform: translateY(-50%)"
+                                    onclick="togglePasswordVisibility('password', this)">👁️
+                                    </button>
+
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

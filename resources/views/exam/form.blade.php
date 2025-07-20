@@ -50,9 +50,9 @@
                           </div>
                           <br>
                           @endforeach
-                          <div class="custom-control custom-radio">
+                          <div class="custom-control custom-radio d-none">
                           <input type="radio" id="customRadio{{$contador}}5" name="user_choice[{{ $question->id }}]" value="5" class="custom-control-input" required checked>
-                              <label class="custom-control-label" for="customRadio{{$contador}}5" >I prefer not answerd </label>
+                              <label class="custom-control-label" for="customRadio{{$contador}}5" >Prefer not answer </label>
                             </div>         
                   </div> 
             

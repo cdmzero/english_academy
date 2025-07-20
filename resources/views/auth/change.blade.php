@@ -32,7 +32,11 @@
 
                             <div class="col-md-6">
                                 <input id="cur_pass" type="password" class="form-control @error('cur_pass') is-invalid @enderror" name="cur_pass"  required autocomplete="cur_pass" autofocus>
-
+                            <button type="button" 
+                                    class="btn p-0 bg-transparent border-0 position-absolute" 
+                                    style="top: 50%; right: 25px; transform: translateY(-50%)"
+                                    onclick="togglePasswordVisibility('cur_pass', this)">👁️
+                                    </button>
                                 @error('cur_pass')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -46,7 +50,11 @@
 
                             <div class="col-md-6">
                                 <input id="newpass" type="password" class="form-control @error('new_pass') is-invalid @enderror" name="newpass" required autocomplete="new-pass">
-
+                                <button type="button" 
+                                    class="btn p-0 bg-transparent border-0 position-absolute" 
+                                    style="top: 50%; right: 25px; transform: translateY(-50%)"
+                                    onclick="togglePasswordVisibility('newpass', this)">👁️
+                                    </button>
                                 @error('new_pass')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -60,6 +68,11 @@
 
                             <div class="col-md-6">
                                 <input id="newpass_confirmation" type="password" class="form-control" name="newpass_confirmation" required autocomplete="new-pass">
+                                    <button type="button" 
+                                    class="btn p-0 bg-transparent border-0 position-absolute" 
+                                    style="top: 50%; right: 25px; transform: translateY(-50%)"
+                                    onclick="togglePasswordVisibility('newpass_confirmation', this)">👁️
+                                    </button>
                             </div>
                         </div>
 
