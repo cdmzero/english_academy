@@ -154,7 +154,7 @@
                                                     </form>
                                                       @else
                                                       <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Sorry your mark is lower than 65% keep practicing! ">
-                                                      <a href="" class='btn-social-menu btn-menu btn-lastfm' ><i class="fa fa-times-circle"></i></a>
+                                                      <a class='btn-social-menu btn-menu btn-lastfm' ><i class="fa fa-times-circle"></i></a>
                                                       </span>
                                                       @endif
                                                 </td>   
