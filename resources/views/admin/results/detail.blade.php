@@ -1,11 +1,8 @@
 @extends('layouts.app')
 @section('content')
-@php
-@endphp
-<br>
-<br>
-<br>
-<br>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
+
+<div class="my-5">
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -102,17 +99,10 @@
 
     <div class="col-xl-6 m-auto text-center">
         <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
        
         @include('includes.buttoms') 
     </div>
+</div>
 @include('includes.script-spinner')
 
 @endsection

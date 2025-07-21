@@ -1,8 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
-    
-
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
     <br>
@@ -26,26 +23,12 @@
   </div>
 <br>
 <br>
-<br>
-<br>
-
 <blockquote class="blockquote text-center">
     <p class="mb-0">All these exams include a Diploma in recognisation to your level, I expect you to get one!<sup></sup></p>
     <footer class="blockquote-footer">Jose Funez<cite title="Source Title"> CEO of EVS</cite></footer>
-  </blockquote>
+</blockquote>
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 
-  <!-- FOOTER -->
-  <footer class="container">
-    <p>&copy; 2025 English Value School, Inc. &middot; <a href="{{ route('privacy-policy') }}">Privacy</a></p>
-  </footer>
 </main>
 
 

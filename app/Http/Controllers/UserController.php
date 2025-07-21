@@ -15,10 +15,7 @@ use Illuminate\Http\Response; //Para devolver la imagen desde la BD
 
 class UserController extends Controller{
 
-    public function privacy(){
-        return view('privacy.content');
-    }
-    
+
     public function __construct(){
 
         $this->middleware('auth');
@@ -129,7 +126,7 @@ class UserController extends Controller{
             'email'         => ['required' , 'string' , 'email' , 'max:30' , 'unique:users'],
             'password'      => ['required' , 'string' , 'min:5' , 'max:20' ,'confirmed'],
             'role'          => ['required' , 'in:user,teacher,admin'],
-            'image_path'    => ['nullable' , 'mimes:jpeg,jpg,png,gif' , 'max:3000'],
+            'image_path'    => ['nullable' , 'mimes:jpeg,jpg,png,gif' , 'max:30000'],
         ]);
 
     }else{
@@ -140,7 +137,7 @@ class UserController extends Controller{
             'email'         => ['required' , 'string' , 'email' , 'max:30' , 'unique:users'],
             'password'      => ['required' , 'string' , 'min:5' , 'max:20' ,'confirmed'],
             'role'          => ['required' , 'in:user'],
-            'image_path'    => ['nullable' , 'mimes:jpeg,jpg,png,gif' , 'max:3000'],
+            'image_path'    => ['nullable' , 'mimes:jpeg,jpg,png,gif' , 'max:30000'],
         ]);
     }
 
@@ -233,7 +230,7 @@ class UserController extends Controller{
             'nick'          => ['required' , 'string' , 'max:20' , 'unique:users,nick,'.$id],
             'email'         => ['required' , 'string' , 'max:30' , 'unique:users,email,'.$id],
             'role'          => ['required' , 'in:user,teacher,admin'],
-            'image_path'    => ['nullable' , 'mimes:jpeg,jpg,png,gif' , 'max:3000'],
+            'image_path'    => ['nullable' , 'mimes:jpeg,jpg,png,gif' , 'max:30000'],
         ]);
             
         // Recogemos los datos del formulario

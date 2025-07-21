@@ -37,8 +37,8 @@
                                     <th>ID</th>
                                     <th>Type</th>
                                     <th>Test Name</th>
-                                    <th>Creator</th>
-                                    <th>No. Questions</th>
+                                    <th>Teacher</th>
+                                    <th>Questions</th>
                                     <th>Status</th>
                                     <th>Questions to be ready</th>
                                     <th class="text-center">Action</th>

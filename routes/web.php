@@ -5,11 +5,15 @@ use Illuminate\Support\Facades\Route;
 
 //FRONT 
 
+//Ruta para la privacidad
+
+
 
 Auth::routes();
 
     // Index
 Route::get('/','HomeController@index')->name('home');
+Route::get('/privacy','HomeController@privacy')->name('privacy-policy');
 
 
     // Parte para editar del usuario logueado 
@@ -24,15 +28,11 @@ Route::get('/profile/change-password','UserController@change_password')->name('u
 Route::post('/profile/changePassword','UserController@changePassword')->name('changePassword');
 
 
-
-
     // Para del AVATAR 
 Route::get('/user/avatar/{filename?}','UserController@getImage')->name('user.avatar');
 
     // Subir fotos
 Route::get('/img-upload','ImageController@create')->name('image.create');
-
-
 
 
 //Parte para acceder a un EXAM
@@ -89,9 +89,6 @@ Route::get('/admin/results','ResultController@results_index')->name('admin.resul
     // Menu de RESULTS de un test espeficifico
 Route::get('/admin/results/{id}','ResultController@results')->name('admin.results.menu')->middleware('admin');
 
-
-
-
     //Consultar para actualizar un RESULT 
 Route::get('/admin/detail/{result_id}/{user?}','ResultController@detail_results')->name('admin.results.detail')->middleware('admin');
 Route::post('/admin/result/update/','ResultController@update_mark')->name('admin.results.update')->middleware('admin');
@@ -142,6 +139,3 @@ Route::get('/admin/material/questions/{test_id}','QuestionController@index')->na
         Route::get('/admin/material/questions/delete/{question_id}','QuestionController@delete')->name('admin.question.delete')->middleware('admin');
 
 
-//Ruta para la privacidad
-
-Route::get('/privacy','UserController@privacy')->name('privacy-policy');

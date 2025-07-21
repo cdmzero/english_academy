@@ -18,7 +18,7 @@ class TestController extends Controller
 {
 
     public function __construct(){
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['index_exercises', 'index_test']);
     }
 
 
@@ -226,7 +226,7 @@ foreach($opts as $key => $value){
 
             if($clave == 5 && $valor > $limite_para_no_contestar){
 
-                return back()->with(['error'=>"You must answerd at least $lim questions"]);
+                return back()->with(['error'=>"You must answer at least $lim questions"]);
             }
     }
 
@@ -387,21 +387,22 @@ foreach($opts as $key => $value){
 
 }
 
+public function export_pdf(Request $request)
+{
+    // Validar entrada para mayor seguridad
+    $validated = $request->validate([
+        'result_id' => 'required|integer|exists:results,id',
+    ]);
 
-    public function export_pdf(Request $request)
-    {
+    // Buscar el resultado
+    $result = Result::findOrFail($validated['result_id']);
 
-        $result  = Result::findOrFail($request->input('result_id'));
+    // Cargar la vista y generar el PDF
+    $pdf = Pdf::loadView('exam.diploma', ['result' => $result]);
 
-    
-
-        $pdf = PDF::loadView('exam.diploma', compact('result'));
-
-        return $pdf->setPaper('a4', 'landscape')->download('diploma.pdf');
-    }
-
- 
-
+    // Descargar el PDF con nombre personalizado
+    return $pdf->setPaper('a4', 'landscape')->download('diploma_' . $result->id . '.pdf');
+}
 
 
 }

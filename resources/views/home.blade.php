@@ -1,126 +1,89 @@
 @extends('layouts.app')
+
 @section('content')
 
-</div>
-
 <div class="container">
-@if(session('message'))
-<br><br>
-<div class="alert alert-success">
-    {{ session('message') }}
-</div>
-@endif
 
-@if(session('error'))
-<br><br>
-<div class="alert alert-danger">
-    {{ session('error') }}
-</div>
-@endif
-</div>
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6 text-center">
-        <a href="{{ route('exams.index') }}"  class="btn-social-head btn-facebook"><i class="fa fa-line-chart"></i></a>
-        <h2> Test your English </h2>
-      </div>
-
-      <div class="col-lg-2 text-center">
-      </div>
-
-      <div class="col-lg-2 text-center">
-        <a href="{{ route('exercises.index') }}"  class="btn-social-head btn-email"><i class="fa fa-area-chart"></i></a>        
-        <h2>Exercises</h2>
-      </div>
+  {{-- Flash messages --}}
+  @if(session('message'))
+    <div class="alert alert-success mt-4">
+        {{ session('message') }}
     </div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-    <!-- START THE FEATURETTES -->
+  @endif
 
-    <div class="row featurette">
-      <div class="col-md-7">
-        <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It’ll blow your mind.</span></h2>
-        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-      </div>
-      <div class="col-md-5">   
-          <img class="img-fluid d-block mx-auto logo" src="../img/london.jpg"></a> 
-      </div>
+  @if(session('error'))
+    <div class="alert alert-danger mt-4">
+        {{ session('error') }}
     </div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<hr>
-<br>
-<br>
-<br>
-<br>
-<br>
-    <div class="row featurette">
-      <div class="col-md-7 order-md-2">
-        <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
-        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-      </div>
-      <div class="col-md-5 order-md-1">
-        <img class="img-fluid d-block mx-auto logo" src="../img/campus.jpg"></a>
-      </div>
-    </div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<hr>
-<br>
-<br>
-<br>
-<br>
-<br>
+  @endif
 
-    <div class="row featurette">
-      <div class="col-md-7">
-        <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-      </div>
-      <div class="col-md-5">
-        <img class="img-fluid d-block mx-auto logo" src="../img/uni.jpg"></a>
-      </div>
+  {{-- Main action buttons --}}
+  <div class="row justify-content-center text-center my-5 py-5">
+    <div class="col-md-4 mb-4">
+      <a href="{{ route('exams.index') }}" class="btn-social-head btn-facebook">
+        <i class="fa fa-line-chart"></i>
+      </a>
+      <h2 class="mt-2">Test your English</h2>
     </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <hr>
-    <br>
-    <br>
+
+    <div class="col-md-4 mb-4">
+      <a href="{{ route('exercises.index') }}" class="btn-social-head btn-email">
+        <i class="fa fa-area-chart"></i>
+      </a>
+      <h2 class="mt-2">Exercises</h2>
+    </div>
   </div>
-  <!-- FOOTER -->
-  <footer class="container">
-    <p class="float-right"><a href="#">Back to top</a></p>
-    <p>&copy; 2025 English Value School. &middot; <a href="{{ route('privacy-policy') }}">Privacy</a></p>
-  </footer>
-</main>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-      <script>window.jQuery || document.write('<script src="/docs/4.4/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/4.4/dist/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script></body>
-</html>
+
+  <!-- EXAM FEATURES -->
+
+  {{-- Featurette 1: Placement Test --}}
+  <div class="row featurette align-items-center my-5">
+    <div class="col-md-7">
+      <h2 class="featurette-heading">Find your current level. <span class="text-muted">Start with confidence.</span></h2>
+      <p class="lead">
+        Our placement test helps you discover your real English level—from A1 to C1—in just a few minutes.
+        Get a quick evaluation and a personalized recommendation for your next learning steps.
+      </p>
+    </div>
+    <div class="col-md-5">
+      <img src="../img/uni.jpg" class="img-fluid d-block mx-auto logo" alt="Placement Test">
+    </div>
+  </div>
+
+  <hr class="featurette-divider">
+
+  {{-- Featurette 2: Grammar Test --}}
+  <div class="row featurette align-items-center my-5">
+    <div class="col-md-7 order-md-2">
+      <h2 class="featurette-heading">Grammar Challenge. <span class="text-muted">Test your foundation.</span></h2>
+      <p class="lead">
+        Evaluate your grammar skills with a wide range of structures: tenses, modals, conditionals, prepositions, and more.
+        Identify your strong points and the areas where you can improve the most.
+      </p>
+    </div>
+    <div class="col-md-5 order-md-1">
+      <img src="../img/london.jpg" class="img-fluid d-block mx-auto logo" alt="Grammar Test">
+    </div>
+  </div>
+
+  <hr class="featurette-divider">
+
+  {{-- Featurette 3: Reading Test --}}
+  <div class="row featurette align-items-center my-5">
+    <div class="col-md-7">
+      <h2 class="featurette-heading">Reading comprehension. <span class="text-muted">Train with real texts.</span></h2>
+      <p class="lead">
+        Practice understanding short and long texts with context-based questions. 
+        Improve your skills in identifying key ideas, vocabulary, and details. Perfect for exam prep like Cambridge, IELTS, or TOEFL.
+      </p>
+    </div>
+    <div class="col-md-5">
+      <img src="../img/campus.jpg" class="img-fluid d-block mx-auto logo" alt="Reading Test">
+    </div>
+  </div>
+
+  <hr class="featurette-divider">
+
+</div> <!-- end .container -->
 
 @endsection

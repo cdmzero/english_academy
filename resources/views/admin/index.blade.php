@@ -38,11 +38,4 @@
 <br>
 <br>
 
-  <!-- FOOTER -->
-  <footer class="container">
-    <p>&copy; 2020 English Value School, Inc. &middot; <a href="{{ route('privacy-policy') }}">Privacy</a></p>
-  </footer>
-</main>
-
-
 @endsection

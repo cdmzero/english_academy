@@ -1,13 +1,10 @@
 @extends('layouts.app')
 @section('content')
-<link href="{{ asset('css/exam.css') }}" rel="stylesheet">
-<br>         
-           
-           {{$contador = 1}}
-      <br>
-      <br>
-      <br>
-      <br>
+<link href="{{ asset('css/exam.css') }}" rel="stylesheet">       
+   <div class="d-none">
+    {{$contador = 1}}
+    </div>
+<div class="my-5">
       @if(session('message'))
       <div class="alert alert-success">
           {{ session('message') }}
@@ -209,12 +206,5 @@
        
 </div>
 
-    
-<script>
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+</div>
 @endsection
-
-

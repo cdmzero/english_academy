@@ -10,7 +10,7 @@
 <br>
 <br>
 <p>
-<strong> English Value School INC</strong> informs you about its Privacy Policy regarding the treatment and protection of personal data of users and customers that may be collected by browsing or contracting services through the <strong>englishvalueschool.com</strong> website.
+<strong> English Value School </strong> informs you about its Privacy Policy regarding the treatment and protection of personal data of users and customers that may be collected by browsing or contracting services through the <strong>englishvalueschool.com</strong> website.
 </p>
 <p>
 In this sense, the Owner guarantees compliance with current regulations on the protection of personal data, reflected in Organic Law 3/2018, of December 5, Protection of Personal Data and Guarantee of Digital Rights (LOPD GDD) . It also complies with Regulation (EU) 2016/679 of the European Parliament and of the Council of April 27, 2016 on the protection of natural persons (RGPD).
@@ -29,16 +29,12 @@ The use of the website implies acceptance of this Privacy Policy as well as the 
 </p>
 
 <p>
-<li>NIF: 05932583W</li>
-</p>
-<p>
-<li>Address: Towers Street 20th Puertollano, Ciudad Real, ES</li>
 </p>
 <p>
 <li>Email: jose.funez.clase@gmail.com</li>
 </p>
 <p>
-<li>Website: www.englishvalueschool.com</li>
+<li>Website: evs-0xzero.duckdns.org</li>
 </p>
 </ul>
 <br><br>
@@ -72,7 +68,7 @@ In the treatment of your personal data, the Owner will apply the following princ
 <h3>Obtaining personal data</h3>
 <br>
 <p>
-    To browse the <strong>englishvalueschool.com </strong>it is not necessary that you provide any personal data. The cases in which you do provide your personal data are the following:
+    To browse the <strong>evs-int-0xzero.duckdns.org </strong>it is not necessary that you provide any personal data. The cases in which you do provide your personal data are the following:
 
 </p>
 
@@ -113,7 +109,7 @@ REMOVE THOSE YOU DON'T USE:
 <br>
 <p>To protect your personal data, the Owner takes all reasonable precautions and follows the best practices in the industry to avoid its loss, misuse, improper access, disclosure, alteration or destruction of the same.</p>
 <ul>
-    <li><p> The website is hosted on AWS.</p></li>
+    <li><p> The website is self-hosted.</p></li>
 
 </ul>
 <p>
@@ -121,12 +117,6 @@ The security of your data is guaranteed, since they take all the necessary secur
 </p>
     </div>
 </body>
-<br><br>
-    <!-- FOOTER -->
-    <footer class="container">
-        <p class="float-right"><a href="#">Back to top</a></p>
-        <p>&copy; 2020 English Value School Inc.
-      </footer>
 
 
 @endsection

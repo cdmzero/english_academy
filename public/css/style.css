@@ -18,8 +18,8 @@
 
 form .avatar{
 
-width: 150px;
-height: 150px;
+width: 50px;
+height: 50px;
 margin-bottom: 15px;
 border-radius: 50%;
 
@@ -30,8 +30,8 @@ border-radius: 50%;
 /* Para la capa del avatar en la cabecera*/
 .navbar .container-avatar{
 
-width: 45px;
-height: 45px;
+width: 25px;
+height: 25px;
 border-radius: 50%;
 overflow: hidden;
 margin-right: 10px;
@@ -48,5 +48,3 @@ width: 100%;
 
 
 }
-
-

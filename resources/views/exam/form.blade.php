@@ -2,17 +2,16 @@
 @extends('layouts.app')
 @section('content')
 <link href="{{ asset('css/exam.css') }}" rel="stylesheet">
-{{$contador = 1}}
-<br>
-<br>
-<br>
-<br>
+<div class="d-none">
+  {{$contador = 1}}
+</div>
+
+<div class="my-5">
+
        <section class="our-plans">
          <div class="container">
             <div class=" text-center">
-         
                   <h1 class="display 2"><strong>{{$test->test_name}}</strong> exam</h2>
-               
             </div>
             <br><br>
 
@@ -74,6 +73,6 @@
          </div>
          </div>
       </section>
-
+</div>
   
 @endsection

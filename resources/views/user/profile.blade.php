@@ -84,17 +84,6 @@
     </div>
     </div>
   
-    <footer class="footer">
-    <div class="row align-items-center justify-content-xl-between">
-    <div class="col-xl-6 m-auto text-center">
-    <div class="copyright">
-
-    </div>
-    </div>
-
-    </div>
-    </footer>
-
    
 
 @endsection
