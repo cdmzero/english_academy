@@ -295,7 +295,7 @@ class UserController extends Controller{
 
 public function update_profile(Request $request){
        
-    dd($request->file('image_path'));
+
     $user = \Auth::user(); //conseguir todos los campos del usuario identificado
     
     $id = $user->id; //Conseguir el ID
@@ -328,7 +328,9 @@ public function update_profile(Request $request){
         $image_name = time().$image_path->getClientOriginalName();
 
         //Guardar en la carpeta /storage/app/users
-        Storage::disk('users')->put($image_name, File::get($image_path));
+        #Storage::disk('users')->put($image_name, File::get($image_path));
+        
+        $image_path->move(public_path('users'), $image_name);
     
        //Seteo el nombre de la imagen en el objeto
         $user->image = $image_name;
@@ -353,9 +355,23 @@ public function update_profile(Request $request){
 
     //Para sacar la foto por pantalla
     
-public function getImage($filename){
-        $file = Storage::disk('users')->get($filename);
-        return new Response($file, 200);
+// public function getImage($filename){
+//         $file = Storage::disk('users')->get($filename);
+//         return new Response($file, 200);
+// }
+
+public function getImage($filename)
+{
+    $path = public_path('users/' . $filename);
+
+    if (File::exists($path)) {
+        $file = File::get($path);
+        $mime = File::mimeType($path);
+
+        return response($file, 200)->header('Content-Type', $mime);
+    } else {
+        abort(404, 'Imagen no encontrada');
+    }
 }
 
 
