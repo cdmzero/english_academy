@@ -2,9 +2,6 @@
 @extends('layouts.app')
 @section('content')
 <link href="{{ asset('css/exam.css') }}" rel="stylesheet">
-<div class="d-none">
-  {{$contador = 1}}
-</div>
 
 <div class="my-5">
 
@@ -34,14 +31,14 @@
                   <div class="price-plan">
              
                       
-                    <h4>{{$contador++}} 
+                    <h4> {{ $loop->iteration }}.
                 
                        
                            <strong>{{$question->question_title}} </strong><sub></sub>
                      
                           
                         </h4>                  
-    <br>   
+                        <br>   
                           @foreach ($options[$question->id] as $option)
                           <div class="custom-control custom-radio">
                           <input type="radio" id="customRadio{{$option->id}}{{$option->option_number}}" name="user_choice[{{ $question->id }}]" value="{{$option->option_number}}" class="custom-control-input" required>
@@ -50,21 +47,16 @@
                           <br>
                           @endforeach
                           <div class="custom-control custom-radio d-none">
-                          <input type="radio" id="customRadio{{$contador}}5" name="user_choice[{{ $question->id }}]" value="5" class="custom-control-input" required checked>
-                              <label class="custom-control-label" for="customRadio{{$contador}}5" >Prefer not answer </label>
-                            </div>         
+                          <input type="radio" id="customRadio{{ $loop->iteration }}5" name="user_choice[{{ $question->id }}]" value="5" class="custom-control-input" required checked>
+                              <label class="custom-control-label" for="customRadio{{ $loop->iteration }}5" >Prefer not answer </label>
+                          </div>         
                   </div> 
-            
-                  
-
-
-
 @endforeach
                <input type="hidden" name="test_id" value="{{$test->id}}">
-               <div class="mx-auto" style="width:50px">
+               <div class="mx-auto" style="width:100px">
                    <br>
                    <button type="submit" class="btn btn-primary">
-                   Send   
+                   Get your result 
                    </button>
                </div>
 </form>

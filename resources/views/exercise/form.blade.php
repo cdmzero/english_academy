@@ -24,8 +24,6 @@
                 </h4>
                 </div>
 
-
-                
                     <div class="card-body">
 
               
@@ -35,7 +33,7 @@
                        
                                         @foreach($questions as $question)      
                                         <div class="card">                    
-                                        <div class="card-header"><strong> <p> {{ $question->question_title }}</p></strong></div>
+                                        <div class="card-header"> <strong> <p> {{ $loop->iteration }}. {{ $question->question_title }}</p></strong></div>
                                         
                                        
                                             <div class="card-body">

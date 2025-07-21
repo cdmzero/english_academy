@@ -126,7 +126,7 @@ class UserController extends Controller{
             'email'         => ['required' , 'string' , 'email' , 'max:30' , 'unique:users'],
             'password'      => ['required' , 'string' , 'min:5' , 'max:20' ,'confirmed'],
             'role'          => ['required' , 'in:user,teacher,admin'],
-            'image_path'    => ['nullable' , 'mimes:jpeg,jpg,png,gif' , 'max:30000'],
+            'image_path'    => ['nullable' , 'mimes:jpeg,jpg,png,gif' , 'max:300000'],
         ]);
 
     }else{
@@ -137,7 +137,7 @@ class UserController extends Controller{
             'email'         => ['required' , 'string' , 'email' , 'max:30' , 'unique:users'],
             'password'      => ['required' , 'string' , 'min:5' , 'max:20' ,'confirmed'],
             'role'          => ['required' , 'in:user'],
-            'image_path'    => ['nullable' , 'mimes:jpeg,jpg,png,gif' , 'max:30000'],
+            'image_path'    => ['nullable' , 'mimes:jpeg,jpg,png,gif' , 'max:300000'],
         ]);
     }
 
@@ -295,7 +295,7 @@ class UserController extends Controller{
 
 public function update_profile(Request $request){
        
-
+    dd($request->file('image_path'));
     $user = \Auth::user(); //conseguir todos los campos del usuario identificado
     
     $id = $user->id; //Conseguir el ID
@@ -310,7 +310,7 @@ public function update_profile(Request $request){
     'email'     => ['required', 'string', 'max:30', 'unique:users,email,'.$id],
     'nick'      => ['required', 'string', 'max:20', 'unique:users,nick,'.$id],
     
-    'image_path'=> [ 'image', 'max:3000']
+    'image_path'=> [ 'image', 'max:3000000']
     ]);
         
     //Recogemos los datos del formulario

@@ -92,7 +92,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="nick" class="col-md-4 col-form-label text-md-right">{{ __('Nick') }}</label>
+                            <label for="nick" class="col-md-4 col-form-label text-md-right">{{ __('Nickname') }}</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('nick') is-invalid @enderror" name="nick" placeholder="Nick" value="{{ $user->nick }}" required autocomplete="name" autofocus>
@@ -121,7 +121,7 @@
                 
                         <div class="form-group row">
 
-                            <label for="image_path" class="col-md-4 col-form-label text-md-right">{{ __('Avatar') }}</label>
+                            <label for="image_path" class="col-md-4 col-form-label text-md-right">{{ __('Picture') }}</label>
                             <div class="col-md-6">
   
                                     <div class="custom-file @error('image_path') is-invalid @enderror">
